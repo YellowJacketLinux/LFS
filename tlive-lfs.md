@@ -347,7 +347,8 @@ Note to use this method for setting up the environmental variables on
 other GNU/Linux distributions (or other operating systems) you will
 likely have to port it. CentOS/Fedora for example do not define the
 `pathprepend` function, and on macOS the appropriate place to mount
-the partition is probablt `/usr/local/opt/texlive` rather than `/opt/texlive`.
+the partition is probably `/usr/local/opt/texlive` rather than `/opt/texlive`.
+Or maybe `/Volumes/texlive`. Just pick one... 😜
 
 If you would prefer to have the texlive environmental variables set
 for *every* login user (except `root`) *without* needing to put every
