@@ -363,8 +363,141 @@ the root user, or for system/daemon users, for security reasons.
 Post Install Administration
 ---------------------------
 
-foo
+### Updates
 
+Periodically it is a good idea to apply updates to the TeXLive system.
+When the `tlmgr` command itself needs an update, it generally has to
+be updated by itself before any other packages can be updated.
+
+To keep my system up to date, I have the following shell script in
+`/opt/texlive/tladmin` and run it as the `texlive` user about once a
+month, or whenever I think about it:
+
+    #!/usr/bin/env bash
+    #  Begin update-tl.sh
+    #
+    tlmgr update --self
+    if [ $? -eq 0 ]; then
+      tlmgr update --all
+    fi
+    #  End update-tl.sh
+
+I use `#!/usr/bin/env bash` as the shebang because I do not know what
+operating system I might want to run it from, or where that operating
+system has `bash` installed.
+
+### Local Files
+
+#### Commercial Math Fonts
+
+If you are not writing for a commercial publication, the free Math
+fonts that are part of TeXLive almost certainly meet your needs. See
+[CTAN Maths Font](https://ctan.org/topic/font-maths).
+
+Commercial publications however often have an established workflow
+and like to specify what macro packages and fonts you are allowed to
+use in order to be allowed to make them money.
+
+Some publications will require you use
+[MathTime Pro 2](https://www.pctex.com/mtpro2.html) for your math font
+(usually in combination with Adobe Times/URW++ Nimbus Roman No. 9 L)
+and other publications will require you use the
+[Lucida Fonts](https://tug.org/store/lucida/index.html).
+
+If you are writing for such a publication, the proper place to install
+the files is within the `/opt/texlive/texmf-local` tree.
+
+Both packages come with install instructions but in both cases I often
+see some users confused.
+
+1. First put the files in their proper place within the `texmf-local`
+   tree.
+2. Then *as the `texlive` user* run the `texhash` command.
+3. then *as the `texlive` user* run the `updmap-sys` variant of the
+   `updmap` command when enabling the font map file. Otherwise the fonts
+   will not be system-wide enabled for all users.
+
+When you upgrade to a new version of TeXLive, you do not need to
+re-install those packages, but you will need to re-run the appropriate
+`updmap-sys` command to re-enable the needed map file in the new version
+of TeXLive.
+
+### Paper Size
+
+By default, a TeXLive install will use the A4 paper size for documents
+that do not specify a paper size.
+
+Generally it is a good idea to *always* set the intended paper size
+in your project but for projects intended to be compiled anywhere---as
+is the case with open source software documentation---it is better not
+to specify the paper size so that the documentation can be built to
+match the paper size it is most likely to be printed on.
+
+If you are in the United States and would prefer U.S. Letter to A4 when
+the document does not specify the paper size, run the following command:
+
+    tlmgr paper letter
+
+If you need to change it back to A4:
+
+    tlmgr paper a4
+
+### Binary Platform Support
+
+By default, the TeXLive installer only installs binaries for one
+platform. If you need support for another platform, you can install
+support for an additional platform.
+
+To see all available platform options as well as which platforms are
+already installed, use the command:
+
+    tlmgr platform list
+
+To add an available platform, use `tlmgr add <platform>`. For example,
+to add support for macOS so that you can share the TeXLive install with
+macOS, you would run the command:
+
+    tlmgr platform add universal-darwin
+
+If you need to remove a platform you are no longer using, then you can
+use the same command to add the platform, substituting `remove` in
+place of `add`.
+
+### Adobe Base 35 Fonts
+
+Most people can skip this.
+
+TeXLive ships with the metric compatible URW clones of the Adobe Base35
+Postscript Level 2 fonts.
+
+If you happen to have the genuine Adobe Base35 fonts installed in the
+proper place within your `texmf-local` tree:
+
+    texmf-local/fonts/type1/adobe/base35/
+
+Then you can configure TeXLive to use the genuine Adobe fonts. If they
+are named using the "berry" names (e.g. phvbo8an.pfb):
+
+    updmap-sys --setoption LW35 ADOBEkb
+
+On the other hand if they have the Adobe vendor filenames
+(e.g. `hvnbo___.pfb`):
+
+    updmap-sys --setoption LW35 ADOBE
+
+Visually, almost no one can tell the difference between the free URW
+clones and the genuine Adobe fonts, but if you happen to have the
+genuine Adobe fonts you might as well use them for projects that call
+the Base35 postscript fonts.
+
+Modern LaTeX projects that want to use fonts of the Base35 look and feel
+generally should use the
+[TeX Gyre](https://www.gust.org.pl/projects/e-foundry/tex-gyre/index_html)
+OpenType fonts instead, as they have *much better* glyph coverage, but
+some macro packages which have an internal need to typeset characters
+(such as the packages for generating barcodes) will still specify the
+actual Base35 fonts internally for backwards compatibility, and some
+open source software with LaTeX documentation uses the Baes35 fonts.
 
 
 LFS Missing Libraries
