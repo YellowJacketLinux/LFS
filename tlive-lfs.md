@@ -194,7 +194,7 @@ The missing libraries after a barebones LFS install are:
 
 Relevant BLFS packages:
 
-  * [Freetype](https://www.linuxfromscratch.org/blfs/view/stable/general/freetype2.html)
+  * [FreeType2](https://www.linuxfromscratch.org/blfs/view/stable/general/freetype2.html)
   * [Fontconfig](https://www.linuxfromscratch.org/blfs/view/stable/general/fontconfig.html)
 
 ### metafont
