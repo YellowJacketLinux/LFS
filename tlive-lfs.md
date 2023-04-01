@@ -171,6 +171,15 @@ Missing Libraries
 With a barebones LFS install, the following TeXLive 2023 installed
 binaries have missing shared library dependencies.
 
+Note that without these libraries installed, I was able to use TeXLive
+2023 within LFS 11.3 to compile TeX projects originally authored in
+LuaLaTeX without any problems.
+
+Most if not all of the missing shared library dependencies will be met
+once an LFS/BLFS 11.3 system has the X11 windowing system installed.
+
+I do not believe TeXLive has been ported to pure Wayland yet.
+
 ### xetex
 
 This is probably the most important component of TeXLive to support
@@ -183,16 +192,21 @@ The missing libraries after a barebones LFS install are:
   * libfontconfig.so.1
   * libfreetype.so.6
 
+Relevant BLFS packages:
+
+  * [Freetype](https://www.linuxfromscratch.org/blfs/view/stable/general/freetype2.html)
+  * [Fontconfig](https://www.linuxfromscratch.org/blfs/view/stable/general/fontconfig.html)
+
 ### metafont
 
-The mf program is metafont and is used to generate TeX native fonts.
+The `mf` program is metafont and is used to generate TeX native fonts.
 In this day in age, generally OpenType fonts are used for new LaTeX
 projects and at least with LuaLaTeX, a barebones LFS install has what
 is needed to deal with those. However sometimes older LaTeX projects
 will want metafont available. My *memory* is that when compiling a
 document that uses Type 1 (Postscript) fonts and the font was not
 present, the LaTeX compiler itself would call metafont to compile a
-substitute from metafont source at the needed DPI. It's probably a
+substitute from metafont source at the needed DPI. It is probably a
 good idea to have metafont working.
 
 The missing libraries after a barebones LFS install are:
@@ -206,7 +220,7 @@ The missing libraries after a barebones LFS install are:
 
 Most users probably do not need this to work.
 
-The asy command invokes a script-based vector graphics language for
+The `asy` command invokes a script-based vector graphics language for
 generating technical drawings. It can be used to create very high
 quality figures. At this point, most high quality figures are actually
 generated as postscript or PDF images using programs outside of the
@@ -229,7 +243,7 @@ When generating a postscript file, one would then use the program dvips
 to create a postscript file from the DVI file.
 
 DVI files are rarely generated now, but when they are generated you may
-want the xdvi-xaw program to view the DVI file on your display before
+want the `xdvi-xaw` program to view the DVI file on your display before
 it is printed or further processed into something else.
 
 The missing libraries after a barebones LFS install are:
