@@ -10,6 +10,20 @@ TeXLive as well.
 This document and the script within I consider to be Public Domain but
 if you must have an actual license, Creative Commons CC0 works for me.
 
+These instructions were tried on a very basic LFS 11.3 system with
+just a few additions from BLFS, the important addition being
+[curl](https://www.linuxfromscratch.org/blfs/view/stable/basicnet/curl.html)
+which I chose to build against
+[GnuTLS](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/gnutls.html)
+for TLS support. Building `curl` against OpenSSL (or LibreSSL) should also
+work.
+
+These instructions also assume you have gone through the BLFS
+[After LFS Configuration Issues](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/config.html)
+section and have implemented
+[The Bash Shell Startup Files](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html)
+section.
+
 
 Rationale
 ---------
@@ -203,9 +217,10 @@ As the `texlive` user, retrieve the installer:
 
 Note the `-L` option is necessary because it will redirect you to a mirror.
 
-Unpack the archive and enter the installer directory:
+Unpack the archive, enter the installer directory, and install it:
 
-    tar -zxf install-tl-unx.tar.gz && cd install-tl-20*
+    tar -zxf install-tl-unx.tar.gz
+    cd install-tl-20*
     /usr/bin/perl ./install-tl                \
       --texdir="/opt/texlive/2023"            \
       --texmflocal="/opt/texlive/texmf-local" \
@@ -234,12 +249,15 @@ Once installed, remove the temporary install directory:
 
 The following script is what I use to set up the various environmental
 variables for TeXLive in LFS. It is an adaptation of a script I first
-wrote for use in CentOS since TeXLive 2014, the adaptation being I used
+wrote for use in CentOS for TeXLive 2014, the adaptation being I used
 the `pathprepend` function from the BLFS bash `/etc/profile` script.
+See [The Bash Shell Startup Files](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html)
+in the BLFS book.
 
 This script only sets up the path for non-root users of the `texlive`
 group, and it does not need to be updated when you update TeXLive
-itself to a new version.
+itself to a new version, it always adjusts to the newest version
+of TeXLive installed.
 
     # /etc/profile.d/texlive.sh - set *PATH variables for TeXLive
 
@@ -325,10 +343,20 @@ login shell.
 
 An equivalent for `tcsh` has not (yet) been written.
 
+Note to use this method for setting up the environmental variables on
+other GNU/Linux distributions (or other operating systems) you will
+likely have to port it. CentOS/Fedora for example do not define the
+`pathprepend` function, and on macOS the appropriate place to mount
+the partition is probablt `/usr/local/opt/texlive` rather than `/opt/texlive`.
+
 If you would prefer to have the texlive environmental variables set
-for every user (except `root`) *without* needing to put every user
-in the `texlive` group, just have the `checkuser ()` function return
-0 for the `texlive` user and for any user with a UID greater than `999`.
+for *every* login user (except `root`) *without* needing to put every
+login user in the `texlive` group, just have the `checkuser ()` function
+return `0` for the `texlive` user and for any user with a UID greater
+than `999`.
+
+I highly recommend against modifying the environmental variables for
+the root user, or for system/daemon users, for security reasons.
 
 
 Post Install Administration
