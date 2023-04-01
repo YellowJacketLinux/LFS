@@ -366,20 +366,25 @@ Post Install Administration
 foo
 
 
-Missing Libraries
------------------
+
+LFS Missing Libraries
+---------------------
 
 With a barebones LFS install, the following TeXLive 2023 installed
 binaries have missing shared library dependencies.
 
 Note that without these libraries installed, I was able to use TeXLive
-2023 within LFS 11.3 to compile TeX projects originally authored in
+2023 within LFS 11.3 to compile TeX projects originally authored for
 LuaLaTeX without any problems.
 
 Most if not all of the missing shared library dependencies will be met
 once an LFS/BLFS 11.3 system has the X11 windowing system installed.
 
-I do not believe TeXLive has been ported to pure Wayland yet.
+I do not believe TeXLive has been ported to pure Wayland yet but if
+it has, you probably have to build TeXLive from source for a *pure*
+Wayland system to have all dependencies met.
+
+It is slower than wayland, but I still like X11.
 
 ### xetex
 
@@ -404,11 +409,7 @@ The `mf` program is metafont and is used to generate TeX native fonts.
 In this day in age, generally OpenType fonts are used for new LaTeX
 projects and at least with LuaLaTeX, a barebones LFS install has what
 is needed to deal with those. However sometimes older LaTeX projects
-will want metafont available. My *memory* is that when compiling a
-document that uses Type 1 (Postscript) fonts and the font was not
-present, the LaTeX compiler itself would call metafont to compile a
-substitute from metafont source at the needed DPI. It is probably a
-good idea to have metafont working.
+will want metafont available.
 
 The missing libraries after a barebones LFS install are:
 
@@ -467,3 +468,64 @@ The missing library if you want them to work anyway is:
   * libX11.so.6
 
 
+Text Editors
+------------
+To compose your LaTeX projects, you need a text editor you know how
+to use, preferably one with LaTeX syntax highlighting.
+
+When using UTF-8 (as you should for anything new), the text editor should
+not insert a BOM (Byte Order Mark) at the beginning of the document.
+
+Allegedly a BOM is no longer a problem in TeXLive since TeXLive 2018
+but I have not verified that always is the case, and it probably is
+not the case for some commercial TeX distributions that publishers
+often use.
+
+Use a text editor that does not insert a BOM.
+
+### Traditional Un*x-like Operating Systems CLI
+
+The `vim` editor that is part of LFS is sufficient but if you do a *lot*
+of work in LaTeX it may be worth your time to learn how to use
+[GNU Emacs](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/emacs.html).
+
+### Traditional Un*x-like Operating Systems GUI
+
+For a GUI editor, I *really* like LaTeXila but the project first was
+integrated in GNOME3 as [GNOME-LaTeX](https://gitlab.gnome.org/swilmet/gnome-latex)
+and then it appears the original author has left or been pushed out.
+
+I just use LaTeXila 3.26.1 and do not bother updating it, I am not a
+fan of GNOME 3.
+
+LaTeXila 3.26.1 builds and works well in [MATE](https://mate-desktop.org/).
+Unfortunately I do not know of a current mirror that still hosts the
+LaTeXila tarballs but it can be found in the old Fedora source RPMs.
+
+### macOS
+
+To share TeXLive as installed here with macOS, you need to be able to
+mount `ext2` filesystems. There are several solutions, pick one.
+
+Note that MacTeX is just TeXLive with a few extra GUI programs that I
+personally found to be useless. On macOS for a text editor, I highly
+recommend using [BBEdit](https://www.barebones.com/products/bbedit/).
+The free version works well with LaTeX but BBEdit is worth paying for.
+
+### Windows
+
+It is possible to run TeXLive on Windows but it is *possible* the
+Windows installer is actually required.
+
+Most people I know in the LaTeX world who use Windows just use
+[MiKTeX](https://miktex.org/) on Windows, and generally use the
+[Notepad++](https://notepad-plus-plus.org/downloads/) text editor.
+
+When I have had to use Windows, any projects I was working on in TeXLive
+had no problems compiling in MiKTeX, MiKTeX is highly compatible with
+TeXLive since both use CTAN for their macro packages. Just be sure that
+Notepad++ uses Unix line breaks to avoid projects with mixed line breaks.
+
+A proper UTF-8 text editor without a BOM (Byte Order Mark) is recommended.
+Do not try to use Windows Notepad, it always adds a BOM. Use Notepad++
+configured to save as UTF-8 without the BOM.
