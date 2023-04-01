@@ -61,7 +61,7 @@ By adding users who *want* to use the TeXLive system to the `texlive`
 group, those users can automatically have their environmental variables
 (PATH, INFOPATH, MANPATH) adjust to use the TeXLive system while other
 user accounts (including system users and daemons) that do not need
-to use the TeXLive system don't have their environmental variables
+to use the TeXLive system do not have their environmental variables
 adjusted.
 
 The purpose of the `texlive` user is to have an otherwise unprivileged
@@ -73,7 +73,7 @@ user account that installs and administrates the TeXLive system.
 -------------------------
 
 The following script is what I use to set up the various environmental
-variables for TeXLive in LFS. It's an adaptation of a script I first
+variables for TeXLive in LFS. It is an adaptation of a script I first
 wrote for use in CentOS since TeXLive 2014, the adaptation being I used
 the `pathprepend` function from the BLFS bash `/etc/profile` script.
 
@@ -158,12 +158,20 @@ itself to a new version.
 
     # End /etc/profile.d/texlive.sh
 
+With that file installed within `/etc/profile.d` LFS should automatically
+set up the environmental variables for users within the `texlive` group
+to use the TeXLive system. At least for users who use `bash` as their
+login shell.
 
+An equivalent for `tcsh` has not (yet) been written.
 
+Missing Libraries
+-----------------
 
+With a barebones LFS install, the following TeXLive 2023 installed
+binaries have missing shared library dependencies.
 
-xetex
------
+### xetex
 
 This is probably the most important component of TeXLive to support
 even if you do not use it yourself, it is quite likely that at some
@@ -175,8 +183,7 @@ The missing libraries after a barebones LFS install are:
   * libfontconfig.so.1
   * libfreetype.so.6
 
-metafont
---------
+### metafont
 
 The mf program is metafont and is used to generate TeX native fonts.
 In this day in age, generally OpenType fonts are used for new LaTeX
@@ -190,13 +197,12 @@ good idea to have metafont working.
 
 The missing libraries after a barebones LFS install are:
 
-* libSM.so.6
-* libICE.so.6
-* libXext.so.6
-* libX11.so.6
+  * libSM.so.6
+  * libICE.so.6
+  * libXext.so.6
+  * libX11.so.6
 
-Asymptote
----------
+### Asymptote
 
 Most users probably do not need this to work.
 
@@ -209,12 +215,11 @@ especially if you are working with older TeX projects.
 
 The missing libraries after a barebones LFS install are:
 
-* libGLX.so.0
-* libglut.so.3
-* libGL.so.1
+  * libGLX.so.0
+  * libglut.so.3
+  * libGL.so.1
 
-xdvi-xaw
---------
+### xdvi-xaw
 
 In the old days, the standard way to use a TeX system was to generate
 a DVI file that could then be sent to be printed or rendered by a device
@@ -229,22 +234,21 @@ it is printed or further processed into something else.
 
 The missing libraries after a barebones LFS install are:
 
-* libXaw.so.7
-* libXmu.so.6
-* libXt.so.6
-* libSM.so.6
-* libICE.so.6
-* libXext.so.6
-* libXpm.so.4
-* libX11.so.6
+  * libXaw.so.7
+  * libXmu.so.6
+  * libXt.so.6
+  * libSM.so.6
+  * libICE.so.6
+  * libXext.so.6
+  * libXpm.so.4
+  * libX11.so.6
 
-pdfclose, pdfopen
------------------
+### pdfclose, pdfopen
 
 Those two programs are not needed on GNU/Linux.
 
 The missing library if you want them to work anyway is:
 
-* libX11.so.6
+  * libX11.so.6
 
 
