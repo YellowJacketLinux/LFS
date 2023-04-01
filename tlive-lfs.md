@@ -191,8 +191,42 @@ You are now ready to install TeXLive 2023.
 Install TeXLive 2023
 --------------------
 
-foo
+To install TeXLive 2023, first become the `texlive` user:
 
+    sudo su - texlive
+
+As the `texlive` user, retrieve the installer:
+
+    TMPDIR="`mktemp --tmpdir -d tlive-XXXXXXXXXXXX`"
+    pushd ${TMPDIR}
+    curl -L -O https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+
+Note the `-L` option is necessary because it will redirect you to a mirror.
+
+Unpack the archive and enter the installer directory:
+
+    tar -zxf install-tl-unx.tar.gz && cd install-tl-20*
+    /usr/bin/perl ./install-tl                \
+      --texdir="/opt/texlive/2023"            \
+      --texmflocal="/opt/texlive/texmf-local" \
+      --no-interaction
+
+There are some other options (such as default papersize) but those can
+be set after install. Normally I like to set papersize in the document
+itself however ff you plan to use TeXLive to build documentation that
+comes with source packages in LFS/BLFS, you probably want to set the
+default papersize to the size of paper your printer uses.
+
+I will cover that in the adminstration section.
+
+The install will likely take an hour or so, depending upon the speed
+of the mirror used for the install.
+
+Once installed, remove the temporary install directory:
+
+    popd
+    # optionally - since in /tmp it should be deleted automatically eventually
+    rm -rf ${TMPDIR}
 
 
 /etc/profile.d/texlive.sh
@@ -290,6 +324,18 @@ to use the TeXLive system. At least for users who use `bash` as their
 login shell.
 
 An equivalent for `tcsh` has not (yet) been written.
+
+If you would prefer to have the texlive environmental variables set
+for every user (except `root`) *without* needing to put every user
+in the `texlive` group, just have the `checkuser ()` function return
+0 for the `texlive` user and for any user with a UID greater than `999`.
+
+
+Post Install Administration
+---------------------------
+
+foo
+
 
 Missing Libraries
 -----------------
