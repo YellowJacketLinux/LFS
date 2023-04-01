@@ -175,6 +175,24 @@ system. Usually that means once a month or so, installing updates. Or
 whenever you think you come across a bug, to see if it is already fixed
 before reporting it.
 
+As the root user, copy the relevant `/etc/skel` files into the `/opt/texlive/tladmin`
+directory:
+
+    cp /etc/skel/{.bash_logout,.bash_profile,.bashrc} /opt/texlive/tladmin/
+
+Finally, set the correct permissions:
+
+    chown -R texlive:texlive /opt/texlive/tladmin
+    chown texlive:texlive /opt/texlive/{2023,texmf-local}
+
+You are now ready to install TeXLive 2023.
+
+
+Install TeXLive 2023
+--------------------
+
+foo
+
 
 
 /etc/profile.d/texlive.sh
