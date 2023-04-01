@@ -43,11 +43,87 @@ LFS that can be shared with other operating systems, even on platforms
 other than GNU/Linux.
 
 
+TeXLive Mountpoint
+------------------
+
+Traditionally, the `/opt` filesystem is used for third-party products
+that are maintained and updated *outside* of the operating system package
+manager.
+
+The typical structure is `/opt/<vendor>/<product>` and TeXLive fits
+that paradigm perfectly.
+
+The default install location is actually within `/usr/local` however
+`/usr/local` generally should be reserved for software built locally
+from source that is not under the control of the package manager.
+
+As the root user, create the directory `/opt/texlive`:
+
+    mkdir -p /opt/texlive
+
+If you will be sharing the TeXLive install between multiple operating
+systems on the *same* hardware, you will want to either create a
+partition on an internal drive or alternative create a partition on
+an external drive.
+
+If you will be sharing the TeXLive install via NFS with other operating
+systems on your LAN, you probably should use a partition on an internal
+drive.
+
+If you will be sharing the TeXLive install with other operating systems
+by use of an external drive, you should use an external drive. Even a
+USB thumb drive works.
+
+If you are not sharing the TeXLive install then a separate partition
+is not necessary.
+
+For a separate partition, I recommend at least 25 GiB but I prefer 64 GiB
+personally. TeXLive actually only needs about 7 GiB but having a larger
+partition allows you to have multiple versions installed at the same
+time.
+
+I recommend using the `ext2` filesystem. TeXLive does not really benefit
+from a journaled file system and especially if you are sharing it with
+operating systems other than GNU/Linux, it is usually easier to find
+software solutions for mounting `ext2` than for `ext4` or other modern
+GNU/Linux filesystems.
+
+Once your partition is properly created and formatted, go ahead and
+mount it at the `/opt/texlive` mount point.
+
+If TeXLive is on an external drive, you want the `/etc/fstab` to auto-mount
+it when detectected but not attempt to mount it when not present:
+
+    UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX /opt/texlive   ext2  defaults,noauto 1 2
+
+If TeXLive is on an internal drive, then you do want it to auto-mount
+during boot:
+
+    UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX /opt/texlive   ext2  defaults 1 2
+
+Obviously replace `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX` with the
+actual UUID (which you can find wuth the `blkid` command).
+
+With the partition mounted, go ahead and create the following three
+directories:
+
+    mkdir -p /opt/texlive/{2023,texmf-local,tladmin}
+
+The first is where TeXLive 2023 will be installed. The second is for
+local additions to the TeXLive system, such as additional fonts and macro
+packages like [MathTime Pro 2](https://www.pctex.com/mtpro2.html). The
+third is a home directory for the TeXLive administrative user. Keeping
+the home directory for that user on the same partition as the TeXLive
+install allows you to easily administrate the install from any Un*x
+operating system the partition is mounted on---should you choose to
+do so.
+
+
 TeXLive User and Group
 ----------------------
 
-The first thing to do is create a `texlive` user and group. The purpose
-of the group is two-fold.
+The next thing to do is create a `texlive` user and group. The purpose
+of the group is two-fold:
 
 1. It provides a group for the texlive administrator.
 2. It provides a group for users of the texlive system.
