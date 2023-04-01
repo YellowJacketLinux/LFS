@@ -143,6 +143,38 @@ adjusted.
 The purpose of the `texlive` user is to have an otherwise unprivileged
 user account that installs and administrates the TeXLive system.
 
+When sharing a TeXLive install, each Un*x system should have both the
+`texlive` user and group and they should have the same user-id and
+group-id, at least if you wish to be able to be able to also administrate
+the TeXLive system from any Un*x system using the partition.
+
+The UID/GID I personally use is `450` for both. The reason I chose
+`450` is because it is well above `100` (under `100` is usually used
+for system users and daemons) yet below 500. Most Un*x systems today
+start user accounts at `1000` but some use `500` as the first personal
+account UID/GID, so I chose `450` to specifically be below that.
+
+When creating the `texlive` user, make sure to set the home directory
+to `/opt/texlive/tladmin` and the shell to `/bin/bash` (or to `/usr/bin/bash`
+on systems that put `bash` in `/usr/bin`).
+
+I personally do not set a password for the `texlive` user. You can
+become the `texlive` user by first logging in to the `root` account
+and then issuing the following command:
+
+    su - texlive
+
+If you have [sudo](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/sudo.html)
+installed, then users in the `wheel` group can become the texlive
+user with the following command:
+
+    sudo su - texlive
+
+Note that you only need to become the `texlive` user to administer the
+system. Usually that means once a month or so, installing updates. Or
+whenever you think you come across a bug, to see if it is already fixed
+before reporting it.
+
 
 
 /etc/profile.d/texlive.sh
