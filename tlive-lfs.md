@@ -28,8 +28,29 @@ section and have implemented
 [The Bash Shell Startup Files](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html)
 section.
 
-Other dependencies can be resolved after install as needed.
+Other dependencies can be resolved after install as needed, but these
+three *probably* should be addressed sooner rather than later:
 
+1. [Python Symbolic Link](#python-notes)
+2. [XeTeX Required Libraries](#xetex)
+3. [Ghostscript](#ghostscript)
+
+
+Table of Contents
+-----------------
+
+* [Rationale](#rationale)
+* [TeXLive Mountpoint](#texlive-mountpoint)
+* [TeXLive User and Group](#texlive-user-and-group)
+* [Install TeXLive 2023](#install-texlive-2023)
+* [Post Install Administration](#post-install-administration)
+* [LFS Missing Libraries](#lfs-missing-libraries)
+* [Ghostscript](#ghostscript)
+* [Ruby Dependency](#ruby-dependency)
+* [Wish Dependency](#wish-dependency)
+* [SNOBOL4 Dependency](#snobol4-dependency)
+* [Python Notes](#python-notes)
+* [Text Editors](#text-editors)
 
 Rationale
 ---------
@@ -655,7 +676,7 @@ SNOBOL4 Dependency
 ------------------
 
 A single script, `texaccents`, requires `snobol4`. It does not seem to
-be part of BLFS but can be found at (https://www.regressive.org/snobol4/csnobol4/curr/).
+be part of BLFS but can be found at https://www.regressive.org/snobol4/csnobol4/curr/ .
 
 
 Python Notes
