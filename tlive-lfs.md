@@ -354,9 +354,11 @@ An equivalent for `tcsh` has not (yet) been written.
 Note to use this method for setting up the environmental variables on
 other GNU/Linux distributions (or other operating systems) you will
 likely have to port it. CentOS/Fedora for example do not define the
-`pathappend` function, and on macOS the appropriate place to mount
-the partition is probably `/usr/local/opt/texlive` rather than `/opt/texlive`.
-Or maybe `/Volumes/texlive`. Just pick one... 😜
+`pathappend` function, on Linux distributions that ship with a packaged
+(often old) TeXLive you want the TeXLive 2023 paths at the beginning,
+and on macOS the appropriate place to mount the partition is probably
+`/usr/local/opt/texlive` rather than `/opt/texlive`. Or maybe
+`/Volumes/texlive`. Just pick one... 😜
 
 If you would prefer to have the texlive environmental variables set
 for *every* login user (except `root`) *without* needing to put every
@@ -396,10 +398,11 @@ system has `bash` installed.
 
 ### Local Files
 
-If you have any macros or macro files that are not part of TeXLive,
-put them in the `/opt/texlive/texmf-local` tree and then as the
-`texlive` user, run the command `texhash` to update the `ls-R` file
-in `texmf-local` so that TeXLive knows where to find the files.
+If you have any fonts you want to use with TeXLive or TeX packages that
+are not part of TeXLive, put them in the `/opt/texlive/texmf-local`
+tree and then as the `texlive` user, run the command `texhash` to update
+the `ls-R` file in `texmf-local` so that TeXLive knows where to find the
+files.
 
 If any of the fonts need a fontmap file enabled, use the `updmap-sys`
 variant of `updmap` to enable them so that they are enabled for all
@@ -632,8 +635,31 @@ you will at some point find yourself needing to install
 [Ghostscript](https://www.linuxfromscratch.org/blfs/view/stable/pst/gs.html).
 
 
-Python Version
---------------
+Ruby Dependency
+---------------
+
+A few executable scripts depend upon Ruby. If you need those scripts,
+install [Ruby](https://www.linuxfromscratch.org/blfs/view/stable/general/ruby.html).
+
+
+Wish Dependency
+---------------
+
+A few executable scripts depend upon `wish` which is provided by Tk.
+If you need those scripts, install
+[Tk](https://www.linuxfromscratch.org/blfs/view/stable/general/tk.html).
+Note that Tk requires the X11 system.
+
+
+SNOBOL4 Dependency
+------------------
+
+A single script, `texaccents`, requires `snobol4`. It does not seem to
+be part of BLFS but can be found at (https://www.regressive.org/snobol4/csnobol4/curr/).
+
+
+Python Notes
+------------
 
 Python2 is officially deprecated.
 
@@ -645,9 +671,10 @@ Unfortunately many scripts that use either `/usr/bin/python` or
 `/usr/bin/env python` instead of *explicitly* calling `python2`
 or `python3` do not work with either version.
 
-It appears in TeXLive that the TeX maintainers have cleaned up that mess.
-Many scripts do explicitly call `python3` or `python2` and those that do
-not explicitly call a versioned `python` do in fact work with either.
+It appears in TeXLive that the TeX maintainers have cleaned up that mess
+within TeXLive. Many scripts do explicitly call `python3` or `python2`
+and those that do not explicitly call a versioned `python` do in fact
+work with either, *possibly* with one exception.
 
 A small handful of scripts use the following un-versioned shebang:
 
@@ -707,7 +734,7 @@ in Python 2 but it *looks* to me like it should work.
 
 The `lilyglyphs` Python scripts have been compatible with Python 3
 since September 30, 2020. See the
-[Lilyglyph CTAN Announcement](https://ctan.org/ctan-ann/id/mailman.3260.1601492366.2548.ctan-ann@ctan.org)
+[Lilyglyph CTAN Announcement](https://ctan.org/ctan-ann/id/mailman.3260.1601492366.2548.ctan-ann@ctan.org).
 
 ### Pythontex
 
@@ -733,29 +760,6 @@ shebang but it does not.
 ### The `de-macro` Script
 
 This script specifies that it works with either Python 2 or Python 3.
-
-
-Ruby Dependency
----------------
-
-A few executable scripts depend upon Ruby. If you need those scripts,
-install [Ruby](https://www.linuxfromscratch.org/blfs/view/stable/general/ruby.html).
-
-
-Wish Dependency
----------------
-
-A few executable scripts depend upon `wish` which is provided by Tk.
-If you need those scripts, install
-[Tk](https://www.linuxfromscratch.org/blfs/view/stable/general/tk.html).
-Note that Tk requires the X11 system.
-
-
-SNOBOL4 Dependency
-------------------
-
-A single script, `texaccents`, requires `snobol4`. It does not seem to
-be part of BLFS but can be found at (https://www.regressive.org/snobol4/csnobol4/curr/).
 
 
 Text Editors
