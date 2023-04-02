@@ -464,7 +464,7 @@ are named using the "berry" names (e.g. phvbo8an.pfb):
 
     updmap-sys --setoption LW35 ADOBEkb
 
-On the other hand if they have the Adobe vendor filenames
+On the other hand if they have the Adobe vendor file names
 (e.g. `hvnbo___.pfb`):
 
     updmap-sys --setoption LW35 ADOBE
@@ -520,7 +520,7 @@ of TeXLive.
 LFS Missing Libraries
 ---------------------
 
-With a barebones LFS install, the following TeXLive 2023 installed
+With a bare-bones LFS install, the following TeXLive 2023 installed
 binaries have missing shared library dependencies.
 
 Note that without these libraries installed, I was able to use TeXLive
@@ -537,7 +537,7 @@ even if you do not use it yourself, it is quite likely that at some
 point you will need to compile a LaTeX document written for XeLaTeX if
 you are involved at all in the TeX world.
 
-The missing libraries after a barebones LFS install are:
+The missing libraries after a bare-bones LFS install are:
 
   * libfontconfig.so.1
   * libfreetype.so.6
@@ -551,11 +551,11 @@ Relevant BLFS packages:
 
 The `mf` program is metafont and is used to generate TeX native fonts.
 In this day in age, generally vector fonts (Type 1, TrueType, OpenType)
-are used for new LaTeX projects and at least with LuaLaTeX, a barebones
+are used for new LaTeX projects and at least with LuaLaTeX, a bare-bones
 LFS install has what is needed to deal with those. However sometimes older
 LaTeX projects will want metafont available.
 
-The missing libraries after a barebones LFS install are:
+The missing libraries after a bare-bones LFS install are:
 
   * libSM.so.6
   * libICE.so.6
@@ -573,7 +573,7 @@ generated as postscript or PDF images using programs outside of the
 TeXLive system, but it is *possible* you may need this command to work
 especially if you are working with older TeX projects.
 
-The missing libraries after a barebones LFS install are:
+The missing libraries after a bare-bones LFS install are:
 
   * libGLX.so.0
   * libglut.so.3
@@ -596,14 +596,14 @@ In the old days, the standard way to use a TeX system was to generate
 a DVI file that could then be sent to be printed or rendered by a device
 with an appropriate DVI driver.
 
-When generating a postscript file, one would then use the program dvips
+When generating a postscript file, one would then use the program `dvips`
 to create a postscript file from the DVI file.
 
 DVI files are rarely generated now, but when they are generated you may
 want the `xdvi-xaw` program to view the DVI file on your display before
 it is printed or further processed into something else.
 
-The missing libraries after a barebones LFS install are:
+The missing libraries after a bare-bones LFS install are:
 
   * libXaw.so.7
   * libXmu.so.6
@@ -632,57 +632,107 @@ you will at some point find yourself needing to install
 [Ghostscript](https://www.linuxfromscratch.org/blfs/view/stable/pst/gs.html).
 
 
-Python2 Issues
+Python Version
 --------------
 
-Python2 is officially deprecated. Unfortunately, a handful of scripts
-in TeXLive 2023 have not yet been ported to Python 3 (or possibly work
-with both Python 2 and Python 3) and even worse, those scripts call the
-ambiguous generic `python` instead of `python2`.
+Python2 is officially deprecated.
 
-If you need those scripts for your LaTeX work-flow, install
-[Python2](https://www.linuxfromscratch.org/blfs/view/stable/general/python2.html)
-on your LFS system. I recommend using a prefix of `/opt/legacy/python2`
-and then adding `/opt/legacy/python2/bin` to the path of any user
-that needs any of those scripts.
+Unfortunately, many GNU/Linux distributions have a practice of providing
+`/usr/bin/python` as a symbolic link to the system Python binary, whether
+it is Python 2 or Python 3.
 
-you can then make `/opt/legacy/python2/bin/python` be a symbolic link
-to `/opt/legacy/python2/bin/python2.7`. As the `root` user:
+Unfortunately many scripts that use either `/usr/bin/python` or
+`/usr/bin/env python` instead of *explicitly* calling `python2`
+or `python3` do not work with either version.
 
-    ln -sf python2.7 /opt/legacy/python2/bin/python
+It appears in TeXLive that the TeX maintainers have cleaned up that mess.
+Many scripts do explicitly call `python3` or `python2` and those that do
+not explicitly call a versioned `python` do in fact work with either.
 
-Then *most* of the TeXLive scripts that call an un-versioned `python`
-will work as long as `/opt/legacy/python2/bin` is in the `PATH` of the
-users that needs it.
-
-You can accomplish this by adding the following to `/etc/profile.d/texlive.sh`
-where the other calls to `pathappend` occur:
-
-    pathappend /opt/legacy/python2/bin
-
-The scripts that work with this method all use the following shebang:
+A small handful of scripts use the following un-versioned shebang:
 
     #!/usr/bin/env python
 
-Some of the scripts with that shebang *might* work with Python 3 but
-I do not know which scripts they are. They supposedly all work with
-Python 2.7.
+The list:
+
+* ebong{,.py}
+* latex-papersize{,.py}
+* lily-glyph-commands{,.py}
+* lily-image-commands{,.py}
+* lily-rebuild-pdfs{,.py}
+* lilyglyphs-common.py
+* {,de}pythontex{,.py}
+* pythontex_2to3.py
+* pythontex_install.py
+* texliveonfly{,.py}
+
+An even smaller handful of scripts use the following un-versioned shebang:
+
+    #!/usr/bin/python
+
+The list:
+
+* pyMergeChanges.py
+* de-macro
+
+Python scripts without a `.py` suffix are in the architecture dependent
+`bin/[arch]` directory and have an identical script with a suffix in the
+`texmf/scripts`
+directory.
+
+The `de-macro` script is unique in that it does not have a `.py` suffix
+in the version within the `texmf/scripts` directory.
+
+The system Python for LFS 11.3 is Python 3 but LFS does not create a
+`/usr/bin/python` symbolic link. If you need any of these Python scripts
+in your LaTeX work-flow, you have to have it. Modifying the scripts
+themselves to call `python3` will get undone whenever you update TeXLive.
+
+As the `root` user:
+
+    ln -svf python3.11 /usr/bin/python
+
+A summary of the Python scripts that call an un-versioned `python`:
+
+### Ebong
+
+I could not find any reference to whether or not this script has been
+tested with Python 3 but it *looks* like it should work to me.
+
+It is used as a helper for writing Bengali in Rapid Roman Format, I
+have no way to test whether it works the same in Python 3 as it does
+in Python 2 but it *looks* to me like it should work.
+
+### Lilyglyphs
+
+The `lilyglyphs` Python scripts have been compatible with Python 3
+since September 30, 2020. See the
+[Lilyglyph CTAN Announcement](https://ctan.org/ctan-ann/id/mailman.3260.1601492366.2548.ctan-ann@ctan.org)
+
+### Pythontex
+
+The `pythontex` Python scripts that do not use a version specific shebang
+simply detect the system python so that scripts with either a `python2`
+or a `python3` versioned shebang can be called.
+
+### TexLiveOnFly
+
+This script is useless when a full TeXLive install was performed, the
+sole purpose of that script is to download TeXLive packages that are
+needed but not present in the local install.
+
+The comments in the script itself specifies it works with either
+Python2 or Python3.
+
+### pyMergeChanges.py
+
+This script specifies that it *only* works with Python 3. It really
+should thus have a `#!/usr/bin/python3` or `#!/usr/bin/env python3`
+shebang but it does not.
 
 ### The `de-macro` Script
 
-The executable script `de-macro` calls `!/usr/bin/python -O` but when
-you read the script, it explicitly states that it works with Python 3.
-
-To get it to work in LFS where `/usr/bin/python` does not exist, as
-the `texlive` user:
-
-    sed -i 's?/usr/bin/python -O?/usr/bin/python3 -O?' \
-      /opt/texlive/2023/bin/x86_64-linux/de-macro
-
-Whenever TeXLive updates that script, unfortunately it will undo the
-change. Hopefully in the near future we can convince the TeXLive
-maintainers to specify `python3` for any script that *can* run in
-Python 3.
+This script specifies that it works with either Python 2 or Python 3.
 
 
 Ruby Dependency
