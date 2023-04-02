@@ -18,11 +18,16 @@ which I chose to build against
 for TLS support. Building `curl` against OpenSSL (or LibreSSL) should also
 work.
 
+You should also have [GnuPG](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/gnupg.html)
+before installing TeXLive 2023.
+
 These instructions also assume you have gone through the BLFS
 [After LFS Configuration Issues](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/config.html)
 section and have implemented
 [The Bash Shell Startup Files](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html)
 section.
+
+Other dependencies can be resolved after install as needed.
 
 
 Rationale
@@ -250,7 +255,7 @@ Once installed, remove the temporary install directory:
 The following script is what I use to set up the various environmental
 variables for TeXLive in LFS. It is an adaptation of a script I first
 wrote for use in CentOS for TeXLive 2014, the adaptation being I used
-the `pathprepend` function from the BLFS bash `/etc/profile` script.
+the `pathappend` function from the BLFS bash `/etc/profile` script.
 See [The Bash Shell Startup Files](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html)
 in the BLFS book.
 
@@ -326,10 +331,10 @@ of TeXLive installed.
       if [ $? -eq 0 ]; then
         TLIVEV="`tlversion`"
         if [ $? -eq 0 ]; then
-          # pathprepend defined in BLFS/YJL /etc/profile
-          pathprepend /opt/texlive/${TLIVEV}/bin/${TLPLATFORM}
-          pathprepend /opt/texlive/${TLIVEV}/texmf-dist/doc/info INFOPATH
-          pathprepend /opt/texlive/${TLIVEV}/texmf-dist/doc/man MANPATH
+          # pathappend defined in BLFS/YJL /etc/profile
+          pathappend /opt/texlive/${TLIVEV}/bin/${TLPLATFORM}
+          pathappend /opt/texlive/${TLIVEV}/texmf-dist/doc/info INFOPATH
+          pathappend /opt/texlive/${TLIVEV}/texmf-dist/doc/man MANPATH
         fi
       fi
     fi
@@ -346,7 +351,7 @@ An equivalent for `tcsh` has not (yet) been written.
 Note to use this method for setting up the environmental variables on
 other GNU/Linux distributions (or other operating systems) you will
 likely have to port it. CentOS/Fedora for example do not define the
-`pathprepend` function, and on macOS the appropriate place to mount
+`pathappend` function, and on macOS the appropriate place to mount
 the partition is probably `/usr/local/opt/texlive` rather than `/opt/texlive`.
 Or maybe `/Volumes/texlive`. Just pick one... 😜
 
@@ -388,39 +393,15 @@ system has `bash` installed.
 
 ### Local Files
 
-#### Commercial Math Fonts
+If you have any macros or macro files that are not part of TeXLive,
+put them in the `/opt/texlive/texmf-local` tree and then as the
+`texlive` user, run the command `texhash` to update the `ls-R` file
+in `texmf-local` so that TeXLive knows where to find the files.
 
-If you are not writing for a commercial publication, the free Math
-fonts that are part of TeXLive almost certainly meet your needs. See
-[CTAN Maths Font](https://ctan.org/topic/font-maths).
-
-Commercial publications however often have an established workflow
-and like to specify what macro packages and fonts you are allowed to
-use in order to be allowed to make them money.
-
-Some publications will require you use
-[MathTime Pro 2](https://www.pctex.com/mtpro2.html) for your math font
-(usually in combination with Adobe Times/URW++ Nimbus Roman No. 9 L)
-and other publications will require you use the
-[Lucida Fonts](https://tug.org/store/lucida/index.html).
-
-If you are writing for such a publication, the proper place to install
-the files is within the `/opt/texlive/texmf-local` tree.
-
-Both packages come with install instructions but in both cases I often
-see some users confused.
-
-1. First put the files in their proper place within the `texmf-local`
-   tree.
-2. Then *as the `texlive` user* run the `texhash` command.
-3. then *as the `texlive` user* run the `updmap-sys` variant of the
-   `updmap` command when enabling the font map file. Otherwise the fonts
-   will not be system-wide enabled for all users.
-
-When you upgrade to a new version of TeXLive, you do not need to
-re-install those packages, but you will need to re-run the appropriate
-`updmap-sys` command to re-enable the needed map file in the new version
-of TeXLive.
+If any of the fonts need a fontmap file enabled, use the `updmap-sys`
+variant of `updmap` to enable them so that they are enabled for all
+users regardless of which operating system has the TeXLive partition
+mounted.
 
 ### Paper Size
 
@@ -499,6 +480,39 @@ some macro packages which have an internal need to typeset characters
 actual Base35 fonts internally for backwards compatibility, and some
 open source software with LaTeX documentation uses the Baes35 fonts.
 
+### Commercial Math Fonts
+
+If you are not writing for a commercial publication, the free math
+fonts that are part of TeXLive almost certainly meet your needs. See
+[CTAN Maths Font](https://ctan.org/topic/font-maths).
+
+Commercial publications however often have an established workflow
+and like to specify what macro packages and fonts you are allowed to
+use in order to be allowed to make them money.
+
+Some publications will require you to use
+[MathTime Pro 2](https://www.pctex.com/mtpro2.html) for your math font
+(usually in combination with `times.sty` as your main body font)
+and other publications will require you use the
+[Lucida Fonts](https://tug.org/store/lucida/index.html).
+
+If you are writing for such a publication, the proper place to install
+the files is within the `/opt/texlive/texmf-local` tree.
+
+Both packages come with install instructions but in both cases I often
+see some users confused.
+
+1. First put the files in their proper place within the `texmf-local`
+   tree.
+2. Then *as the `texlive` user* run the `texhash` command.
+3. then *as the `texlive` user* run the `updmap-sys` variant of the
+   `updmap` command when enabling the font map file. Otherwise the fonts
+   will not be system-wide enabled for all users.
+
+When you upgrade to a new version of TeXLive, you do not need to
+re-install those packages, but you will need to re-run the appropriate
+`updmap-sys` command to re-enable the needed map file in the new version
+of TeXLive.
 
 LFS Missing Libraries
 ---------------------
@@ -508,22 +522,16 @@ binaries have missing shared library dependencies.
 
 Note that without these libraries installed, I was able to use TeXLive
 2023 within LFS 11.3 to compile TeX projects originally authored for
-LuaLaTeX without any problems.
+LuaLaTeX compilation without any problems.
 
 Most if not all of the missing shared library dependencies will be met
 once an LFS/BLFS 11.3 system has the X11 windowing system installed.
-
-I do not believe TeXLive has been ported to pure Wayland yet but if
-it has, you probably have to build TeXLive from source for a *pure*
-Wayland system to have all dependencies met.
-
-It is slower than wayland, but I still like X11.
 
 ### xetex
 
 This is probably the most important component of TeXLive to support
 even if you do not use it yourself, it is quite likely that at some
-point you will need to compile a LaTeX document written for XeTeX if
+point you will need to compile a LaTeX document written for XeLaTeX if
 you are involved at all in the TeX world.
 
 The missing libraries after a barebones LFS install are:
@@ -539,10 +547,10 @@ Relevant BLFS packages:
 ### metafont
 
 The `mf` program is metafont and is used to generate TeX native fonts.
-In this day in age, generally OpenType fonts are used for new LaTeX
-projects and at least with LuaLaTeX, a barebones LFS install has what
-is needed to deal with those. However sometimes older LaTeX projects
-will want metafont available.
+In this day in age, generally vector fonts (Type 1, TrueType, OpenType)
+are used for new LaTeX projects and at least with LuaLaTeX, a barebones
+LFS install has what is needed to deal with those. However sometimes older
+LaTeX projects will want metafont available.
 
 The missing libraries after a barebones LFS install are:
 
@@ -567,6 +575,17 @@ The missing libraries after a barebones LFS install are:
   * libGLX.so.0
   * libglut.so.3
   * libGL.so.1
+
+If you need Asymptote, I recommend building it independently of TeXLive.
+See BLFS [Asymptote](https://www.linuxfromscratch.org/blfs/view/stable/pst/asymptote.html).
+
+You can then remove the binary from TeXLive. As the `texlive` user:
+
+    tlmgr remove asymptote.x86_64-linux --no-depends-at-all
+
+However understand that doing so will mean `asy` may not be available
+to other x86_64-linux operating systems unless they too have the binary
+installed separate from TeXLive.
 
 ### xdvi-xaw
 
@@ -599,6 +618,91 @@ Those two programs are not needed on GNU/Linux.
 The missing library if you want them to work anyway is:
 
   * libX11.so.6
+
+
+Ghostscript
+-----------
+
+Even though modern TeX engines can output directly to PDF and ghostscript
+is no longer plays the same role in a TeX workflow that it used to play,
+you will at some point find yourself needing to install
+[Ghostscript](https://www.linuxfromscratch.org/blfs/view/stable/pst/gs.html).
+
+
+Python2 Issues
+--------------
+
+Python2 is officially deprecated. Unfortunately, a handful of scripts
+in TeXLive 2023 have not yet been ported to Python 3 (or possibly work
+with both Python 2 and Python 3) and even worse, those scripts call the
+ambiguous generic `python` instead of `python2`.
+
+If you need those scripts for your LaTeX workflow, install
+[Python2](https://www.linuxfromscratch.org/blfs/view/stable/general/python2.html)
+on your LFS system. I recommend using a prefix of `/opt/legacy/python2`
+and then adding `/opt/legacy/python2/bin` to the path of any user
+that needs any of those scripts.
+
+you can then make `/opt/legacy/python2/bin/python` be a symbolic link
+to `/opt/legacy/python2/bin/python2.7`. As the `root` user:
+
+    ln -sf python2.7 /opt/legacy/python2/bin/python
+
+Then *most* of the TeXLive scripts that call an unversioned `python`
+will work as long as `/opt/legacy/python2/bin` is in the `PATH` of the
+users that needs it.
+
+You can accomplish this by adding the following to `/etc/profile.d/texlive.sh`
+where the other calls to `pathappend` occur:
+
+    pathappend /opt/legacy/python2/bin
+
+The scripts that work with this method all use the following shebang:
+
+    #!/usr/bin/env python
+
+Some of the scripts with that shebang *might* work with Python 3 but
+I do not know which scripts they are. They supposedly all work with
+Python 2.7.
+
+### The `de-macro` Script
+
+The executable script `de-macro` calls `!/usr/bin/python -O` but when
+you read the script, it explicitly states that it works with Python 3.
+
+To get it to work in LFS where `/usr/bin/python` does not exist, as
+the `texlive` user:
+
+    sed -i 's?/usr/bin/python -O?/usr/bin/python3 -O?' \
+      /opt/texlive/2023/bin/x86_64-linux/de-macro
+
+Whenever TeXLive updates that script, unfortunately it will undo the
+change. Hopefully in the near future we can convince the TeXLive
+maintainers to specify `python3` for any script that *can* run in
+Python 3.
+
+
+Ruby Dependency
+---------------
+
+A few executable scripts depend upon Ruby. If you need those scripts,
+install [Ruby](https://www.linuxfromscratch.org/blfs/view/stable/general/ruby.html).
+
+
+Wish Dependency
+---------------
+
+A few executable scripts depend upon `wish` which is provided by Tk.
+If you need those scripts, install
+[Tk](https://www.linuxfromscratch.org/blfs/view/stable/general/tk.html).
+Note that Tk requires the X11 system.
+
+
+SNOBOL4 Dependency
+------------------
+
+A single script, `texaccents`, requires `snobol4`. It does not seem to
+be part of BLFS but can be found at (https://www.regressive.org/snobol4/csnobol4/curr/).
 
 
 Text Editors
