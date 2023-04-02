@@ -42,7 +42,7 @@ TeXLive is a large collection of mostly architecture independent text
 files and fonts from CTAN---The Comprehensive TeX Archive Network.
 TeXLive does include a small number of compiled binaries.
 
-Given the massive amount of architexture independent files, it often
+Given the massive amount of architecture independent files, it often
 makes sense to share a single TeXLive install between multiple operating
 systems on the same physical computer, between multiple operating systems
 on physically different computers all connected via the same LAN (via
@@ -112,7 +112,7 @@ Once your partition has been properly created and formatted, go ahead
 and mount it at the `/opt/texlive` mount point.
 
 If TeXLive is on an external drive, you want the `/etc/fstab` to auto-mount
-it when detectected but not attempt to mount it when not present:
+it when detected but not attempt to mount it when not present:
 
     UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX /opt/texlive   ext2  defaults,noauto 1 2
 
@@ -122,7 +122,7 @@ during boot:
     UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX /opt/texlive   ext2  defaults 1 2
 
 Obviously replace `XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX` with the
-actual UUID (which you can find wuth the `blkid` command).
+actual UUID (which you can find with the `blkid` command).
 
 With the partition mounted, go ahead and create the following three
 directories:
@@ -234,11 +234,11 @@ Unpack the archive, enter the installer directory, and install it:
       --texmflocal="/opt/texlive/texmf-local" \
       --no-interaction
 
-There are some other options (such as default papersize) but those can
-be set after install. Normally I like to set papersize in the document
+There are some other options (such as default paper size) but those can
+be set after install. Normally I like to set paper size in the document
 itself however ff you plan to use TeXLive to build documentation that
 comes with source packages in LFS/BLFS, you probably want to set the
-default papersize to the size of paper your printer uses.
+default paper size to the size of paper your printer uses.
 
 That is covered in the [Paper Size](#paper-size) section.
 
@@ -451,7 +451,7 @@ place of `add`.
 
 Most people can skip this.
 
-TeXLive ships with the metric compatible URW clones of the Adobe Base35
+TeXLive ships with the metric compatible URW++ clones of the Adobe Base35
 Postscript Level 2 fonts.
 
 If you happen to have the genuine Adobe Base35 fonts installed in the
@@ -469,7 +469,7 @@ On the other hand if they have the Adobe vendor filenames
 
     updmap-sys --setoption LW35 ADOBE
 
-Visually, almost no one can tell the difference between the free URW
+Visually, almost no one can tell the difference between the free URW++
 clones and the genuine Adobe fonts, but if you happen to have the
 genuine Adobe fonts you might as well use them for projects that call
 the Base35 postscript fonts.
@@ -481,7 +481,7 @@ OpenType fonts instead, as they have *much better* glyph coverage, but
 some macro packages which have an internal need to typeset characters
 (such as the packages for generating barcodes) will still specify the
 actual Base35 fonts internally for backwards compatibility, and some
-open source software with LaTeX documentation uses the Baes35 fonts.
+open source software with LaTeX documentation uses the Base35 fonts.
 
 ### Commercial Math Fonts
 
@@ -489,7 +489,7 @@ If you are not writing for a commercial publication, the free math
 fonts that are part of TeXLive almost certainly meet your needs. See
 [CTAN Maths Font](https://ctan.org/topic/font-maths).
 
-Commercial publications however often have an established workflow
+Commercial publications however often have an established work-flow
 and like to specify what macro packages and fonts you are allowed to
 use in order to be allowed to make them money.
 
@@ -627,7 +627,7 @@ Ghostscript
 -----------
 
 Even though modern TeX engines can output directly to PDF and ghostscript
-is no longer plays the same role in a TeX workflow that it used to play,
+no longer plays the same role in a TeX work-flow that it used to play,
 you will at some point find yourself needing to install
 [Ghostscript](https://www.linuxfromscratch.org/blfs/view/stable/pst/gs.html).
 
@@ -640,7 +640,7 @@ in TeXLive 2023 have not yet been ported to Python 3 (or possibly work
 with both Python 2 and Python 3) and even worse, those scripts call the
 ambiguous generic `python` instead of `python2`.
 
-If you need those scripts for your LaTeX workflow, install
+If you need those scripts for your LaTeX work-flow, install
 [Python2](https://www.linuxfromscratch.org/blfs/view/stable/general/python2.html)
 on your LFS system. I recommend using a prefix of `/opt/legacy/python2`
 and then adding `/opt/legacy/python2/bin` to the path of any user
@@ -651,7 +651,7 @@ to `/opt/legacy/python2/bin/python2.7`. As the `root` user:
 
     ln -sf python2.7 /opt/legacy/python2/bin/python
 
-Then *most* of the TeXLive scripts that call an unversioned `python`
+Then *most* of the TeXLive scripts that call an un-versioned `python`
 will work as long as `/opt/legacy/python2/bin` is in the `PATH` of the
 users that needs it.
 
