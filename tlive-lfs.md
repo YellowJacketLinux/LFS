@@ -1,8 +1,6 @@
 TeXLive 2023 in LFS 11.3
 ========================
 
-This document is not yet finished.
-
 This document was written for TeXLive 2023 in LFS 11.3 but probably is
 mostly applicable to other versions of LFS and to future versions of
 TeXLive as well.
@@ -690,7 +688,7 @@ it is Python 2 or Python 3.
 
 Unfortunately many scripts that use either `/usr/bin/python` or
 `/usr/bin/env python` instead of *explicitly* calling `python2`
-or `python3` do not work with either version.
+or `python3` do not work with both versions.
 
 It appears in TeXLive that the TeX maintainers have cleaned up that mess
 within TeXLive. Many scripts do explicitly call `python3` or `python2`
