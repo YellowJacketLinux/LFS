@@ -19,7 +19,8 @@ for TLS support. Building `curl` against OpenSSL (or LibreSSL) should also
 work.
 
 You should also have [GnuPG](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/gnupg.html)
-before installing TeXLive 2023.
+before installing TeXLive 2023 for package verification (performed
+automatically by the TeXLive installer/updater).
 
 These instructions also assume you have gone through the BLFS
 [After LFS Configuration Issues](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/config.html)
@@ -38,8 +39,8 @@ possible to build TeXLive from source but under some situations, it
 is *impractical* to do so.
 
 TeXLive is a large collection of mostly architecture independent text
-files and fonts from CTAN---The Comprehensive TeX Network. TeXLive
-does include a small number of compiled binaries.
+files and fonts from CTAN---The Comprehensive TeX Archive Network.
+TeXLive does include a small number of compiled binaries.
 
 Given the massive amount of architexture independent files, it often
 makes sense to share a single TeXLive install between multiple operating
@@ -50,8 +51,8 @@ can be taken from place to place and connected to whichever computer
 the TeX author is currently using.
 
 Furthermore, for people who use LaTeX a lot, it often makes sense to
-have multiple versions of TeXLive available. A documented authored
-using TeXLive 2016 may not properly build in TeXLive 2023 without some
+have multiple versions of TeXLive available. A document authored using
+TeXLive 2016 may not properly build in TeXLive 2023 without some
 time-consuming tweaks to the LaTeX code itself. If such a document
 needs a minor edit, it is better to have the version of TeXLive the
 LaTeX was originally authored under available than to have to potentially
@@ -74,7 +75,7 @@ that paradigm perfectly.
 
 The default install location is actually within `/usr/local` however
 `/usr/local` generally should be reserved for software built locally
-from source that is not under the control of the package manager.
+from source that is not under the control of a package manager.
 
 As the root user, create the directory `/opt/texlive`:
 
@@ -82,7 +83,7 @@ As the root user, create the directory `/opt/texlive`:
 
 If you will be sharing the TeXLive install between multiple operating
 systems on the *same* hardware, you will want to either create a
-partition on an internal drive or alternative create a partition on
+partition on an internal drive or alternatively create a partition on
 an external drive.
 
 If you will be sharing the TeXLive install via NFS with other operating
@@ -107,8 +108,8 @@ operating systems other than GNU/Linux, it is usually easier to find
 software solutions for mounting `ext2` than for `ext4` or other modern
 GNU/Linux filesystems.
 
-Once your partition is properly created and formatted, go ahead and
-mount it at the `/opt/texlive` mount point.
+Once your partition has been properly created and formatted, go ahead
+and mount it at the `/opt/texlive` mount point.
 
 If TeXLive is on an external drive, you want the `/etc/fstab` to auto-mount
 it when detectected but not attempt to mount it when not present:
@@ -133,7 +134,7 @@ local additions to the TeXLive system, such as additional fonts and macro
 packages like [MathTime Pro 2](https://www.pctex.com/mtpro2.html). The
 third is a home directory for the TeXLive administrative user. Keeping
 the home directory for that user on the same partition as the TeXLive
-install allows you to easily administrate the install from any Un*x
+install allows you to easily administrate the install from any Unix
 operating system the partition is mounted on---should you choose to
 do so.
 
@@ -154,7 +155,7 @@ already set up for them when they log in.
 
 By adding users who *want* to use the TeXLive system to the `texlive`
 group, those users can automatically have their environmental variables
-(PATH, INFOPATH, MANPATH) adjust to use the TeXLive system while other
+(PATH, INFOPATH, MANPATH) adjusted to use the TeXLive system while other
 user accounts (including system users and daemons) that do not need
 to use the TeXLive system do not have their environmental variables
 adjusted.
@@ -162,14 +163,14 @@ adjusted.
 The purpose of the `texlive` user is to have an otherwise unprivileged
 user account that installs and administrates the TeXLive system.
 
-When sharing a TeXLive install, each Un*x system should have both the
+When sharing a TeXLive install, each Unix system should have both the
 `texlive` user and group and they should have the same user-id and
 group-id, at least if you wish to be able to be able to also administrate
-the TeXLive system from any Un*x system using the partition.
+the TeXLive system from any Unix system using the partition.
 
 The UID/GID I personally use is `450` for both. The reason I chose
 `450` is because it is well above `100` (under `100` is usually used
-for system users and daemons) yet below 500. Most Un*x systems today
+for system users and daemons) yet below 500. Most Unix systems today
 start user accounts at `1000` but some use `500` as the first personal
 account UID/GID, so I chose `450` to specifically be below that.
 
@@ -184,10 +185,12 @@ and then issuing the following command:
     su - texlive
 
 If you have [sudo](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/sudo.html)
-installed, then users in the `wheel` group can become the texlive
-user with the following command:
+installed *with the default BLFS configuration*, then users in the
+`wheel` group can become the texlive user with the following command:
 
     sudo su - texlive
+
+That is my preferred method.
 
 Note that you only need to become the `texlive` user to administer the
 system. Usually that means once a month or so, installing updates. Or
@@ -237,7 +240,7 @@ itself however ff you plan to use TeXLive to build documentation that
 comes with source packages in LFS/BLFS, you probably want to set the
 default papersize to the size of paper your printer uses.
 
-I will cover that in the adminstration section.
+That is covered in the [Paper Size](#paper-size) section.
 
 The install will likely take an hour or so, depending upon the speed
 of the mirror used for the install.
@@ -720,13 +723,13 @@ often use.
 
 Use a text editor that does not insert a BOM.
 
-### Traditional Un*x-like Operating Systems CLI
+### Traditional Unix-like Operating Systems CLI
 
 The `vim` editor that is part of LFS is sufficient but if you do a *lot*
 of work in LaTeX it may be worth your time to learn how to use
 [GNU Emacs](https://www.linuxfromscratch.org/blfs/view/stable/postlfs/emacs.html).
 
-### Traditional Un*x-like Operating Systems GUI
+### Traditional Unix-like Operating Systems GUI
 
 For a GUI editor, I *really* like LaTeXila but the project first was
 integrated in GNOME3 as [GNOME-LaTeX](https://gitlab.gnome.org/swilmet/gnome-latex)
