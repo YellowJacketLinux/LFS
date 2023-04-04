@@ -7,7 +7,7 @@ Summary:	RPM Package Manager
 Group:		Utilities/Administration
 License:	GPLv2 LGPLv2
 URL:		https://www.rpm.org/
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	https://ftp.osuosl.org/pub/rpm/releases/rpm-4.18.x/%{name}-%{version}.tar.bz2
 Source1:	yjl-lfs-macros-11.3
 
 BuildRequires:	elfutils-devel
