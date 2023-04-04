@@ -1,7 +1,9 @@
-%define slibv 9.4.0
+# define shared lib version
+%global slibv 9.4.0
+
 Name:		rpm
 Version:	4.18.1
-Release:	%{?repo}0.rc2%{?dist}
+Release:	%{?repo}0.rc3%{?dist}
 Summary:	RPM Package Manager
 
 Group:		Utilities/Administration
@@ -18,24 +20,42 @@ BuildRequires:	libacl-devel
 BuildRequires:	libarchive-devel
 BuildRequires:	libmagic-devel
 BuildRequires:	libsqlite3-devel
-
-#Requires:	
+Requires:	librpm = %{version}-%{release}
 
 %description
 The RPM package manager.
 
+%package -n librpm
+Summary:	RPM shared libraries
+Group:		System Environment/Libraries
+
+%description -n librpm
+This package contains the RPM shared libraries.
+
+%package -n librpm-manual
+Summary:	HTML documentation for librpm
+Group:		Development/Documentation
+Requires:	librpm = %{version}-%{release}
+BuildArch:	noarch
+
+%description -n librpm-manual
+This package contains HTML documentation for librpm.
+
 %package devel
-Summary:	Developer files for RPM
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:        Developer files for RPM
+Group:          Development/Libraries
+Requires:       %{name} = %{version}-%{release}
+Requires:       librpm = %{version}-%{release}
 
 %description devel
-This package contains stuff.
+This package contains the developer files needed to compile software
+that links against the RPM shared libraries.
 
 %package -n python3-%{name}
 Summary:	Python bindings for RPM
 Group:		Python/Utilities
-Requires:	%{name} = %{version}-%{release}
+Requires:       %{name} = %{version}-%{release}
+Requires:	librpm = %{version}-%{release}
 %if %{?python3_ABI:1}%{!?python3_ABI:0}
 # Non-Standard Macro
 Requires:	%{python3_ABI}
@@ -51,17 +71,17 @@ This package contains the Python3 bindings for RPM.
 
 
 %build
-%configure \
-  --enable-zstd=yes \
-        --enable-libelf=yes \
-        --enable-ndb \
-        --enable-sqlite=yes \
-        --disable-rpath \
-        --enable-python \
-        --with-crypto=libgcrypt \
-        --disable-inhibit-plugin \
-        --with-cap \
-        --with-acl
+%configure                 \
+  --enable-zstd=yes        \
+  --enable-libelf=yes      \
+  --enable-ndb             \
+  --enable-sqlite=yes      \
+  --disable-rpath          \
+  --enable-python          \
+  --with-crypto=libgcrypt  \
+  --disable-inhibit-plugin \
+  --with-cap               \
+  --with-acl
 make %{?_smp_mflags}
 
 
@@ -78,21 +98,35 @@ mv %{buildroot}%{_rpmconfigdir}/rpm.daily \
 install -d %{buildroot}%{_sysconfdir}/logrotate.d
 mv %{buildroot}%{_rpmconfigdir}/rpm.log \
   %{buildroot}%{_sysconfdir}/logrotate.d/
-#exit 1
+install -m755 -d %{buildroot}%{_datadir}/doc/librpm-%{version}
+cp -ar docs/librpm/html %{buildroot}%{_datadir}/doc/librpm-%{version}/
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post -n librpm -p /sbin/ldconfig
+%postun -n librpm -p /sbin/ldconfig
 
 %files -f rpm.lang
 %defattr(-,root,root,-)
-%{_bindir}/*
+%attr(0755,root,root) %{_bindir}/gendiff
+%attr(0755,root,root) %{_bindir}/rpm
+%attr(0755,root,root) %{_bindir}/rpm2archive
+%attr(0755,root,root) %{_bindir}/rpm2cpio
+%attr(0755,root,root) %{_bindir}/rpmbuild
+%attr(0755,root,root) %{_bindir}/rpmdb
+%attr(0755,root,root) %{_bindir}/rpmgraph
+%attr(0755,root,root) %{_bindir}/rpmkeys
+%attr(0755,root,root) %{_bindir}/rpmlua
+%attr(0755,root,root) %{_bindir}/rpmsign
+%attr(0755,root,root) %{_bindir}/rpmspec
+# links in /usr/bin
+%{_bindir}/rpmquery
+%{_bindir}/rpmverify
 ##### first level _rpmconfigdir (/usr/lib/rpm) stuff
 %dir %{_rpmconfigdir}
 # non-exec
 %attr(0644,root,root) %{_rpmconfigdir}/macros
 %attr(0644,root,root) %{_rpmconfigdir}/rpmpopt-%{version}
 %attr(0644,root,root) %{_rpmconfigdir}/rpmrc
-## NOTE - this valgrind file may actually belong elsewhere
+## NOTE - this valgrind file may actually belong in devel?
 %attr(0644,root,root) %{_rpmconfigdir}/rpm.supp
 # exec stuff
 %attr(0755,root,root) %{_rpmconfigdir}/brp-*
@@ -114,7 +148,7 @@ mv %{buildroot}%{_rpmconfigdir}/rpm.log \
 %attr(0755,root,root) %{_rpmconfigdir}/tgpg
 # other /usr/lib/rpm stuff
 %dir %{_prefix}/lib/rpm/fileattrs
-%{_prefix}/lib/rpm/fileattrs/*.attr
+%attr(0644,root,root) %{_prefix}/lib/rpm/fileattrs/*.attr
 %dir %{_rpmluadir}
 %dir %{_rpmmacrodir}
 %dir %{_rpmconfigdir}/platform
@@ -126,15 +160,6 @@ mv %{buildroot}%{_rpmconfigdir}/rpm.log \
 %attr(0755,root,root) %{_libdir}/rpm-plugins/ima.so
 %attr(0755,root,root) %{_libdir}/rpm-plugins/prioreset.so
 %attr(0755,root,root) %{_libdir}/rpm-plugins/syslog.so
-##### shared libraries
-%{_libdir}/librpm.so.9
-%attr(0755,root,root) %{_libdir}/librpm.so.%{slibv}
-%{_libdir}/librpmbuild.so.9
-%attr(0755,root,root) %{_libdir}/librpmbuild.so.%{slibv}
-%{_libdir}/librpmio.so.9
-%attr(0755,root,root) %{_libdir}/librpmio.so.%{slibv}
-%{_libdir}/librpmsign.so.9
-%attr(0755,root,root) %{_libdir}/librpmsign.so.%{slibv}
 ##### various stuff
 %dir %{_dbpath}
 %dir %{_sysconfdir}/rpm
@@ -152,7 +177,25 @@ mv %{buildroot}%{_rpmconfigdir}/rpm.log \
 #%%lang(pl) %%attr(0644,root,root) %%{_mandir}/pl/man8/*.8*
 #%%lang(ru) %%attr(0644,root,root) %%{_mandir}/ru/man8/*.8*
 #%%lang(sk) %%attr(0644,root,root) %%{_mandir}/sk/man8/*.8*
-%doc
+%license COPYING
+%doc COPYING CREDITS ChangeLog README docs/manual
+
+%files -n librpm
+%defattr(-,root,root,-)
+##### shared libraries
+%{_libdir}/librpm.so.9
+%attr(0755,root,root) %{_libdir}/librpm.so.%{slibv}
+%{_libdir}/librpmbuild.so.9
+%attr(0755,root,root) %{_libdir}/librpmbuild.so.%{slibv}
+%{_libdir}/librpmio.so.9
+%attr(0755,root,root) %{_libdir}/librpmio.so.%{slibv}
+%{_libdir}/librpmsign.so.9
+%attr(0755,root,root) %{_libdir}/librpmsign.so.%{slibv}
+%license COPYING
+%doc COPYING
+
+%files -n librpm-manual
+%{_datadir}/doc/librpm-%{version}
 
 %files devel
 %defattr(-,root,root,-)
@@ -162,12 +205,17 @@ mv %{buildroot}%{_rpmconfigdir}/rpm.log \
 
 %files -n python3-%{name}
 %defattr(-,root,root,-)
+%attr(0755,root,root) %dir %{python3_sitelib}/rpm
 %{python3_sitelib}/rpm/__init__.py
 %{python3_sitelib}/rpm/transaction.py
 %{python3_sitelib}/*.egg-info
 %attr(0755,root,root) %{python3_sitearch}/rpm/_rpm.so
 
 %changelog
+* Tue Apr 04 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc3
+- Split librpm into separate package, plus manual package
+- General spec file cleanup
+
 * Wed Mar 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc2
 - Rebuild for python3_ABI requirement
 
