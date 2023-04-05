@@ -52,7 +52,7 @@ ___3.gui___
 Environment, including the rebuild of some packages from the `1.core`
 and `2.cli` repositories.
 
-___4.apps___
+___4.apps___  
 : Graphical programs that require a Graphical Desktop Environment but
 are not part of a specific Desktop Environment. For example, FireFox
 and Thunderbird.
