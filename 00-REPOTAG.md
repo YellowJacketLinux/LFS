@@ -8,7 +8,7 @@ the following:
 
 
 where `N` is *usually* either a positive integer or is of the form
-`0.rcM` or `0.devM` where `M` is an integer.
+`0.rcM` or `0.devM` where `M` is a positive integer.
 
 The idea behind this added complexity to the `Release` tag is so that
 different repositories can exist that have duplicate packages sometimes
