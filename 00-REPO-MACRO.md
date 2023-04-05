@@ -39,21 +39,21 @@ by a dot, followed by a code for the package repository.
 
 The following list of `%{?repo}` tags is what I plan to use:
 
-1.core
+___1.core___  
 : The core of YJL. Basically LFS plus enough for RPM and basic system
 usage including a text browser, mouse support, and cron support.
 
-2.cli
+___2.cli___  
 : Programs and libraries that do not need a graphical user interface,
 including the rebuild of some packages from the `1.core` repository.
 
-3.gui
+___3.gui___  
 : Programs and libraries intended to support a Graphical Desktop
 Environment, including the rebuild of some packages from the `1.core`
 and `2.cli` repositories.
 
-5.mate
+___5.mate___  
 : The MATE Graphical Desktop Environment.
 
-6.xfce
+___6.xfce___  
 : The XFCE Graphical Desktop Environment.
