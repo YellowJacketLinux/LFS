@@ -54,7 +54,7 @@ and `2.cli` repositories.
 
 ___4.apps___  
 : Graphical programs that require a Graphical Desktop Environment but
-are not part of a specific Desktop Environment. For example, FireFox
+are not part of a *specific* Desktop Environment. For example, FireFox
 and Thunderbird.
 
 ___5.mate___  
