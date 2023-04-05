@@ -55,5 +55,5 @@ and `2.cli` repositories.
 ___5.mate___  
 : The MATE Graphical Desktop Environment.
 
-___6.xfce___  
+___5.xfce___  
 : The XFCE Graphical Desktop Environment.
