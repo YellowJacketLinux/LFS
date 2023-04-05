@@ -61,4 +61,22 @@ ___5.mate___
 : The MATE Graphical Desktop Environment.
 
 ___5.xfce___  
-: The XFCE Graphical Desktop Environment.
+: The Xfce Graphical Desktop Environment.
+
+It is not a perfect system, but just like taxonomy in biology, I do
+not think there ever truly could be a perfect system.
+
+One thing that is specifically part of the design---this system is too
+allow third party repositories that want to use YJL as a base but build
+package their own way.
+
+For example, my *personal* philosophy is to use GnuTLS as the system
+TLS library and use LibreSSL when a TLS software package has not been
+ported to GnuTLS---only using OpenSSL when specific library features
+of OpenSSL that are not in GnuTLS are needed.
+
+Someone with a different philosophy can simply make a `5.openssl`
+repository that replaces packages in YJL with the equivalent versions
+but built against OpenSSL. This could be important if, say, FIPS
+compliance is mandatory.
+
