@@ -14,7 +14,7 @@ The idea behind this added complexity to the `Release` tag is so that
 different repositories can exist that have duplicate packages sometimes
 even built from the same RPM spec file but with different capabilities.
 
-These repositories can then have a hierarchal `repo` macro so that as
+These repositories can then have a hierarchical `repo` macro so that as
 long as the `Version` is the same, the repository with the greater
 `repo` tag will always resolve as the newer package to RPM.
 
@@ -37,11 +37,15 @@ their `~/.rpmmacros` file or at package build time.
 The `%{?repo}` macro must start with a non-negative integer, followed
 by a dot, followed by a code for the package repository.
 
+
+Planned Package Repositories
+----------------------------
+
 The following list of `%{?repo}` tags is what I plan to use:
 
 ___1.core___  
 : The core of YJL. Basically LFS plus enough for RPM and basic system
-usage including a text browser, mouse support, and cron support.
+usage including a text browser, mouse support, and fcron support.
 
 ___2.cli___  
 : Programs and libraries that do not need a graphical user interface,
@@ -54,7 +58,7 @@ and `2.cli` repositories.
 
 ___4.apps___  
 : Graphical programs that require a Graphical Desktop Environment but
-are not part of a *specific* Desktop Environment. For example, FireFox
+are not part of a *specific* Desktop Environment. For example, Firefox
 and Thunderbird.
 
 ___5.mate___  
@@ -80,3 +84,22 @@ repository that replaces packages in YJL with the equivalent versions
 but built against OpenSSL. This could be important if, say, FIPS
 compliance is mandatory.
 
+
+Multiple Repository Notes
+-------------------------
+
+Some packages may have spec files that can build for multiple package
+repositories dependent upon what `%{repo}` evaluates to.
+
+In such cases, the spec file should build for the “highest-level”
+package repository the spec file supports when the `repo` macro is not
+defined *without* internally defining the macro.
+
+
+Spec File ChangeLog Notes
+-------------------------
+
+In an RPM Spec File `%changelog` section, both the `%{?repo}` and the
+`%{?dist}` tags should be omitted from the `version-release` portion
+of the changelog because a package should always be buildable without
+those macros defined.
