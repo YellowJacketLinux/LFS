@@ -1,6 +1,6 @@
 Name:		acl
 Version:	2.3.1
-Release:	1%{?dist}
+Release:	%{?repo}0.rc1%{?dist}
 Summary:	POSIX Access Control List tools
 
 Group:		System Environment/Utilities
