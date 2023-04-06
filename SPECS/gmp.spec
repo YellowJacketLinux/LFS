@@ -5,13 +5,14 @@
 
 Name:		gmp
 Version:	6.2.1
-Release:	%{?repo}0.rc1%{?dist}
+Release:	%{?repo}0.rc2%{?dist}
 Summary:	Library for arbitrary precision arithmetic
 
 Group:		System Environment/Libraries
 License:	GPLv2/GPLv3 and LGPLv3
 URL:		https://gmplib.org/
 Source0:	https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
+Provides:       lib%{name} = %{version}-%{release}
 
 #BuildRequires:	
 #Requires:	
@@ -31,6 +32,7 @@ algebra research, etc.
 Summary:	Development files for GMP
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Provides:       lib%{name}-devel = %{version}-%{release}
 
 %description devel
 This package contains the files necessary to compile software that
@@ -60,6 +62,14 @@ make check > %{name}-make.check.log 2>&1
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
+%post devel
+%{_bindir}/install-info %{_infodir}/%{name}.info %{_infodir}/dir ||:
+
+%preun devel
+if [ $1 = 0 ]; then
+%{_bindir}/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir ||:
+fi
+
 %files
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libgmp.so.10.4.1
@@ -82,5 +92,8 @@ make check > %{name}-make.check.log 2>&1
 
 
 %changelog
+* Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 6.2.1-0.rc2
+- Scriptlets for the gmp into file
+
 * Wed Apr 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 6.2.1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
