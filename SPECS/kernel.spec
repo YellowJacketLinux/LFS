@@ -3,7 +3,7 @@
 %define __strip /bin/true
 # kernel tags
 %define kseries 6.1
-%define krel 22
+%define krel 23
 %define localktag genesis.1
 
 Name:		kernel
@@ -72,11 +72,13 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 /boot/config-%{version}-%{localktag}
 /boot/System.map-%{version}-%{localktag}
 /boot/vmlinuz-%{version}-%{localktag}
+%license COPYING LICENSES
 %doc COPYING CREDITS LICENSES MAINTAINERS README
 
 %files modules
 %defattr(-,root,root,-)
 /lib/modules/%{version}-%{localktag}
+%license COPYING LICENSES
 %doc COPYING CREDITS LICENSES MAINTAINERS README
 
 %files doc
@@ -85,6 +87,9 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 
 
 %changelog
+* Thu Apr 06 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.23-genesis.1
+- Update to 6.1.23
+
 * Mon Apr 03 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.22-genesis.1
 - Update to 6.1.22
 
