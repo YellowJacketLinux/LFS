@@ -1,7 +1,10 @@
-%global specrel 0.dev7
+%global specrel 0.dev10
 
 # Some distributions put install-info in /{,usr/}sbin
 %global insinfo %{_bindir}/install-info
+
+# The target triplet
+%global triplet %(%{_bindir}/gcc -dumpmachine)
 
 # buildlevel 0 is just c,c++
 # buildlevel 1 adds fortran,go,objc,obj-c++
@@ -20,9 +23,6 @@
 %global gcc_languages c,c++
 %endif
 
-#fixme - autoset
-%global triplet x86_64-pc-linux-gnu
-
 Name:		gcc
 Version:	12.2.0
 Release:	%{?repo}%{specrel}%{?dist}
@@ -32,18 +32,30 @@ Group:		Development/Languages
 License:	fii
 URL:		https://gcc.gnu.org/
 Source0:	https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
-
-Requires(post):	%{insinfo}
-Requires(preun):	%{insinfo}
+BuildRequires:	binutils   >= 2.35
+BuildRequires:	gawk       >= 3.1.5
+BuildRequires:	make       >= 3.80
+BuildRequires:	gmp-devel  >= 4.3.2
+BuildRequires:	mpfr-devel >= 3.1.0
+BuildRequires:	mpc-devel  >= 1.0.1
+BuildRequires:	glibc-devel
+BuildRequires:	zlib-devel
+BuildRequires:	libzstd-devel
+# gdb might only be needed for tests?
 BuildRequires:	gdb
-BuildRequires:	dejagnu
-# not yet
+%if 0%{?runtests} == 1
+BuildRequires:  dejagnu    >= 1.5.3
+BuildRequires:	expect
+BuildRequires:	tcl
 %if %{buildlevel} == 1
 BuildRequires:	valgrind
 %endif
+%endif
 # not yet
-#BuildRequires:	ISL
-#Requires:	
+#BuildRequires:	libisl-devel >= 0.15
+Requires(post): %{insinfo}
+Requires(preun):        %{insinfo}
+
 
 %description
 GCC is the GNU Compiler Collection. This package contains gcc, the C
@@ -101,6 +113,8 @@ C Pre-Processor.
 %package -n libstdc++
 Summary:	libstdc++ library
 Group:		System Environment/Libraries
+License:	GPLv3 w/ Runtime Exception
+Requires:	libgcc = %{version}-%{release}
 
 %description -n libstdc++
 This package contains libstdc++ from the GNU Compiler Collection. This
@@ -109,6 +123,7 @@ is the standard C++ library of functions.
 %package -n libstdc++-devel
 Summary:	Development files for libstdc++
 Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
 Requires:	libstdc++ = %{version}-%{release}
 
 %description -n libstdc++-devel
@@ -119,6 +134,7 @@ library.
 %package -n libstdc++-static
 Summary:	libstdc++ static libraries
 Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
 Requires:	libstdc++-devel = %{version}-%{release}
 
 %description -n libstdc++-static
@@ -128,6 +144,7 @@ not need the static libraries.
 %package -n libgcc
 Summary:	libcc_s library
 Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
 
 %description -n libgcc
 What a wonderful world
@@ -136,6 +153,7 @@ What a wonderful world
 %package -n libgfortran
 Summary:	The libgfortran shared library
 Group:		System Environment/Libraries
+License:        GPLv3 w/ Runtime Exception
 Requires:	libquadmath = %{version}-%{release}
 Requires:	libgcc = %{version}-%{release}
 
@@ -146,6 +164,7 @@ the GNU Compiler Collection.
 %package -n libgfortran-static
 Summary:	The libgfortran static library
 Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
 Requires:	gfortran = %{version}-%{release}
 
 %description -n libgfortran-static
@@ -180,6 +199,7 @@ GNU Compiler Collection. You probably do not need this package.
 %package -n libasan
 Summary:	GCC libasan shared library
 Group:		System Environment/Libraries
+License:	Dual BSD-Like and MIT
 Requires:	libgcc = %{version}-%{release}
 Requires:	libstdc++ = %{version}-%{release}
 
@@ -190,6 +210,7 @@ Collection.
 %package -n liblsan
 Summary:	liblsan shared library
 Group:		System Environment/Libraries
+License:        Dual BSD-Like and MIT
 Requires:       libgcc = %{version}-%{release}
 Requires:       libstdc++ = %{version}-%{release}
 
@@ -199,6 +220,7 @@ The liblsan shared library
 %package -n libtsan
 Summary:        libtsan shared library
 Group:          System Environment/Libraries
+License:        Dual BSD-Like and MIT
 Requires:       libgcc = %{version}-%{release}
 Requires:       libstdc++ = %{version}-%{release}
 
@@ -208,6 +230,7 @@ The libtsan shared library
 %package -n libubsan
 Summary:	libubsan shared library
 Group:		System Environment/Libraries
+License:        Dual BSD-Like and MIT
 Requires:       libgcc = %{version}-%{release}
 Requires:       libstdc++ = %{version}-%{release}
 
@@ -233,6 +256,7 @@ that links against the libasan, liblsan, libtsan, and libubsan libraries.
 %package -n libsanitizer-static
 Summary:	GCC sanitizer static libraries
 Group:		Development/Libraries
+License:        Dual BSD-Like and MIT
 Requires:	libsanitizer-devel = %{version}-%{release}
 Provides:	libasan-static
 Provides:	liblsan-static
@@ -241,15 +265,78 @@ Provides:	libubsan-static
 
 %description -n libsanitizer-static
 This package contains the static libraries for libasan, liblsan, libtsan,
-and libubsan.
+and libubsan from the GNU Compiler Collection. You probably do not need
+this package.
 
 #
 # End sanitize libraries
 #
 
+%package -n libatomic
+Summary:	libatomic shared library
+Group:		System Environment/Libraries
+License:	GPLv3 w/ Runtime Exception
+
+%description -n libatomic
+This package includes the libatomic shared library from the GNU
+Compiler Collection.
+
+%package -n libatomic-static
+Summary:        libatomic static library
+Group:          Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:       gcc-libs-devel = %{version}-%{release}
+
+%description -n libatomic-static
+This package includes the libatomic.a static library from the GNU
+Compiler Collection. You probably do not need this package.
+
+%package -n libgomp
+Summary:	libgomp shared library
+Group:		System Environment/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires(post): %{insinfo}
+Requires(preun):        %{insinfo}
+
+%description -n libgomp
+This package contains the shared libgomp library from the GNU
+Compiler Collection.
+
+%package -n libgomp-static
+Summary:	libgomp static library
+Group:          Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:       gcc-libs-devel = %{version}-%{release}
+
+%description -n libgomp-static
+This package contains the static libgomp.a library from the GNU
+Compiler Collection.
+
+%package -n libitm
+Summary:	libitm shared library
+Group:		System Environment/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires(post): %{insinfo}
+Requires(preun):        %{insinfo}
+
+%description -n libitm
+This package contains the libitm shared library from the GNU Compiler
+Collection.
+
+%package -n libitm-static
+Summary:	libitm static library
+Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:       gcc-libs-devel = %{version}-%{release}
+
+%description -n libitm-static
+This package contains the libitm.a static library from the GNU Compiler
+Collection. You probably do not need this package.
+
 %package -n libquadmath
 Summary:	libquadmath shared library
 Group:		System Environment/Libraries
+LICENSE:	LGPLv2
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
@@ -260,6 +347,7 @@ Compiler Collection.
 %package -n libquadmath-static
 Summary:	libquadmath static library
 Group:		Development/Libraries
+LICENSE:        LGPLv2
 Requires:	gcc-libs-devel = %{version}-%{release}
 
 %description -n libquadmath-static
@@ -267,16 +355,13 @@ This package contains the static libquadmath.a library from the GNU
 Compiler Collection. You probably do not need this package.
 
 
+
 %package libs
 Summary:	Shared libraries from GCC
 Group:		System Environment/Libraries
-Provides:	libatomic = %{version}-%{release}
 Provides:	libcc1    = %{version}-%{release}
-Provides:	libgomp   = %{version}-%{release}
-Provides:	libitm    = %{version}-%{release}
 Provides:	libssp    = %{version}-%{release}
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Requires:       gcc-libs    = %{version}-%{release}
 
 %description libs
 This package contains shared libraries that are part of the GCC collection.
@@ -285,9 +370,6 @@ It will likely be split into individual library packages in the future.
 %package libs-static
 Summary:	Static libraries from GCC
 Group:		Development/Libraries
-Provides:	libatomic-static = %{version}-%{release}
-Provides:	libgomp-static   = %{version}-%{release}
-Provides:	libitm-static    = %{version}-%{release}
 Provides:	libssp-static    = %{version}-%{release}
 
 %description libs-static
@@ -297,8 +379,14 @@ It will likely be split into individual library packages in the future.
 %package libs-devel
 Summary:	Development library symbolic links
 Group:		Development/Libraries
+Requires:	libatomic   = %{version}-%{release}
+Requires:	libgomp     = %{version}-%{release}
+Requires:	libitm      = %{version}-%{release}
 Requires:	libquadmath = %{version}-%{release}
-Requires:	gcc-libs = %{version}-%{release}
+Provides:	libatomic-devel   = %{version}-%{release}
+Provides:	libgomp-devel     = %{version}-%{release}
+Provides:	libitm-devel      = %{version}-%{release}
+Provides:	libquadmath-devel = %{version}-%{release}
 
 %description libs-devel
 This package contains the "libfoo.so" symbolic links to libraries within
@@ -368,13 +456,24 @@ ln -sf ../../%{_lib}/libstdc++.so.6.0.30 %{buildroot}%{_libdir}/libstdc++.so
 ln -sf ../usr/bin/cpp %{buildroot}/lib
 ln -sf gcc %{buildroot}%{_bindir}/cc
 install -d -m755 %{buildroot}/usr/lib/bfd-plugins
-ln -sf ../../libexec/gcc/$(gcc -dumpmachine)/12.2.0/liblto_plugin.so \
+ln -sf ../../libexec/gcc/%{triplet}/12.2.0/liblto_plugin.so \
   %{buildroot}/usr/lib/bfd-plugins/
+
+mkdir mylibsdoc
+cat > mylibsdoc/README-RPM.txt << EOF
+This library package is part of the GNU Compiler Collection (GCC).
+See the GCC documentation in:
+
+    %{_datadir}/doc/gcc-%{version}
+
+EOF
+
+# fix doc/html reference to our packaging of the docs
+sed -i 's?"doc/html"?"html"?' ../libstdc++-v3/README
 
 %find_lang gcc
 %find_lang cpplib
 %find_lang libstdc++
-
 #/bin/false
 
 %post
@@ -444,6 +543,31 @@ fi
 %post -n libubsan -p /sbin/ldconfig
 %postun -n libubsan -p /sbin/ldconfig
 
+%post -n libatomic -p /sbin/ldconfig
+%postun -n libatomic -p /sbin/ldconfig
+
+%post -n libgomp
+/sbin/ldconfig
+%{insinfo} %{_infodir}/libgomp.info %{_infodir}/dir ||:
+
+%preun -n libgomp
+if [ $1 = 0 ]; then
+%{insinfo} --delete %{_infodir}/libgomp.info %{_infodir}/dir ||:
+fi
+
+%postun -n libgomp -p /sbin/ldconfig
+
+%post -n libitm
+/sbin/ldconfig
+%{insinfo} %{_infodir}/libitm.info %{_infodir}/dir ||:
+
+%preun -n libitm
+if [ $1 = 0 ]; then
+%{insinfo} --delete %{_infodir}/libitm.info %{_infodir}/dir ||:
+fi
+
+%postun -n libitm -p /sbin/ldconfig
+
 %post -n libquadmath
 /sbin/ldconfig
 %{insinfo} %{_infodir}/libquadmath.info %{_infodir}/dir ||:
@@ -455,17 +579,7 @@ fi
 
 %postun -n libquadmath -p /sbin/ldconfig
 
-%post libs
-/sbin/ldconfig
-%{insinfo} %{_infodir}/libgomp.info %{_infodir}/dir ||:
-%{insinfo} %{_infodir}/libitm.info %{_infodir}/dir ||:
-
-%preun libs
-if [ $1 = 0 ]; then
-%{insinfo} --delete %{_infodir}/libgomp.info %{_infodir}/dir ||:
-%{insinfo} --delete %{_infodir}/libitm.info %{_infodir}/dir ||:
-fi
-
+%post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
 
@@ -485,7 +599,7 @@ fi
 %attr(0755,root,root) %{_bindir}/%{triplet}-gcc-ar
 %attr(0755,root,root) %{_bindir}/%{triplet}-gcc-nm
 %attr(0755,root,root) %{_bindir}/%{triplet}-gcc-ranlib
-#
+# /usr/lib stuff
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
@@ -505,26 +619,57 @@ fi
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include-fixed/*.h
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include-fixed/nss
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include-fixed/nss/secport.h
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/fixinc_list
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/macro_list
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/*.h
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include/README
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include/limits.h
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcc.a
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcc_eh.a
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcov.a
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin
-#%%attr(0755,root,root) %%{_prefix}/lib/gcc/%%{triplet}/%%{version}/plugin/libcc1plugin.so.0.0.0
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0.0.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so
-#%%attr(0755,root,root) %%{_prefix}/lib/gcc/%%{triplet}/%%{version}/plugin/libcp1plugin.so.0.0.0
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0.0.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/gtype.state
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/*.h
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/*.def
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/b-header-vars
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/ada
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/ada/gcc-interface
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/ada/gcc-interface/ada-tree.def
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/c-family
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/c-family/c-common.def
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/c-family/*.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/common
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/common/config
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/common/config/i386
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/common/config/i386/i386-cpuinfo.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/config
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/config/*.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/config/i386
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/config/i386/*.def
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/config/i386/*.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/cp
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/cp/*.def
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/cp/*.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/d
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/d/d-tree.def
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/objc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/objc/objc-tree.def
+# /usr/libexec stuff
+%attr(0755,root,root) %dir %{_libexecdir}/gcc
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/cc1plus
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/collect2
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/liblto_plugin.so
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/lto-wrapper
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/lto1
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}/plugin
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/plugin/gengtype
+# symlink into libexec
+%attr(0755,root,root) %dir %{_prefix}/lib/bfd-plugins
+%{_prefix}/lib/bfd-plugins/liblto_plugin.so
 #
 %exclude %{_infodir}/dir
 %attr(0644,root,root) %{_infodir}/gcc.info*
@@ -546,6 +691,10 @@ fi
 %attr(0755,root,root) %{_bindir}/g++
 %attr(0755,root,root) %{_bindir}/%{triplet}-c++
 %attr(0755,root,root) %{_bindir}/%{triplet}-g++
+%attr(0755,root,root) %dir %{_libexecdir}/gcc
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/g++-mapper-server
 %attr(0644,root,root) %{_mandir}/man1/g++.1*
 
 %if 0%{?buildfortran} == 1
@@ -697,34 +846,52 @@ fi
 %attr(0755,root,root) %dir %{_datadir}/gdb/auto-load/usr
 %attr(0755,root,root) %dir %{_datadir}/gdb/auto-load/usr/%{_lib}
 %attr(0644,root,root) %{_datadir}/gdb/auto-load/usr/%{_lib}/libstdc++.so.6.0.30-gdb.py
+%doc build/mylibsdoc/README-RPM.txt
+%doc libstdc++-v3/ChangeLog* libstdc++-v3/README libstdc++-v3/doc/html
+%doc COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files -n libstdc++-devel
 %defattr(-,root,root,-)
 %{_libdir}/libstdc++.so
 %{_includedir}/c++
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
+%doc libstdc++-v3/ChangeLog* libstdc++-v3/README libstdc++-v3/doc/html
+%doc COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files -n libstdc++-static
 %defattr(-,root,root,-)
 %attr(0644,root,root) %{_libdir}/libstdc++.a
 %attr(0644,root,root) %{_libdir}/libstdc++fs.a
 %attr(0644,root,root) %{_libdir}/libsupc++.a
+%doc libstdc++-v3/ChangeLog* libstdc++-v3/README libstdc++-v3/doc/html
+%doc COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files -n libgcc
 %defattr(-,root,root,-)
 # 0644 on these is not a typo
 %attr(0644,root,root) /%{_lib}/libgcc_s.so
 %attr(0644,root,root) /%{_lib}/libgcc_s.so.1
+%doc build/mylibsdoc/README-RPM.txt
+%doc libgcc/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %if 0%{?buildfortran} == 1
 %files -n libgfortran
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libgfortran.so.5.0.0
 %{_libdir}/libgfortran.so.5
+%doc build/mylibsdoc/README-RPM.txt
+%doc libgfortran/ChangeLog* COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files -n libgfortran-static
 %defattr(-,root,root,-)
 %attr(0644,root,root) %{_libdir}/libgfortran.a
+%doc build/mylibsdoc/README-RPM.txt
+%doc libgfortran/ChangeLog* COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 %endif
 
 %if 0%{?buildgo} == 1
@@ -732,6 +899,7 @@ fi
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libgo.so.21.0.0
 %{_libdir}/libgo.so.21
+%doc build/mylibsdoc/README-RPM.txt
 
 %files -n libgo-static
 %defattr(-,root,root,-)
@@ -745,21 +913,33 @@ fi
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libasan.so.8.0.0
 %{_libdir}/libasan.so.8
+%doc build/mylibsdoc/README-RPM.txt
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
 
 %files -n liblsan
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/liblsan.so.0.0.0
 %{_libdir}/liblsan.so.0
+%doc build/mylibsdoc/README-RPM.txt
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
 
 %files -n libtsan
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libtsan.so.2.0.0
 %{_libdir}/libtsan.so.2
+%doc build/mylibsdoc/README-RPM.txt
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
 
 %files -n libubsan
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libubsan.so.1.0.0
 %{_libdir}/libubsan.so.1
+%doc build/mylibsdoc/README-RPM.txt
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
 
 %files -n libsanitizer-devel
 %defattr(-,root,root,-)
@@ -767,13 +947,14 @@ fi
 %{_libdir}/liblsan.so
 %{_libdir}/libtsan.so
 %{_libdir}/libubsan.so
-# ???? check perms on next three
-%{_libdir}/libasan_preinit.o
-%{_libdir}/liblsan_preinit.o
-%{_libdir}/libtsan_preinit.o
+%attr(0644,root,root) %{_libdir}/libasan_preinit.o
+%attr(0644,root,root) %{_libdir}/liblsan_preinit.o
+%attr(0644,root,root) %{_libdir}/libtsan_preinit.o
 %attr(0644,root,root) %{_libdir}/libsanitizer.spec
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/sanitizer
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/sanitizer/*.h
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
 
 %files -n libsanitizer-static
 %defattr(-,root,root,-)
@@ -781,38 +962,79 @@ fi
 %attr(0644,root,root) %{_libdir}/liblsan.a
 %attr(0644,root,root) %{_libdir}/libtsan.a
 %attr(0644,root,root) %{_libdir}/libubsan.a
+%doc libsanitizer/ChangeLog libsanitizer/LICENSE.TXT
+%license libsanitizer/LICENSE.TXT
+
+%files -n libatomic
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libatomic.so.1.2.0
+%{_libdir}/libatomic.so.1
+%doc build/mylibsdoc/README-RPM.txt
+%doc libatomic/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libatomic-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libatomic.a
+%doc libatomic/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libgomp
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libgomp.so.1.0.0
+%{_libdir}/libgomp.so.1
+%attr(0644,root,root) %{_infodir}/libgomp.info*
+%doc build/mylibsdoc/README-RPM.txt
+%doc libgomp/ChangeLog libgomp/ChangeLog.graphite
+%doc COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libgomp-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libgomp.a
+%doc libgomp/ChangeLog libgomp/ChangeLog.graphite
+%doc COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libitm
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libitm.so.1.0.0
+%{_libdir}/libitm.so.1
+%attr(0644,root,root) %{_infodir}/libitm.info*
+%doc build/mylibsdoc/README-RPM.txt
+%doc libitm/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libitm-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libitm.a
+%doc libitm/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files -n libquadmath
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libquadmath.so.0.0.0
 %{_libdir}/libquadmath.so.0
 %attr(0644,root,root) %{_infodir}/libquadmath.info*
+%doc build/mylibsdoc/README-RPM.txt
+%doc libquadmath/COPYING.LIB libquadmath/ChangeLog
+%license libquadmath/COPYING.LIB
 
 %files -n libquadmath-static
 %defattr(-,root,root,-)
 %attr(0644,root,root) %{_libdir}/libquadmath.a
+%doc libquadmath/COPYING.LIB libquadmath/ChangeLog
+%license libquadmath/COPYING.LIB
 
 %files libs
 %defattr(-,root,root,-)
-%attr(0755,root,root) %{_libdir}/libatomic.so.1.2.0
-%{_libdir}/libatomic.so.1
 %attr(0755,root,root) %{_libdir}/libcc1.so.0.0.0
 %{_libdir}/libcc1.so.0
-%attr(0755,root,root) %{_libdir}/libgomp.so.1.0.0
-%{_libdir}/libgomp.so.1
-%attr(0755,root,root) %{_libdir}/libitm.so.1.0.0
-%{_libdir}/libitm.so.1
 %attr(0755,root,root) %{_libdir}/libssp.so.0.0.0
 %{_libdir}/libssp.so.0
-#
-%attr(0644,root,root) %{_infodir}/libgomp.info*
-%attr(0644,root,root) %{_infodir}/libitm.info*
 
 %files libs-static
 %defattr(-,root,root,-)
-%attr(0644,root,root) %{_libdir}/libatomic.a
-%attr(0644,root,root) %{_libdir}/libgomp.a
-%attr(0644,root,root) %{_libdir}/libitm.a
 %attr(0644,root,root) %{_libdir}/libssp.a
 %attr(0644,root,root) %{_libdir}/libssp_nonshared.a
 
@@ -828,29 +1050,28 @@ fi
 
 %files fixme
 %defattr(-,root,root,-)
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
-%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin
-%attr(0755,root,root) %dir %{_prefix}/lib/bfd-plugins
-%{_prefix}/lib/bfd-plugins/liblto_plugin.so
+#
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp/*.h
+# install-tools subpackage ???
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/mkheaders.conf
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/fixinc_list
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/macro_list
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/*.h
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include/README
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/include/limits.h
+#
 %attr(0755,root,root) %dir %{_libexecdir}/gcc
 %attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}
 %attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}
-%{_libexecdir}/gcc/%{triplet}/%{version}/cc1plus
-%{_libexecdir}/gcc/%{triplet}/%{version}/collect2
-%{_libexecdir}/gcc/%{triplet}/%{version}/g++-mapper-server
-%{_libexecdir}/gcc/%{triplet}/%{version}/install-tools
-%{_libexecdir}/gcc/%{triplet}/%{version}/liblto_plugin.so
-%{_libexecdir}/gcc/%{triplet}/%{version}/lto-wrapper
-%{_libexecdir}/gcc/%{triplet}/%{version}/lto1
-%{_libexecdir}/gcc/%{triplet}/%{version}/plugin
-
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/fixinc.sh
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/fixincl
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/mkheaders
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/mkinstalldirs
 
 %changelog
 
