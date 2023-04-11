@@ -5,4 +5,7 @@
 %_lib lib
 %_libdir /usr/lib
 
+# Many (most?) distros use /{,usr/}sbin for install-info
+%insinfo %{_bindir}/install-info
+
 ####### End Yellow Jacket GNU/Linux Specific Macros

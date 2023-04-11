@@ -3,7 +3,7 @@
 
 Name:		rpm
 Version:	4.18.1
-Release:	%{?repo}0.rc3%{?dist}
+Release:	%{?repo}0.rc4%{?dist}
 Summary:	RPM Package Manager
 
 Group:		Utilities/Administration
@@ -212,6 +212,9 @@ cp -ar docs/librpm/html %{buildroot}%{_datadir}/doc/librpm-%{version}/
 %attr(0755,root,root) %{python3_sitearch}/rpm/_rpm.so
 
 %changelog
+* Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc4
+- Addition of %%insinfo to the yjl-lfs-macros-11.3 macros file.
+
 * Tue Apr 04 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc3
 - Split librpm into separate package, plus manual package
 - General spec file cleanup
