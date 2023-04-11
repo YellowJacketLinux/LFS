@@ -1,4 +1,4 @@
-%global specrel 0.dev10
+%global specrel 0.dev11
 
 # Some distributions put install-info in /{,usr/}sbin
 %global insinfo %{_bindir}/install-info
@@ -6,11 +6,14 @@
 # The target triplet
 %global triplet %(%{_bindir}/gcc -dumpmachine)
 
+# ISL library version 0.24
+%global isldir isl-0.24
+
 # buildlevel 0 is just c,c++
 # buildlevel 1 adds fortran,go,objc,obj-c++
 %global buildlevel 1
 %if %{?repo:1}%{!?repo:0}
-%if "%{?repo}" == "1.core."
+%if "%{repo}" == "1.core."
 %global buildlevel 0
 %endif
 %endif
@@ -32,6 +35,8 @@ Group:		Development/Languages
 License:	fii
 URL:		https://gcc.gnu.org/
 Source0:	https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
+# isl 0.24
+Source1:	https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2
 BuildRequires:	binutils   >= 2.35
 BuildRequires:	gawk       >= 3.1.5
 BuildRequires:	make       >= 3.80
@@ -51,8 +56,6 @@ BuildRequires:	tcl
 BuildRequires:	valgrind
 %endif
 %endif
-# not yet
-#BuildRequires:	libisl-devel >= 0.15
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
@@ -193,7 +196,7 @@ GNU Compiler Collection. You probably do not need this package.
 %endif
 
 #
-# The sanitize libraries
+# The sanitizer libraries
 #
 
 %package -n libasan
@@ -269,7 +272,7 @@ and libubsan from the GNU Compiler Collection. You probably do not need
 this package.
 
 #
-# End sanitize libraries
+# End sanitizer libraries
 #
 
 %package -n libatomic
@@ -310,7 +313,7 @@ Requires:       gcc-libs-devel = %{version}-%{release}
 
 %description -n libgomp-static
 This package contains the static libgomp.a library from the GNU
-Compiler Collection.
+Compiler Collection. You probably do not need this package.
 
 %package -n libitm
 Summary:	libitm shared library
@@ -336,7 +339,7 @@ Collection. You probably do not need this package.
 %package -n libquadmath
 Summary:	libquadmath shared library
 Group:		System Environment/Libraries
-LICENSE:	LGPLv2
+License:	LGPLv2
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
@@ -347,34 +350,63 @@ Compiler Collection.
 %package -n libquadmath-static
 Summary:	libquadmath static library
 Group:		Development/Libraries
-LICENSE:        LGPLv2
+License:        LGPLv2
 Requires:	gcc-libs-devel = %{version}-%{release}
 
 %description -n libquadmath-static
 This package contains the static libquadmath.a library from the GNU
 Compiler Collection. You probably do not need this package.
 
-
-
-%package libs
-Summary:	Shared libraries from GCC
+%package -n libcc1
+Summary:	The libcc1 shared library
 Group:		System Environment/Libraries
-Provides:	libcc1    = %{version}-%{release}
-Provides:	libssp    = %{version}-%{release}
-Requires:       gcc-libs    = %{version}-%{release}
+License:	GPLv3
+Requires:	libgcc    = %{version}-%{release}
+Requires:       libstdc++ = %{version}-%{release}
 
-%description libs
-This package contains shared libraries that are part of the GCC collection.
-It will likely be split into individual library packages in the future.
+%description -n libcc1
+This package contains the libcc1 shared library from the GNU Compiler
+Collection.
 
-%package libs-static
-Summary:	Static libraries from GCC
+%package -n libcc1-devel
+Summary:	Developer files for libcc1
 Group:		Development/Libraries
-Provides:	libssp-static    = %{version}-%{release}
+License:        GPLv3
+Requires:	libcc1          = %{version}-%{release}
+Requires:	libstdc++-devel = %{version}-%{release}
 
-%description libs-static
-This package contains static libraries that are part of the GCC collection.
-It will likely be split into individual library packages in the future.
+%description -n libcc1-devel
+This package includes the developer files needed to compile software
+that links against the libcc1 library.
+
+%package -n libssp
+Summary:	The libssp shared library
+Group:		System Environment/Libraries
+License:        GPLv3 w/ Runtime Exception
+
+%description -n libssp
+This package contains the libssp shared library that is part of the
+GNU Compiler Collection.
+
+%package -n libssp-static
+Summary:	libssp static library
+Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:	libssp-devel = %{version}-%{release}
+
+%description -n libssp-static
+This package contains the static libssp.a library that is part of the
+GNU Compiler Collection. You probably do not need this package.
+
+%package -n libssp-devel
+Summary:	libssp developer files
+Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:	libssp = %{version}-%{release}
+
+%description -n libssp-devel
+This package contains the developer files needed to build software that
+links against the libssp library.
 
 %package libs-devel
 Summary:	Development library symbolic links
@@ -390,20 +422,24 @@ Provides:	libquadmath-devel = %{version}-%{release}
 
 %description libs-devel
 This package contains the "libfoo.so" symbolic links to libraries within
-the gcc-libs package. Currently it's a packaging hack.
+several of the GCC library packages.
 
-%package fixme
-Summary:	Misc. unpackaged files
-Group:		Misc
+%package install-tools
+Summary:	GCC install-tools
+Group:		Development/Utilities
 
-%description fixme
-This package contains files that are part of GCC that still need to be
-put into their proper packages.
+%description install-tools
+This package contains the install-tools that are part of the GNU
+Compiler Collection.
 
 %prep
 %setup -q
+tar -xf %SOURCE1
+mv %{isldir} isl
 # fixme - check for arch
+%if "%{_lib}" == "lib"
 sed -i.orig '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+%endif
 
 
 %build
@@ -521,6 +557,9 @@ fi
 %post -n libstdc++ -p /sbin/ldconfig
 %postun -n libstdc++ -p /sbin/ldconfig
 
+%post -n libgcc -p /sbin/ldconfig
+%postun -n libgcc -p /sbin/ldconfig
+
 %if 0%{?buildfortran} == 1
 %post -n libgfortran -p /sbin/ldconfig
 %postun -n libgfortran -p /sbin/ldconfig
@@ -579,8 +618,11 @@ fi
 
 %postun -n libquadmath -p /sbin/ldconfig
 
-%post libs -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post -n libcc1 -p /sbin/ldconfig
+%postun -n libcc1 -p /sbin/ldconfig
+
+%post -n libssp -p /sbin/ldconfig
+%postun -n libssp -p /sbin/ldconfig
 
 
 %files -f build/gcc.lang
@@ -623,12 +665,14 @@ fi
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcc_eh.a
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcov.a
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin
+#
 %attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0.0.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so
 %attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0.0.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0
 %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so
+#
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/gtype.state
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/*.h
@@ -1026,35 +1070,58 @@ fi
 %doc libquadmath/COPYING.LIB libquadmath/ChangeLog
 %license libquadmath/COPYING.LIB
 
-%files libs
+%files -n libcc1
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libcc1.so.0.0.0
 %{_libdir}/libcc1.so.0
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0.0.0
+%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0.0.0
+%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0
+%doc build/mylibsdoc/README-RPM.txt
+%license COPYING3
+%doc libcc1/ChangeLog COPYING3
+
+%files -n libcc1-devel
+%defattr(-,root,root,-)
+%{_libdir}/libcc1.so
+%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so
+%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so
+
+%files -n libssp
+%defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libssp.so.0.0.0
 %{_libdir}/libssp.so.0
+%doc build/mylibsdoc/README-RPM.txt libssp/ChangeLog
+%license COPYING3 COPYING.RUNTIME
 
-%files libs-static
+%files -n libssp-static
 %defattr(-,root,root,-)
 %attr(0644,root,root) %{_libdir}/libssp.a
 %attr(0644,root,root) %{_libdir}/libssp_nonshared.a
+%doc build/mylibsdoc/README-RPM.txt
+%doc libssp/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
+
+%files -n libssp-devel
+%defattr(-,root,root,-)
+%{_libdir}/libssp.so
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp/*.h
+%doc libssp/ChangeLog COPYING3 COPYING.RUNTIME
+%license COPYING3 COPYING.RUNTIME
 
 %files libs-devel
 %{_libdir}/libatomic.so
-%{_libdir}/libcc1.so
 %{_libdir}/libgomp.so
 %attr(0644,root,root) %{_libdir}/libgomp.spec
 %{_libdir}/libitm.so
 %attr(0644,root,root) %{_libdir}/libitm.spec
 %{_libdir}/libquadmath.so
-%{_libdir}/libssp.so
 
-%files fixme
+%files install-tools
 %defattr(-,root,root,-)
-#
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include
-%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp
-%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/ssp/*.h
-# install-tools subpackage ???
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/mkheaders.conf
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/install-tools/fixinc_list
