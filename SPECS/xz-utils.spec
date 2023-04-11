@@ -1,4 +1,4 @@
-%define tarname xz
+%global tarname xz
 Name:		%{tarname}-utils
 Version:	5.4.1
 Release:	%{?repo}0.rc2%{?dist}
