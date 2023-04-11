@@ -1,7 +1,21 @@
-%global specrel 0.dev11
+%global specrel 0.rc1
 
-# Some distributions put install-info in /{,usr/}sbin
-%global insinfo %{_bindir}/install-info
+### WARNING
+###  Some files in the gcc package likely belong
+###   elsewhere, some license tags may not be
+###   correct, I have to audit that, and some
+###   Requires tags may not be correct.
+
+# Many (most?) distributions put install-info in /{,usr/}sbin
+#  YJL defines this macro to /usr/bin/install-info
+#  so define it to be in /sbin/ if not defined.
+%if %{!?insinfo:1}%{?insinfo:0}
+%global insinfo /sbin/install-info
+%endif
+
+# seems libgo should NOT be stripped
+%global debug_package %{nil}
+%global __strip /bin/true
 
 # The target triplet
 %global triplet %(%{_bindir}/gcc -dumpmachine)
@@ -11,6 +25,7 @@
 
 # buildlevel 0 is just c,c++
 # buildlevel 1 adds fortran,go,objc,obj-c++
+# buildlevel 2, if/when added, will add ada and d
 %global buildlevel 1
 %if %{?repo:1}%{!?repo:0}
 %if "%{repo}" == "1.core."
@@ -19,9 +34,10 @@
 %endif
 
 %if %{buildlevel} == 1
-%global gcc_languages c,c++,fortran,go
+%global gcc_languages c,c++,fortran,go,objc,obj-c++
 %global buildfortran 1
 %global buildgo 1
+%global buildobjc 1
 %else
 %global gcc_languages c,c++
 %endif
@@ -32,7 +48,7 @@ Release:	%{?repo}%{specrel}%{?dist}
 Summary:	The GCC C Compiler
 
 Group:		Development/Languages
-License:	fii
+License:	LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
 URL:		https://gcc.gnu.org/
 Source0:	https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
 # isl 0.24
@@ -67,6 +83,7 @@ compiler, and is needed to compile source code written in C.
 %package c++
 Summary:	GCC C++ compiler
 Group:		Development/Languages
+License:        LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
 Requires:	libstdc++ = %{version}-%{release}
 Requires:	libstdc++-devel = %{version}-%{release}
 
@@ -75,15 +92,17 @@ GCC is the GNU Compiler Collection. This package contains the g++,
 the C++ compiler, and is needed to compile source code written in C++.
 
 %if 0%{?buildfortran} == 1
-%package -n gfortran
+%package gfortran
 Summary:	GCC fortran compiler
 Group:		Development/Languages
-Provides:	libgfortran-devel
+License:	GPLv3
+Provides:	libgfortran-devel = %{version}-%{release}
 Requires:	libgfortran = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
-%description -n gfortran
+%description gfortran
 GCC is the GNU Compiler Collection. This package contains gfortran,
 the fortran compiler, and is needed to compile source code written
 in fortran.
@@ -93,19 +112,37 @@ in fortran.
 %package go
 Summary:	GCC go compiler
 Group:		Development/Languages
-Provides:	libgo-devel
+License:	GPLv3
+Provides:	libgo-devel = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	libgo = %{version}-%{release}
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
 %description go
-GCC is the GNU Compiler Collection. This package contains gccgo. the
+GCC is the GNU Compiler Collection. This package contains gccgo, the
 go compiler, and is needed to compile source code written in go.
+%endif
+
+%if 0%{?buildobjc} == 1
+%package objc
+Summary:	GCC objc/objc-c++ compile support
+Group:		Development/Languages
+Provides:	libobjc-devel = %{version}-%{release}
+Requires:	%{name}       = %{version}-%{release}
+Requires:	%{name}-c++   = %{version}-%{release}
+Requires:	libobjc       = %{version}-%{release}
+
+%description objc
+GCC is the GNU Compiler Collection. This package contains the objc
+and objc-c++ syntax laters, and is needed to compile software written
+in objc/objc-c++
 %endif
 
 %package -n cpp
 Summary:	GCC C Pre-Processor
 Group:		Development/Languages
+Requires:	%{name} = %{version}-%{release}
 Requires(post): %{insinfo}
 Requires(preun):        %{insinfo}
 
@@ -127,7 +164,8 @@ is the standard C++ library of functions.
 Summary:	Development files for libstdc++
 Group:		Development/Libraries
 License:        GPLv3 w/ Runtime Exception
-Requires:	libstdc++ = %{version}-%{release}
+Requires:	%{name}-c++ = %{version}-%{release}
+Requires:	libstdc++   = %{version}-%{release}
 
 %description -n libstdc++-devel
 This package contains the header files and related development files
@@ -150,7 +188,7 @@ Group:		Development/Libraries
 License:        GPLv3 w/ Runtime Exception
 
 %description -n libgcc
-What a wonderful world
+This package contains the libgcc_s library.
 
 %if 0%{?buildfortran} == 1
 %package -n libgfortran
@@ -168,7 +206,7 @@ the GNU Compiler Collection.
 Summary:	The libgfortran static library
 Group:		Development/Libraries
 License:        GPLv3 w/ Runtime Exception
-Requires:	gfortran = %{version}-%{release}
+Requires:	%{name}-gfortran = %{version}-%{release}
 
 %description -n libgfortran-static
 This package contains the static libgfortran.a library from the GNU
@@ -179,6 +217,7 @@ Compiler Collection. You probably do not need this package.
 %package -n libgo
 Summary:	The libgo shared library
 Group:		System Environment/Libraries
+License:	Google MIT-Style
 Requires:       libgcc = %{version}-%{release}
 
 %description -n libgo
@@ -188,10 +227,33 @@ Compiler Collection.
 %package -n libgo-static
 Summary:	The libgo static libraries
 Group:		Development/Libraries
-Requires:	gcc-go = %{version}-%{release}
+License:        Google MIT-Style
+Requires:	%{name}-go = %{version}-%{release}
 
 %description -n libgo-static
 This package contains the libgo static libraries that are part of the
+GNU Compiler Collection. You probably do not need this package.
+%endif
+
+%if 0%{?buildobjc} == 1
+%package -n libobjc
+Summary:	The libobjc shared library
+Group:		System Environment/Libraries
+License:	GPLv3 w/ Runtime Exception
+Requires:	libgcc = %{version}-%{release}
+
+%description -n libobjc
+This package contains the libobjc shared library that is part of the
+GNU Compiler Collection.
+
+%package -n libobjc-static
+Summary:	The libobjc static library
+Group:		Development/Libraries
+License:        GPLv3 w/ Runtime Exception
+Requires:	%{name}-objc = %{version}-%{release}
+
+%description -n libobjc-static
+This package contains the libobjc.a static library that is part of the
 GNU Compiler Collection. You probably do not need this package.
 %endif
 
@@ -243,6 +305,7 @@ The libubsan shared library
 %package -n libsanitizer-devel
 Summary:	Developer files for the various sanitizer libraries.
 Group:		Development/Libraries
+License:        Dual BSD-Like and MIT
 Requires:	libasan  = %{version}-%{release}
 Requires:	liblsan  = %{version}-%{release}
 Requires:	libtsan  = %{version}-%{release}
@@ -250,6 +313,7 @@ Requires:	libubsan = %{version}-%{release}
 Requires:	libstdc++-devel = %{version}-%{release}
 Provides:	libasan-devel   = %{version}-%{release}
 Provides:	liblsan-devel   = %{version}-%{release}
+Provides:       libtsan-devel   = %{version}-%{release}
 Provides:	libubsan-devel  = %{version}-%{release}
 
 %description -n libsanitizer-devel
@@ -309,7 +373,7 @@ Compiler Collection.
 Summary:	libgomp static library
 Group:          Development/Libraries
 License:        GPLv3 w/ Runtime Exception
-Requires:       gcc-libs-devel = %{version}-%{release}
+Requires:       %{name}-libs-devel = %{version}-%{release}
 
 %description -n libgomp-static
 This package contains the static libgomp.a library from the GNU
@@ -330,7 +394,7 @@ Collection.
 Summary:	libitm static library
 Group:		Development/Libraries
 License:        GPLv3 w/ Runtime Exception
-Requires:       gcc-libs-devel = %{version}-%{release}
+Requires:       %{name}-libs-devel = %{version}-%{release}
 
 %description -n libitm-static
 This package contains the libitm.a static library from the GNU Compiler
@@ -351,7 +415,7 @@ Compiler Collection.
 Summary:	libquadmath static library
 Group:		Development/Libraries
 License:        LGPLv2
-Requires:	gcc-libs-devel = %{version}-%{release}
+Requires:	%{name}-libs-devel = %{version}-%{release}
 
 %description -n libquadmath-static
 This package contains the static libquadmath.a library from the GNU
@@ -427,6 +491,7 @@ several of the GCC library packages.
 %package install-tools
 Summary:	GCC install-tools
 Group:		Development/Utilities
+Requires:	%{name} = %{version}-%{release}
 
 %description install-tools
 This package contains the install-tools that are part of the GNU
@@ -525,10 +590,10 @@ if [ $1 = 0 ]; then
 fi
 
 %if 0%{?buildfortran} == 1
-%post -n gfortran
+%post gfortran
 %{insinfo} %{_infodir}/gfortran.info %{_infodir}/dir ||:
 
-%preun -n gfortran
+%preun gfortran
 if [ $1 = 0 ]; then
 %{insinfo} --delete %{_infodir}/gfortran.info %{_infodir}/dir ||:
 fi
@@ -566,8 +631,13 @@ fi
 %endif
 
 %if 0%{?buildgo} == 1
-%post go -p /sbin/ldconfig
-%postun go -p /sbin/ldconfig
+%post -n libgo -p /sbin/ldconfig
+%postun -n libgo -p /sbin/ldconfig
+%endif
+
+%if 0%{?buildobjc} == 1
+%post -n libobjc -p /sbin/ldconfig
+%postun -n libobjc -p /sbin/ldconfig
 %endif
 
 %post -n libasan -p /sbin/ldconfig
@@ -665,14 +735,6 @@ fi
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcc_eh.a
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/libgcov.a
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin
-#
-%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0.0.0
-%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so.0
-%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcc1plugin.so
-%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0.0.0
-%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so.0
-%{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/libcp1plugin.so
-#
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/gtype.state
 %attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include
 %attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/plugin/include/*.h
@@ -727,6 +789,9 @@ fi
 %attr(0644,root,root) %{_mandir}/man7/fsf-funding.7*
 %attr(0644,root,root) %{_mandir}/man7/gfdl.7*
 %attr(0644,root,root) %{_mandir}/man7/gpl.7*
+%license COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
+%doc COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
+%doc ChangeLog* LAST_UPDATED MAINTAINERS NEWS README
 %doc build/gcc-make.check.log
 
 %files c++
@@ -740,9 +805,11 @@ fi
 %attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}
 %attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/g++-mapper-server
 %attr(0644,root,root) %{_mandir}/man1/g++.1*
+%license COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
+%doc COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
 
 %if 0%{?buildfortran} == 1
-%files -n gfortran
+%files gfortran
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_bindir}/gfortran
 %attr(0755,root,root) %{_bindir}/%{triplet}-gfortran
@@ -762,6 +829,8 @@ fi
 %attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/f951
 %attr(0644,root,root) %{_infodir}/gfortran.info.*
 %attr(0644,root,root) %{_mandir}/man1/gfortran.1*
+%license COPYING3
+%doc COPYING3 gcc/fortran/ChangeLog*
 %endif
 
 %if 0%{?buildgo} == 1
@@ -858,6 +927,27 @@ fi
 %attr(0644,root,root) %{_mandir}/man1/gccgo.1*
 %attr(0644,root,root) %{_mandir}/man1/go.1*
 %attr(0644,root,root) %{_mandir}/man1/gofmt.1*
+%license COPYING3
+%doc COPYING3 gcc/go/ChangeLog
+%endif
+
+%if 0%{?buildobjc} == 1
+%files objc
+%defattr(-,root,root,-)
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/objc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/objc/*.h
+%{_libdir}/libobjc.so
+%attr(0755,root,root) %dir %{_libexecdir}/gcc
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_libexecdir}/gcc/%{triplet}/%{version}
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/cc1obj
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/cc1objplus
+%license COPYING3 COPYING.RUNTIME
+%doc COPYING3 COPYING.RUNTIME
 %endif
 
 %files -n cpp -f build/cpplib.lang
@@ -943,14 +1033,35 @@ fi
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_libdir}/libgo.so.21.0.0
 %{_libdir}/libgo.so.21
+%license libgo/LICENSE
+%doc libgo/LICENSE libgo/PATENTS libgo/README libgo/VERSION
 %doc build/mylibsdoc/README-RPM.txt
 
 %files -n libgo-static
 %defattr(-,root,root,-)
-%attr(0644,root,root)
-%{_libdir}/libgo.a
-%{_libdir}/libgobegin.a
-%{_libdir}/libgolibbegin.a
+%attr(0644,root,root) %{_libdir}/libgo.a
+%attr(0644,root,root) %{_libdir}/libgobegin.a
+%attr(0644,root,root) %{_libdir}/libgolibbegin.a
+%license libgo/LICENSE
+%doc libgo/LICENSE libgo/PATENTS libgo/README libgo/VERSION
+%doc build/mylibsdoc/README-RPM.txt
+%endif
+
+%if 0%{?buildobjc} == 1
+%files -n libobjc
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libobjc.so.4.0.0
+%{_libdir}/libobjc.so.4
+%license COPYING3 COPYING.RUNTIME
+%doc libobjc/ChangeLog libobjc/README libobjc/THREADS
+%doc build/mylibsdoc/README-RPM.txt
+
+%files -n libobjc-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libobjc.a
+%license COPYING3 COPYING.RUNTIME
+%doc libobjc/ChangeLog libobjc/README libobjc/THREADS
+%doc build/mylibsdoc/README-RPM.txt
 %endif
 
 %files -n libasan
@@ -1141,4 +1252,5 @@ fi
 %attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/mkinstalldirs
 
 %changelog
-
+* Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.2.0-0.rc1
+- Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
