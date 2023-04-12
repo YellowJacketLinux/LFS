@@ -70,7 +70,7 @@ fi
 
 
 %changelog
-* Wed Apr 12 2024 Michael A. Peters <anymouseprophet@gmail.com> - 1.4.19-0.rc2
+* Wed Apr 12 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.4.19-0.rc2
 - Rebuild with newly packaged gcc
 
 * Thu Mar 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.4.19-0.rc1
