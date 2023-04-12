@@ -61,7 +61,7 @@ mv %{buildroot}/%{_lib}/libz.a %{buildroot}%{_libdir}/
 
 %files devel
 %defattr(-,root,root,-)
-%exclude /%{_libdir}/libz.a
+%exclude %{_libdir}/libz.a
 %{_libdir}/libz.so
 %attr(0644,root,root) %{_includedir}/zconf.h
 %attr(0644,root,root) %{_includedir}/zlib.h
