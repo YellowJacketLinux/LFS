@@ -21,9 +21,9 @@ Group:		System Environment/Libraries
 This package contains the libbz2 shared library.
 
 %package -n libbz2-devel
-Summary:	Developer files for libbzip2
+Summary:	Developer files for libbz2
 Group:		Development/Libraries
-Requires:	libbzip2 = %{version}-%{release}
+Requires:	libbz2 = %{version}-%{release}
 
 %description -n libbz2-devel
 This package contains the library header file for libbz2 that are
