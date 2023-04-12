@@ -93,9 +93,8 @@ Multiple Repository Notes
 Some packages may have spec files that can build for multiple package
 repositories dependent upon what `%{repo}` evaluates to.
 
-In such cases, the spec file should build for the “highest-level”
-package repository the spec file supports when the `repo` macro is not
-defined *without* internally defining the macro.
+In such cases, the spec file should build for the reasonable default
+*without* internally defining the macro.
 
 
 Spec File ChangeLog Notes
