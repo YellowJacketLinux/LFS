@@ -41,30 +41,32 @@ by a dot, followed by a code for the package repository.
 Planned Package Repositories
 ----------------------------
 
-The following list of `%{?repo}` tags is what I plan to use:
+The following list of `%{?repo}` tags is what I plan to use. Note that
+because the `%{?repo}` tag comes first but may not be defined, it
+__MUST__ end in a `.` when it is defined.
 
-___1.core___  
+___1.core.___  
 : The core of YJL. Basically LFS plus enough for RPM and basic system
 usage including a text browser, mouse support, and fcron support.
 
-___2.cli___  
+___2.cli.___  
 : Programs and libraries that do not need a graphical user interface,
 including the rebuild of some packages from the `1.core` repository.
 
-___3.gui___  
+___3.gui.___  
 : Programs and libraries intended to support a Graphical Desktop
 Environment, including the rebuild of some packages from the `1.core`
 and `2.cli` repositories.
 
-___4.apps___  
+___4.apps.___  
 : Graphical programs that require a Graphical Desktop Environment but
 are not part of a *specific* Desktop Environment. For example, Firefox
 and Thunderbird.
 
-___5.mate___  
+___5.mate.___  
 : The MATE Graphical Desktop Environment.
 
-___5.xfce___  
+___5.xfce.___  
 : The Xfce Graphical Desktop Environment.
 
 It is not a perfect system, but just like taxonomy in biology, I do
