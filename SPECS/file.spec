@@ -9,6 +9,10 @@ URL:		https://www.darwinsys.com/file/
 Source0:	https://astron.com/pub/file/%{name}-%{version}.tar.gz
 
 BuildRequires:	gcc >= 5.1.0
+BuildRequires:  libzstd-devel
+BuildRequires:  liblzma-devel
+BuildRequires:  libbz2-devel
+BuildRequires:  zlib-devel
 Requires:	libmagic = %{version}-%{release}
 
 %description
