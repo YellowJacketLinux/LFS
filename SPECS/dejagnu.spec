@@ -1,17 +1,26 @@
-Name:		dejagnu
-Version:	1.6.3
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	Framework for testing other programs
+# Many (most?) distributions put install-info in /{,usr/}sbin
+#  YJL defines this macro to /usr/bin/install-info
+#  so define it to be in /sbin/ if not defined.
+%if %{!?insinfo:1}%{?insinfo:0}
+%global insinfo /sbin/install-info
+%endif
 
-Group:		Development/Testing
-License:	GPLv3
-URL:		https://www.gnu.org/software/dejagnu/
-Source0:	https://ftp.gnu.org/gnu/dejagnu/%{name}-%{version}.tar.gz
+Name:     dejagnu
+Version:  1.6.3
+Release:  %{?repo}0.rc2%{?dist}
+Summary:  Framework for testing other programs
 
-BuildArch:	noarch
-BuildRequires:	expect-devel
-BuildRequires:	tcl-devel
-Requires:	expect
+Group:    Development/Testing
+License:  GPLv3
+URL:      https://www.gnu.org/software/dejagnu/
+Source0:  https://ftp.gnu.org/gnu/dejagnu/%{name}-%{version}.tar.gz
+
+BuildArch:  noarch
+BuildRequires:  expect-devel
+BuildRequires:  tcl-devel
+Requires: expect
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description
 DejaGnu is a framework for testing other programs. Its purpose is to
@@ -23,9 +32,9 @@ all supported by a single test harness. DejaGnu is written in Expect,
 which in turn uses Tcl -- Tool command language.
 
 %package devel
-Group:		Development/Libraries
-Summary:	Dejagnu header file
-Requires:	%{name} = %{version}-%{release}
+Group:    Development/Libraries
+Summary:  Dejagnu header file
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package contains the dejagnu header file.
@@ -54,11 +63,11 @@ make check > %{name}-make.check.log 2>&1
 
 
 %post
-%{_bindir}/install-info %{_infodir}/%{name}.info %{_infodir}/dir ||:
+%{insinfo} %{_infodir}/%{name}.info %{_infodir}/dir ||:
 
 %preun
 if [ $1 = 0 ]; then
-%{_bindir}/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir ||:
+%{insinfo} --delete %{_infodir}/%{name}.info %{_infodir}/dir ||:
 fi
 
 
@@ -80,5 +89,8 @@ fi
 
 
 %changelog
+* Wed Apr 12 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.6.3-0.rc2
+- Use %%{insinfo} macro.
+
 * Tue Apr 04 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.6.3-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
