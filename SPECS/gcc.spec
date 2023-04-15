@@ -1,4 +1,4 @@
-%global specrel 0.rc1
+%global specrel 0.rc3
 
 ### WARNING
 ###  Some files in the gcc package likely belong
@@ -18,14 +18,20 @@
 %global __strip /bin/true
 
 # The target triplet
+%if 0%{?gccbootstrap:1} == 1
+%global triplet %(/opt/gcc1220/bin/gcc -dumpmachine)
+%else
 %global triplet %(%{_bindir}/gcc -dumpmachine)
+%endif
+%global karch %(uname -m)
 
 # ISL library version 0.24
 %global isldir isl-0.24
 
-# buildlevel 0 is just c,c++
+# buildlevel 0 is just c,c++,ada,d -- the languagers
+#  that always should be built because they are required
+#  to build themselves.
 # buildlevel 1 adds fortran,go,objc,obj-c++
-# buildlevel 2, if/when added, will add ada and d
 %global buildlevel 1
 %if %{?repo:1}%{!?repo:0}
 %if "%{repo}" == "1.core."
@@ -34,12 +40,12 @@
 %endif
 
 %if %{buildlevel} == 1
-%global gcc_languages c,c++,fortran,go,objc,obj-c++
+%global gcc_languages c,c++,ada,d,fortran,go,objc,obj-c++
 %global buildfortran 1
 %global buildgo 1
 %global buildobjc 1
 %else
-%global gcc_languages c,c++
+%global gcc_languages c,c++,ada,d
 %endif
 
 Name:		gcc
@@ -62,9 +68,20 @@ BuildRequires:	mpc-devel  >= 1.0.1
 BuildRequires:	glibc-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libzstd-devel
+# below evaluates to 1 if defined
+%if 0%{?gccbootstrap:1} == 1
+BuildRequires:  gcc1220
+# gcc1220 is a package that puts a minimal c/c++/ada/d build
+#  of gcc in /opt/gcc1220
+%else
+BuildRequires:  gcc
+BuildRequires:  gcc-c++
+BuildRequires:  gcc-gnat
+BuildRequires:  gcc-gdc
+%endif
 # gdb might only be needed for tests?
 BuildRequires:	gdb
-%if 0%{?runtests} == 1
+%if 0%{?runtests:1} == 1
 BuildRequires:  dejagnu    >= 1.5.3
 BuildRequires:	expect
 BuildRequires:	tcl
@@ -83,13 +100,40 @@ compiler, and is needed to compile source code written in C.
 %package c++
 Summary:	GCC C++ compiler
 Group:		Development/Languages
-License:        LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
+License:  LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
 Requires:	libstdc++ = %{version}-%{release}
 Requires:	libstdc++-devel = %{version}-%{release}
 
 %description c++
-GCC is the GNU Compiler Collection. This package contains the g++,
-the C++ compiler, and is needed to compile source code written in C++.
+GCC is the GNU Compiler Collection. This package contains g++, the C++
+compiler, and is needed to compile source code written in C++.
+
+%package gnat
+Summary:  GCC Ada Compiler
+Group:    Development/Languages
+License:  GPLv3 w/ Runtime Exception
+Requires: gcc = %{version}-%{release}
+Requires: adalib = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
+
+%description gnat
+GCC is the GNU Compiler Collection. This package contains gnat, the Ada
+compiler, and is needed to compile source code written in Ada.
+
+%package gdc
+Summary:  GCC D Compiler
+Group:    Development/Languages
+License:  GPLv3 w/ Runtime Exception
+Requires: gcc = %{version}-%{release}
+Requires: libgdruntime = %{version}-%{release}
+Requires: libgphobos   = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
+
+%description gdc
+GCC is the GNU Compiler Collection. This package containd gdc, the D
+compiler, and is needed to compile source code written in D.
 
 %if 0%{?buildfortran} == 1
 %package gfortran
@@ -189,6 +233,54 @@ License:        GPLv3 w/ Runtime Exception
 
 %description -n libgcc
 This package contains the libgcc_s library.
+
+%package -n adalib
+Summary:  The GNU Ada libraries
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+
+%description -n adalib
+This package contains the Ada libraries for gnat, the GNU Ada compiler.
+
+%package -n libgdruntime
+Summary:  The libgdruntime shared library
+Group:    System Environment/Libraries
+License:  Boost and GPLv3 w/ Runtime Exception
+Requires: libgcc = %{version}-%{release}
+
+%description -n libgdruntime
+This package contains the libgdruntime shared library that is part of
+the GNU compiler collection.
+
+%package -n libgdruntime-static
+Summary:  Static libgdruntime library
+Group:    Development/Libraries
+License:  Boost and GPLv3 w/ Runtime Exception
+Requires: gcc-gdc = %{version}-%{release}
+
+%description -n libgdruntime-static
+This package contains the libgdruntime.a static library. You probably
+do not need this package.
+
+%package -n libgphobos
+Summary:  The libgphobos shared library
+Group:    System Environment/Libraries
+License:  GPLv3
+Requires: libgcc = %{version}-%{release}
+
+%description -n libgphobos
+This package contains the libgphobos shared library that is part of
+the GNU compiler collection.
+
+%package -n libgphobos-static
+Summary:  The libgphobos.a static library
+Group:    Development/Libraries
+License:  GPLv3
+Requires: gcc-gdc = %{version}-%{release}
+
+%description -n libgphobos-static
+This package contains the libgphobos.a static library. You probably
+do not need this package.
 
 %if 0%{?buildfortran} == 1
 %package -n libgfortran
@@ -501,13 +593,19 @@ Compiler Collection.
 %setup -q
 tar -xf %SOURCE1
 mv %{isldir} isl
-# fixme - check for arch
+# only for 64-bit using /{,usr/}lib for libraries
+%if "%{karch}" == "x86_64"
 %if "%{_lib}" == "lib"
 sed -i.orig '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 %endif
-
+%endif
 
 %build
+# below evaluates to 1 if defined
+%if 0%{?gccbootstrap:1} == 1
+export PATH="/opt/gcc1220/bin:${PATH}"
+%endif
+
 mkdir build && cd build
 
 ../configure           \
@@ -522,10 +620,13 @@ mkdir build && cd build
 make %{?_smp_mflags}
 
 %check
+%if 0%{?gccbootstrap:1} == 1
+export PATH="/opt/gcc1220/bin:${PATH}"
+%endif
 cd build
 # The tests add 7+ hours on my Xeon E3 so default to no.
-#  The buildsystem will have runtests set to 1.
-%if 0%{?runtests} == 1
+#  The buildsystem will have runtests set.
+%if 0%{?runtests:1} == 1
 ulimit -s 32768
 # there WILL be test failures, the packager should
 #  examine them before distributing the package to
@@ -539,6 +640,9 @@ echo "make check not run during packaging" > gcc-make.check.log
 
 
 %install
+%if 0%{?gccbootstrap:1} == 1
+export PATH="/opt/gcc1220/bin:${PATH}"
+%endif
 cd build
 make install DESTDIR=%{buildroot}
 install -d %{buildroot}%{_datadir}/gdb/auto-load/usr/lib
@@ -575,7 +679,6 @@ sed -i 's?"doc/html"?"html"?' ../libstdc++-v3/README
 %find_lang gcc
 %find_lang cpplib
 %find_lang libstdc++
-#/bin/false
 
 %post
 %{insinfo} %{_infodir}/gcc.info %{_infodir}/dir ||:
@@ -587,6 +690,26 @@ if [ $1 = 0 ]; then
 %{insinfo} --delete %{_infodir}/gcc.info %{_infodir}/dir ||:
 %{insinfo} --delete %{_infodir}/gccinstall.info %{_infodir}/dir ||:
 %{insinfo} --delete %{_infodir}/gccint.info %{_infodir}/dir ||:
+fi
+
+%post gnat
+%{insinfo} %{_infodir}/gnat-style.info %{_infodir}/dir ||:
+%{insinfo} %{_infodir}/gnat_rm.info %{_infodir}/dir ||:
+%{insinfo} %{_infodir}/gnat_ugn.info %{_infodir}/dir ||:
+
+%preun gnat
+if [ $1 = 0 ]; then
+%{insinfo} --delete %{_infodir}/gnat-style.info %{_infodir}/dir ||:
+%{insinfo} --delete %{_infodir}/gnat_rm.info %{_infodir}/dir ||:
+%{insinfo} --delete %{_infodir}/gnat_ugn.info %{_infodir}/dir ||:
+fi
+
+%post gdc
+%{insinfo} %{_infodir}/gdc.info %{_infodir}/dir ||:
+
+%preun gdc
+if [ $1 = 0 ]; then
+%{insinfo} --delete %{_infodir}/gdc.info %{_infodir}/dir ||:
 fi
 
 %if 0%{?buildfortran} == 1
@@ -624,6 +747,12 @@ fi
 
 %post -n libgcc -p /sbin/ldconfig
 %postun -n libgcc -p /sbin/ldconfig
+
+%post -n libgdruntime -p /sbin/ldconfig
+%postun -n libgdruntime -p /sbin/ldconfig
+
+%post -n libgphobos -p /sbin/ldconfig
+%postun -n libgphobos -p /sbin/ldconfig
 
 %if 0%{?buildfortran} == 1
 %post -n libgfortran -p /sbin/ldconfig
@@ -807,6 +936,195 @@ fi
 %attr(0644,root,root) %{_mandir}/man1/g++.1*
 %license COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
 %doc COPYING COPYING.LIB COPYING3 COPYING3.LIB COPYING.RUNTIME
+
+%files gnat
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_bindir}/gnat
+%attr(0755,root,root) %{_bindir}/gnatbind
+%attr(0755,root,root) %{_bindir}/gnatchop
+%attr(0755,root,root) %{_bindir}/gnatclean
+%attr(0755,root,root) %{_bindir}/gnatkr
+%attr(0755,root,root) %{_bindir}/gnatlink
+%attr(0755,root,root) %{_bindir}/gnatls
+%attr(0755,root,root) %{_bindir}/gnatmake
+%attr(0755,root,root) %{_bindir}/gnatname
+%attr(0755,root,root) %{_bindir}/gnatprep
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/ada_target_properties
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/adainclude
+%attr(0444,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adainclude/*.adb
+%attr(0444,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adainclude/*.ads
+%attr(0444,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adainclude/*.h
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/gnat1
+%attr(0644,root,root) %{_infodir}/gnat-style.info*
+%attr(0644,root,root) %{_infodir}/gnat_rm.info*
+%attr(0644,root,root) %{_infodir}/gnat_ugn.info*
+%license COPYING3 COPYING.RUNTIME
+%doc COPYING3 COPYING.RUNTIME gcc/ada/ChangeLog*
+
+%files gdc
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_bindir}/gdc
+%attr(0755,root,root) %{_bindir}/%{triplet}-gdc
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/*.d
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/*.di
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/gc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/gc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/array
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/array/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/container
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/container/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/conservative
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/conservative/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/manual
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/manual/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/proto
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/gc/impl/proto/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/util
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/internal/util/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/stdc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/stdc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/stdcpp
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/stdcpp/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sync
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sync/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/bionic
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/bionic/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/mach
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/mach/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/netinet
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/netinet/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/darwin/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd/netinet
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd/netinet/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/dragonflybsd/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd/netinet
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd/netinet/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/freebsd/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux/netinet
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux/netinet/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/linux/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/netbsd
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/netbsd/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/netbsd/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/netbsd/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/openbsd
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/openbsd/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/openbsd/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/openbsd/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/arpa
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/arpa/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/net
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/net/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/netinet
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/netinet/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/stdc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/stdc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/posix/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/solaris
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/solaris/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/solaris/sys
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/solaris/sys/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/windows
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/windows/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/windows/stdc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/sys/windows/stdc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/thread
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/core/thread/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/etc
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/etc/c
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/etc/c/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc/unwind
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc/unwind/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc/sections
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/gcc/sections/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/rt
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/rt/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/rt/util
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/rt/util/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/algorithm
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/algorithm/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/container
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/container/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/datetime
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/datetime/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/digest
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/digest/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/allocator
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/allocator/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/allocator/building_blocks
+%attr(0644,root,root)
+%{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/allocator/building_blocks/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/logger
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/experimental/logger/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/format
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/format/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/format/internal
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/format/internal/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/math
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/math/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/test
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/test/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/windows
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/internal/windows/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/math
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/math/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/net
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/net/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/range
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/range/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/regex
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/regex/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/regex/internal
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/regex/internal/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/uni
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/uni/*.d
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/windows
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/include/d/std/windows/*.d
+# shared library .so symlinks
+%{_libdir}/libgdruntime.so
+%{_libdir}/libgphobos.so
+%attr(0644,root,root) %{_libdir}/libgphobos.spec
+# end shared library .so
+%attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/d21
+%attr(0644,root,root) %{_infodir}/gdc.info*
+%attr(0644,root,root) %{_mandir}/man1/gdc.1*
+%license COPYING3 COPYING.RUNTIME
+%doc COPYING3 COPYING.RUNTIME
 
 %if 0%{?buildfortran} == 1
 %files gfortran
@@ -1010,6 +1328,51 @@ fi
 %doc build/mylibsdoc/README-RPM.txt
 %doc libgcc/ChangeLog COPYING3 COPYING.RUNTIME
 %license COPYING3 COPYING.RUNTIME
+
+%files -n adalib
+%defattr(-,root,root,-)
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}
+%attr(0755,root,root) %dir %{_prefix}/lib/gcc/%{triplet}/%{version}/adalib
+%attr(0444,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/*.ali
+%attr(0644,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/*.a
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/libgnarl-12.so
+%attr(0755,root,root) %{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/libgnat-12.so
+%{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/libgnarl.so
+%{_prefix}/lib/gcc/%{triplet}/%{version}/adalib/libgnat.so
+%license COPYING3 COPYING.RUNTIME
+%doc COPYING3 COPYING.RUNTIME
+
+%files -n libgdruntime
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libgdruntime.so.3.0.0
+%{_libdir}/libgdruntime.so.3
+%license COPYING3 COPYING.RUNTIME libphobos/libdruntime/LICENSE.txt
+%doc COPYING3 COPYING.RUNTIME libphobos/libdruntime/LICENSE.txt
+%doc libphobos/README.gcc libphobos/ChangeLog
+%doc build/mylibsdoc/README-RPM.txt
+
+%files -n libgdruntime-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libgdruntime.a
+%license COPYING3 COPYING.RUNTIME libphobos/libdruntime/LICENSE.txt
+%doc libphobos/README.gcc libphobos/ChangeLog
+%doc COPYING3 COPYING.RUNTIME libphobos/libdruntime/LICENSE.txt
+
+%files -n libgphobos
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{_libdir}/libgphobos.so.3.0.0
+%{_libdir}/libgphobos.so.3
+%license COPYING3
+%doc COPYING3 libphobos/ChangeLog libphobos/README.gcc
+%doc build/mylibsdoc/README-RPM.txt
+
+%files -n libgphobos-static
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_libdir}/libgphobos.a
+%license COPYING3
+%doc COPYING3 libphobos/ChangeLog libphobos/README.gcc
 
 %if 0%{?buildfortran} == 1
 %files -n libgfortran
@@ -1252,5 +1615,11 @@ fi
 %attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/mkinstalldirs
 
 %changelog
+* Fri Apr 14 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.2.0-0.rc3
+- Rebuild after bootstrap build.
+
+* Thu Apr 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.2.0-0.rc2
+- Bootstrap build for ADA and D compilers.
+
 * Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.2.0-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
