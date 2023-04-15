@@ -1,34 +1,34 @@
 # no stripping
-%define debug_package %{nil}
-%define __strip /bin/true
+%global debug_package %{nil}
+%global __strip /bin/true
 # kernel tags
-%define kseries 6.1
-%define krel 23
-%define localktag genesis.1
+%global kseries 6.1
+%global krel 24
+%global localktag genesis.1
 
-Name:		kernel
-Version:	%{kseries}.%{krel}
-Release:	%{?repo}%{localktag}%{?dist}
-Summary:	The Linux kernel
+Name:     kernel
+Version:  %{kseries}.%{krel}
+Release:  %{?repo}%{localktag}%{?dist}
+Summary:  The Linux kernel
 
-Group:		System Environment/Core
-License:	GPLv2
-URL:		https://www.kernel.org
-Source0:	https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
-Source1:	config-%{version}-%{localktag}
-Provides:	linux-kernel = %{kseries}
+Group:    System Environment/Kernel
+License:  GPLv2
+URL:      https://www.kernel.org
+Source0:  https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
+Source1:  config-%{version}-%{localktag}
+Provides: linux-kernel = %{kseries}
 
 #BuildRequires:	
 #Requires:	
 
 %description
-This package contains the Linux kernel. You can not boot GNU/Linux without a
-kernel.
+This package contains the Linux kernel. You can not boot GNU/Linux
+without a kernel.
 
 %package modules
-Summary:	Linux Kernel Modules
-Group:		System Environment/Core
-Requires:	%{name} = %{version}-%{release}
+Summary:  Linux Kernel Modules
+Group:    System Environment/Core
+Requires: %{name} = %{version}-%{release}
 
 %description modules
 This package includes the Linux kernel modules. You *probably* can not
@@ -36,10 +36,10 @@ successfully boot your system without the proper kernel modules package
 that matches the kernel.
 
 %package doc
-Summary:	Linux Kernel Documentation
-Group:		Developer/Documentation
-BuildArch:	noarch
-Requires:	%{name} = %{version}-%{release}
+Summary:  Linux Kernel Documentation
+Group:    Developer/Documentation
+BuildArch:  noarch
+Requires: %{name} = %{version}-%{release}
 
 %description doc
 This package contains the Linux kernel documentation.
@@ -87,6 +87,9 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 
 
 %changelog
+* Fri Apr 14 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.24-genesis.1
+- Update to 6.1.24
+
 * Thu Apr 06 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.23-genesis.1
 - Update to 6.1.23
 
