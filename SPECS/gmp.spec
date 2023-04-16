@@ -35,7 +35,7 @@ Summary:  Development files for GMP
 Group:    Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires(post):   %{insinfo}
-Requires(postun): %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description devel
 This package contains the files necessary to compile software that
