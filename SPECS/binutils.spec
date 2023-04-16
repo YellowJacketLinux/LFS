@@ -118,7 +118,7 @@ You probably do not need this package.
   --disable-werror    \
   --enable-64-bit-bfd \
   --with-system-zlib
-make tooldir=/usr %{?_smp_mflags}
+make tooldir=%{_prefix} %{?_smp_mflags}
 
 
 %install
