@@ -79,7 +79,7 @@ fi
 %attr(0644,root,root) %{_infodir}/mpc.info*
 %exclude %{_infodir}/dir
 %license COPYING.LESSER
-%doc %license COPYING.LESSER doc/mpc.html
+%doc COPYING.LESSER doc/mpc.html
 
 
 %changelog
