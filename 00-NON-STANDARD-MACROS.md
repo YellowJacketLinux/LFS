@@ -218,7 +218,7 @@ metadata tag.
 
 Currently in my `~/.rpmmacros` file I have the following:
 
-    cpuoptimize .xeonE3
+    %cpuoptimize .xeonE3
 
 However there may be optimations where the build scripts (e.g. `configure`)
 has to be specifically told what optimizations to make.
