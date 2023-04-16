@@ -1,32 +1,32 @@
-Name:		libcap
+Name:     libcap
 # NOTE - 2.68 is out, 03/28/2023
-Version:	2.67
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	POSIX.1e implenentation library
+Version:  2.67
+Release:  %{?repo}0.rc5%{?dist}
+Summary:  POSIX.1e implenentation library
 
-Group:		System Environment/Libraries
-License:	BSD 3-clause and GPLv2
-URL:		https://sites.google.com/site/fullycapable/
-Source0:	https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/%{name}-%{version}.tar.xz
+Group:    System Environment/Libraries
+License:  BSD 3-clause and GPLv2
+URL:      https://sites.google.com/site/fullycapable/
+Source0:  https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/%{name}-%{version}.tar.xz
 
-BuildRequires:	libattr-devel
+BuildRequires:  libattr-devel
 
 %description
 Libcap is a library for getting and setting POSIX.1e (formerly POSIX 6)
 draft 15 capabilities.
 
 %package utilities
-Group:		System Administration/Utilities
-Summary:	libcap utilities
-Requires:	%{name} = %{version}-%{release}
+Group:    System Administration/Utilities
+Summary:  libcap utilities
+Requires: %{name} = %{version}-%{release}
 
-%description utilities
+%description utils
 This package includes the libcap system administration utilities.
 
 %package devel
-Group:		Development/Libraries
-Summary:	Development files for libcap
-Requires:	%{name} = %{version}-%{release}
+Group:    Development/Libraries
+Summary:  Development files for libcap
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package includes the developer files needed to compile software
@@ -34,7 +34,6 @@ that links against the libcap libraries.
 
 %prep
 %setup -q
-
 
 %build
 sed -i '/install -m.*STA/d' libcap/Makefile
@@ -58,7 +57,7 @@ make prefix=%{_prefix} lib=%{_lib} DESTDIR=%{buildroot} install
 %license License
 %doc README License %{name}-make.test.log
 
-%files utilities
+%files utils
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_sbindir}/capsh
 %attr(0755,root,root) %{_sbindir}/getcap
@@ -80,7 +79,11 @@ make prefix=%{_prefix} lib=%{_lib} DESTDIR=%{buildroot} install
 %attr(0644,root,root) %{_libdir}/pkgconfig/libcap.pc
 %attr(0644,root,root) %{_libdir}/pkgconfig/libpsx.pc
 %attr(0644,root,root) %{_mandir}/man3/*.3*
+%license License
 
 %changelog
+* Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.67-0.rc5
+- Fix utils package name, tabs to spaces
+
 * Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.67-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

@@ -1,15 +1,15 @@
-Name:		shadow
-Version:	4.13
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	Obfuscate user passwords hashes
+Name:     shadow
+Version:  4.13
+Release:  %{?repo}0.rc2%{?dist}
+Summary:  Obfuscate user passwords hashes
 
-Group:		System Environment/Security
-License:	BSD-3-Claus
-URL:		https://github.com/shadow-maint/shadow
-Source0:	https://github.com/shadow-maint/shadow/releases/download/%{version}/%{name}-%{version}.tar.xz
+Group:    System Environment/Security
+License:  BSD-3-Claus
+URL:      https://github.com/shadow-maint/shadow
+Source0:  https://github.com/shadow-maint/shadow/releases/download/%{version}/%{name}-%{version}.tar.xz
 
-BuildRequires:	cracklib-devel	
-Requires:	libsubid = %{version}-%{release}
+BuildRequires:  cracklib-devel	
+Requires: libsubid = %{version}-%{release}
 
 %description
 Originally, the file /etc/passwd contained both the hashed password of
@@ -21,16 +21,16 @@ out of that file and into a separate /etc/shadow file that is not
 publicly readable, increasing the security of the hashed passwords.
 
 %package -n libsubid
-Summary:	Shared library from the shadow program
-Group:		System Environment/Libraries
+Summary:  Shared library from the shadow program
+Group:    System Environment/Libraries
 
 %description -n libsubid
 The libsubid shared library from the shadow package.
 
 %package -n libsubid-devel
-Summary:	Developer files for libsubid
-Group:		Development/Libraries
-Requires:	libsubid = %{version}-%{release}
+Summary:  Developer files for libsubid
+Group:    Development/Libraries
+Requires: libsubid = %{version}-%{release}
 
 %description -n libsubid-devel
 This package contains the header files needed to compile software that
@@ -112,6 +112,7 @@ mv %{buildroot}%{_bindir}/su %{buildroot}/bin/
 %{_libdir}/libsubid.so.4
 %attr(0755,root,root) %{_libdir}/libsubid.so.4.0.0
 %license COPYING
+%doc COPYING
 
 %files -n libsubid-devel
 %defattr(-,root,root,-)
@@ -119,8 +120,13 @@ mv %{buildroot}%{_bindir}/su %{buildroot}/bin/
 %attr(0644,root,root) %{_includedir}/shadow/subid.h
 %{_libdir}/libsubid.so
 %attr(0644,root,root) %{_mandir}/man3/shadow.3*
+%license COPYING
+%doc COPYING
 
 
 %changelog
+* Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.13-0.rc2
+- tabs to spaces, rebuild in freshly built GCC package
+
 * Thu Mar 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.13-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

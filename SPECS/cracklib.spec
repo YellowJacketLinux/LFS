@@ -1,17 +1,17 @@
-Name:		cracklib
-Version:	2.9.8
-Release:	%{?repo}0.rc4%{?dist}
-Summary:	A library to somewhat prevent easily crackable passwords
+Name:     cracklib
+Version:  2.9.8
+Release:  %{?repo}0.rc5%{?dist}
+Summary:  A library to somewhat prevent easily crackable passwords
 
-Group:		System Environment/Libraries
-License:	LGPLv2.1
-URL:		https://github.com/cracklib/cracklib
-Source0:	https://github.com/cracklib/cracklib/releases/download/v%{version}/%{name}-%{version}.tar.bz2
-Source1:	https://github.com/cracklib/cracklib/releases/download/v%{version}/%{name}-words-%{version}.bz2
+Group:    System Environment/Libraries
+License:  LGPLv2.1
+URL:      https://github.com/cracklib/cracklib
+Source0:  https://github.com/cracklib/cracklib/releases/download/v%{version}/%{name}-%{version}.tar.bz2
+Source1:  https://github.com/cracklib/cracklib/releases/download/v%{version}/%{name}-words-%{version}.bz2
 
-Requires:	%{name}-common = %{version}-%{release}
-BuildRequires:	python3-devel
-BuildRequires:	autoconf
+Requires: %{name}-common = %{version}-%{release}
+BuildRequires:  python3-devel
+BuildRequires:  autoconf
 
 %description
 CrackLib is a library containing a C function (well, lots of functions
@@ -22,42 +22,42 @@ The idea is simple: try to prevent users from choosing passwords that
 could be guessed by "Crack" by filtering them out, at source.
 
 %package utilities
-Summary:	Cracklib utilities
-Group:		System Environment/Utilities
-Requires:	%{name} = %{version}-%{release}
-Requires:	%{name}-common = %{version}-%{release}
+Summary:  Cracklib utilities
+Group:    System Environment/Utilities
+Requires: %{name} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 
 %description utilities
 This package includes the cracklib utilities
 
 %package common
-Summary:	Cracklib common data files
-Group:		System Environment/Data
-BuildArch:	noarch
-Requires(post):	%{name}-utilities = %{version}-%{release}
+Summary:  Cracklib common data files
+Group:    System Environment/Data
+BuildArch:  noarch
+Requires(post): %{name}-utilities = %{version}-%{release}
 
 %description common
 This package has the common architecture independent files used by
 cracklib.
 
 %package devel
-Summary:	Developer files for cracklib
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:  Developer files for cracklib
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package contains the header files needed to compile software that
 links against the libcrack library.
 
 %package -n python3-cracklib
-Summary:	Python bindings for cracklib
-Group:		Python/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:  Python bindings for cracklib
+Group:    Python/Libraries
+Requires: %{name} = %{version}-%{release}
 %if %{?python3_ABI:1}%{!?python3_ABI:0}
 # Non-Standard Macro
-Requires:       %{python3_ABI}
+Requires: %{python3_ABI}
 %else
-Requires:       %{python3_sitearch}
+Requires: %{python3_sitearch}
 %endif
 
 %description -n python3-cracklib
@@ -157,6 +157,9 @@ fi
 
 
 %changelog
+* Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc5
+- Tabs to spaces, rebuild in newly packaged gcc
+
 * Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc4
 - Properly split off utilities and common subpackages
 
