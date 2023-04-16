@@ -11,6 +11,9 @@ macro is not defined.
 
 The following non-standard macros are being used by YJL.
 
+1. [The `%dist` macro](#the-dist-macro)
+2. [The `%repo` macro](#the-repo-macro)
+
 
 The `%dist` macro
 -----------------
