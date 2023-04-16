@@ -13,6 +13,7 @@ The following non-standard macros are being used by YJL.
 
 1. [The `%dist` macro](#the-dist-macro)
 2. [The `%repo` macro](#the-repo-macro)
+3. [The `%insinfo` macro](#the-insinfo-macro)
 
 
 The `%dist` macro
@@ -72,7 +73,7 @@ to a reasonable default.
 Then you can test to see if `%repo` is defined and if defined, use
 string comparisons to change your spec file defined conditional macro.
 
-An example from the [gcc.spec][SPECS/gcc.spec] file:
+An example from the [gcc.spec](SPECS/gcc.spec) file:
 
     # buildlevel 0 is just c,c++,ada,d -- the languages
     #  that always should be built because they are required
@@ -97,3 +98,43 @@ different GNU/Linux distribution. A user who needs the package in a
 distribution that does not provide it can rebuild the source RPM and
 may not need to manually edit the spec file at all unless they need
 conditionals other than the default.
+
+
+The `%insinfo` macro
+--------------------
+
+Many GNU/Linux distributions have the `install-info` command installed
+at either `/sbin/install-info` or at `/usr/sbin/install-info`. I
+believe that is wrong because users may have a valid reason to need
+the command outside the context of system documentation administration,
+but it is what it is.
+
+Unfortunately there does not seem to be a RPM standard macro that
+defines the location of the `install-info` command, so to maintain at
+least *partial* portability of spec files written for YJL, I created
+the `%insinfo` macro that in YJL expands to `/usr/bin/install-info`
+and when that macro is used, the spec file *must* have the following
+fallback to define it if not defined:
+
+    %if %{!?insinfo:1}%{?insinfo:0}
+    %global insinfo /sbin/install-info
+    %endif
+
+On YJL the macro is defined so the fall-back is not used, but where
+the macro is *not* defined, the fallback then defines `%insinfo` to
+`/sbin/install-info` which will at least be correct for *some* systems.
+
+When a package installs `.info` files, the `%insinfo` macro *must* be
+used in the `%post` scriptlet to add the info file to the info database
+and `%insinfo --deleted` *must* be used in the `%preun` scriptlet to
+remove the file from the info database *when the package is deleted
+and not just being updated*.
+
+The code block above *must* be used to define the `%insinfo` macro on
+systems where it is not defined by default.
+
+
+
+
+
+
