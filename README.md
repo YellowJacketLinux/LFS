@@ -24,13 +24,27 @@ the bugs in it seemed to largely be ironed out.
 I switched to CentOS 5 which had an incredible lifespan, and stuck with
 CentOS 5 until CentOS 7 was released.
 
+CentOS 7 targets enterprise use but in many respects I used it in a
+similar fashion as the old Red Hat plus additional repository system
+meaning I maintained my own package repositories for things like FFmpeg,
+GStreamer, VLC, PHP, etc. where the CentOS/EPEL versions of those
+packages either did not exist or were too old.
+
+CentOS 7 was my base, and when I needed something more modern than what
+it shipped with, I built it (using GCC 5.x in `/opt` when GCC 4.x was
+too old, e.g. for building Audacity).
+
 CentOS 7 will go EOL on June 30, 2024 (just over a year from now),
 CentOS 8 is already EOL (as of December 31, 2021), and when CentOS 7
 goes EOL people will be forced into CentOS Stream which I really have
 no interest in. It looks like it is a QA distro for RHEL, so that the
 users are basically unpaid testers for RHEL.
 
-Frack that.
+Frack that. I do not want to be a free tester for their commercial
+product they profit from.
+
+Linux From Scratch
+------------------
 
 I had done the Linux From Scratch (LFS) project a couple times in the
 past as part of learning Linux, so I decided that I wanted to just do
