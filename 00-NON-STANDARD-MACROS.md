@@ -220,8 +220,8 @@ Currently in my `~/.rpmmacros` file I have the following:
 
     %cpuoptimize .xeonE3
 
-However there may be optimations where the build scripts (e.g. `configure`)
-has to be specifically told what optimizations to make.
+However there may be optimizations where the build scripts (e.g.
+`configure`) has to be specifically told what optimizations to make.
 
 It may be necessary to develop a standard list of valid `%cpuoptimize`
 definitions to deal with cases where the build scripts have to be told
