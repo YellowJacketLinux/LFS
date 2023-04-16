@@ -16,6 +16,7 @@ The following non-standard macros are being used by YJL.
 3. [The `%insinfo` macro](#the-insinfo-macro)
 4. [The `%runtests` macro](#the-runtests-macro)
 5. [The `%cpuoptimize` macro](#the-cpuoptimize-macro)
+6. [TODO --- Python Custom Macros](#todo-----python-custom-macros)
 
 
 The `%dist` macro
