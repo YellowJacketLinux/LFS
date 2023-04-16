@@ -28,7 +28,7 @@
 # ISL library version 0.24
 %global isldir isl-0.24
 
-# buildlevel 0 is just c,c++,ada,d -- the languagers
+# buildlevel 0 is just c,c++,ada,d -- the languages
 #  that always should be built because they are required
 #  to build themselves.
 # buildlevel 1 adds fortran,go,objc,obj-c++

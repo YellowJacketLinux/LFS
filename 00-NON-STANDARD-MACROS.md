@@ -74,7 +74,7 @@ string comparisons to change your spec file defined conditional macro.
 
 An example from the [gcc.spec][SPECS/gcc.spec] file:
 
-    # buildlevel 0 is just c,c++,ada,d -- the languagers
+    # buildlevel 0 is just c,c++,ada,d -- the languages
     #  that always should be built because they are required
     #  to build themselves.
     # buildlevel 1 adds fortran,go,objc,obj-c++
