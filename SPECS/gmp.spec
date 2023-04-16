@@ -1,21 +1,23 @@
 # TODO - this may belong in /lib and not /usr/lib
 
-# set to 1 to build non-CPU specific library
-# %%global universalbuild 1
+# Many (most?) distributions put install-info in /{,usr/}sbin
+#  YJL defines this macro to /usr/bin/install-info
+#  so define it to be in /sbin/ if not defined.
+%if %{!?insinfo:1}%{?insinfo:0}
+%global insinfo /sbin/install-info
+%endif
 
-Name:		gmp
-Version:	6.2.1
-Release:	%{?repo}0.rc2%{?dist}
-Summary:	Library for arbitrary precision arithmetic
+Name:     gmp
+Version:  6.2.1
+Release:  %{?repo}0.rc3%{?dist}%{?cpuoptimize}
+Summary:  Library for arbitrary precision arithmetic
 
-Group:		System Environment/Libraries
-License:	GPLv2/GPLv3 and LGPLv3
-URL:		https://gmplib.org/
-Source0:	https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
-Provides:       lib%{name} = %{version}-%{release}
+Group:    System Environment/Libraries
+License:  GPLv2/GPLv3 and LGPLv3
+URL:      https://gmplib.org/
+Source0:  https://gmplib.org/download/gmp/gmp-6.2.1.tar.xz
 
-#BuildRequires:	
-#Requires:	
+BuildRequires:  libstdc++-devel
 
 %description
 GMP is a free library for arbitrary precision arithmetic, operating on
@@ -29,10 +31,11 @@ research, Internet security applications, algebra systems, computational
 algebra research, etc. 
 
 %package devel
-Summary:	Development files for GMP
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-Provides:       lib%{name}-devel = %{version}-%{release}
+Summary:  Development files for GMP
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(postun): %{insinfo}
 
 %description devel
 This package contains the files necessary to compile software that
@@ -40,7 +43,7 @@ links against the GMP library.
 
 %prep
 %setup -q
-%if 0%{?universalbuild} == 1
+%if 0%{!?cpuoptimize:1} == 1
 cp configfsf.guess config.guess
 cp configfsf.sub config.sub
 %endif
@@ -63,11 +66,11 @@ make check > %{name}-make.check.log 2>&1
 %postun -p /sbin/ldconfig
 
 %post devel
-%{_bindir}/install-info %{_infodir}/%{name}.info %{_infodir}/dir ||:
+%{insinfo} %{_infodir}/%{name}.info %{_infodir}/dir ||:
 
 %preun devel
 if [ $1 = 0 ]; then
-%{_bindir}/install-info --delete %{_infodir}/%{name}.info %{_infodir}/dir ||:
+%{insinfo} --delete %{_infodir}/%{name}.info %{_infodir}/dir ||:
 fi
 
 %files
@@ -92,8 +95,11 @@ fi
 
 
 %changelog
+* Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 6.2.1-0.rc3
+- Tabs to spaces, support optiobal %%cpuoptimize macro.
+
 * Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 6.2.1-0.rc2
-- Scriptlets for the gmp into file
+- Scriptlets for the gmp info file
 
 * Wed Apr 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 6.2.1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
