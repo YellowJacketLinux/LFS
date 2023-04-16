@@ -14,6 +14,8 @@ The following non-standard macros are being used by YJL.
 1. [The `%dist` macro](#the-dist-macro)
 2. [The `%repo` macro](#the-repo-macro)
 3. [The `%insinfo` macro](#the-insinfo-macro)
+4. [The `%runtests` macro](#the-runtests-macro)
+5. [The `%cpuoptimize` macro](#the-cpuoptimize-macro)
 
 
 The `%dist` macro
@@ -134,7 +136,109 @@ The code block above *must* be used to define the `%insinfo` macro on
 systems where it is not defined by default.
 
 
+The `%runtests` macro
+---------------------
+
+The test suite in some packages takes a *very long* time to complete.
+For such packages, the packager may optionally use the presence of a
+defined `%runtests` macro to determine whether or not to actually run
+the test suite.
+
+If the `%runtests` macro is set, regardless of what it is set to, then
+in spec files with conditional testing any test dependency packages
+needed to run the tests (such as DejaGnu or Valgrind) *must*
+be triggered as `BuildRequires` and the test suite runs.
+
+On the other hand if `%runtests` is *not* defined, then any `BuildRequires`
+that are *only* needed for the test suite should *not* be required and
+the test suite does not run.
+
+With most packages, tests are fast enough that they just should always
+be run.
 
 
+The `%cpuoptimize` macro
+------------------------
+
+There are some packages that can be optimized for the specific CPU they
+are being built for.
+
+In such cases, the default build of the package *must* be without the
+optimization so that the package will run regardless of the CPU specific
+capabilities.
+
+However the user should have the ability to rebuild the source RPM and
+benefit from those optimizations if they so choose.
+
+In YJL this is accomplished with the `%cpuoptimize` macro.
+
+### The `Release:` metadata tag
+
+When a spec file offers CPU specific optimization, the RPM `Release:`
+metadata tag *must* have `%{?cpuoptimize}` at the *very end* of the
+tag *directly after* the `%{?dist}` tag.
+
+If the `%cpuoptimize` macro is not defined, then `%{?cpuoptimize}`
+will expand to a zero-length string. When it is defined then the RPM
+package name itself indicates it is a CPU optimized package that should
+only be installed on that a CPU with the specific capabilities the
+build is optimized for.
+
+As the `%cpuoptimize` macro is used at the end of the `Release:` tag,
+when defined it *must* begin with a `.` and *must not* end with a `.`
+or the `Release:` metadata will be broken.
+
+### Package Build Optimization
+
+In cases where the RPM spec file has to take specific action to build
+a generic package, use the following:
+
+    %if 0%{!?cpuoptimize:1} == 1
+    [do stuff]
+    %endif
+
+An example of that scenario can be seen in the [gmp.spec](SPECS/gmp.spec]
+file, where the action takes place during `%setup`.
+
+In cases where the RPM spec file has to take specific action to build
+an optimized package, use the following:
+
+    %if 0%{?cpuoptimize:1} == 1
+    [do stuff]
+    %endif
+
+### Defing the `%cpuoptimize` macro
+
+For packages like GMP where the build script itself determines the
+proper optimizations to make, it does not really matter what the macro
+is defined to be as long as it begins with a `.`, does not end with a
+`.`, and otherwise only contains characters legal in an RPM `Realease:`
+metadata tag.
+
+Currently in my `~/.rpmmacros` file I have the following:
+
+    cpuoptimize .xeonE3
+
+However there may be optimations where the build scripts (e.g. `configure`)
+has to be specifically told what optimizations to make.
+
+It may be necessary to develop a standard list of valid `%cpuoptimize`
+definitions to deal with cases where the build scripts have to be told
+how to optimize the package.
+
+At present, there are no plans to distribute CPU optimized packages.
+I do however desire to make it easy for the user to just rebuild a
+source package and get such optimization.
+
+### CPU Optimized Kernel
+
+Linux kernel optimization is not done within the RPM spec file itself
+but is performed during `make config`. Kernel packages should not use
+this macro tag.
 
 
+TODO --- Python Custom Macros
+-----------------------------
+
+Will add when I upload the `python3.spec` and `python2.spec` RPM spec
+files.
