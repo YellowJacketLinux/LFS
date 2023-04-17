@@ -45,11 +45,11 @@
 
 
 Name:     vim
-Version:	%{vimtag}
+Version:  %{vimtag}
 Release:  %{?repo}%{specrel}%{?dist}
 Summary:  The vim text editor
 
-Group:		Applications/Text
+Group:    Applications/Text
 License:  VIM
 URL:      https://www.vim.org/
 Source0:  https://github.com/vim/vim/archive/refs/tags/v%{vimtag}.tar.gz
