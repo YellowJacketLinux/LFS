@@ -15,7 +15,7 @@ BuildRequires:  libattr-devel
 Libcap is a library for getting and setting POSIX.1e (formerly POSIX 6)
 draft 15 capabilities.
 
-%package utilities
+%package utils
 Group:    System Administration/Utilities
 Summary:  libcap utilities
 Requires: %{name} = %{version}-%{release}

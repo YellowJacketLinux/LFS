@@ -21,20 +21,20 @@ really, but you only need to use one of them) which may be used in a
 The idea is simple: try to prevent users from choosing passwords that
 could be guessed by "Crack" by filtering them out, at source.
 
-%package utilities
+%package utils
 Summary:  Cracklib utilities
 Group:    System Environment/Utilities
 Requires: %{name} = %{version}-%{release}
 Requires: %{name}-common = %{version}-%{release}
 
-%description utilities
+%description utils
 This package includes the cracklib utilities
 
 %package common
 Summary:  Cracklib common data files
 Group:    System Environment/Data
 BuildArch:  noarch
-Requires(post): %{name}-utilities = %{version}-%{release}
+Requires(post): %{name}-utils = %{version}-%{release}
 
 %description common
 This package has the common architecture independent files used by
@@ -95,7 +95,7 @@ touch %{buildroot}/usr/lib/cracklib/pw_dict.pwi
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%post utilities
+%post utils
 if [ ! -L %{_datadir}/dict/words ]; then
   ln -sf cracklib-words %{_datadir}/dict/words
 fi
@@ -121,7 +121,7 @@ fi
 %doc AUTHORS COPYING.LIB NEWS README README-DAWG README-LICENSE README-WORDS
 %doc %{name}-make.test
 
-%files utilities
+%files utils
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_sbindir}/cracklib-check
 %attr(0755,root,root) %{_sbindir}/cracklib-format
@@ -158,7 +158,7 @@ fi
 
 %changelog
 * Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc5
-- Tabs to spaces, rebuild in newly packaged gcc
+- Tabs to spaces, rebuild in newly packaged gcc, utilities -> utils
 
 * Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc4
 - Properly split off utilities and common subpackages
