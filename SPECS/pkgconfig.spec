@@ -1,6 +1,6 @@
 Name:     pkgconfig
 Version:  0.29.2
-Release:  %{?repo}0.rc3%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  Developer helper tool
 
 Group:    Development/Utilities
@@ -8,7 +8,7 @@ License:  GPLv2
 URL:      https://www.freedesktop.org/wiki/Software/pkg-config/
 Source0:  https://pkg-config.freedesktop.org/releases/pkg-config-%{version}.tar.gz
 
-BuildRequires:	glib-devel >= 2.0
+#BuildRequires:  glib2-devel >= 2.0
 #Requires:	
 
 %description
@@ -24,11 +24,11 @@ the location of documentation tools, for instance.
 %setup -n pkg-config-%{version}
 
 %build
-%configure --disable-host-tool
+%configure --disable-host-tool --with-internal-glib
 make %{?_smp_mflags}
 
 %check
-make check > %{name}-make.check.log 2>&1 ||:
+make check > %{name}-make.check.log 2>&1
 
 %install
 make install DESTDIR=%{buildroot}
@@ -48,6 +48,9 @@ rm -rf %{buildroot}%{_datadir}/doc/pkg-config
 %doc AUTHORS ChangeLog COPYING NEWS README pkg-config-guide.html
 
 %changelog
+* Tue Apr 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.29.2-0.rc4
+- use internal glib (1 test failure when built against external)
+
 * Mon Apr 17 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.29.2-0.rc3
 - Run make check
 
