@@ -53,7 +53,7 @@ fi
 %attr(0644,root,root) %{_mandir}/man1/grep.1*
 %license COPYING
 %doc %{name}-make.check.log
-%doc AUTHORS COPYING ChangeLog* COPYING NEWS README THANKS TODO
+%doc AUTHORS ChangeLog* COPYING NEWS README THANKS TODO
 
 
 %changelog
