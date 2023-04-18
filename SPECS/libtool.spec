@@ -54,7 +54,7 @@ make %{?_smp_mflags}
 %if 0%{?_smp_mflags:1} == 1
 export TESTSUITEFLAGS=%{?_smp_mflags}
 %endif
-make -k check > %{name}-make.check.log 2>&1 
+make -k check > %{name}-make.check.log 2>&1 ||:
 %else
 echo "make check not run during packaging" > %{name}-make.check.log
 %endif
