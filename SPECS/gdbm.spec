@@ -12,7 +12,8 @@ License:  GPLv3
 URL:      https://www.gnu.org.ua/software/gdbm/
 Source0:  https://ftp.gnu.org/gnu/gdbm/gdbm-%{version}.tar.gz
 
-#BuildRequires:
+BuildRequires:  readline-devel
+BuildRequires:  ncurses-devel
 Requires: libgdbm = %{version}-%{release}
 Requires(post):   %{insinfo}
 Requires(preun):  %{insinfo}
