@@ -66,12 +66,12 @@ fi
 %attr(0755,root,root) /sbin/ifconfig
 %attr(0755,root,root) %{_bindir}/dnsdomainname
 %attr(0755,root,root) %{_bindir}/ftp
-%attr(0755,root,root) %{_bindir}/ping
-%attr(0755,root,root) %{_bindir}/ping6
+%attr(4755,root,root) %{_bindir}/ping
+%attr(4755,root,root) %{_bindir}/ping6
 %attr(0755,root,root) %{_bindir}/talk
 %attr(0755,root,root) %{_bindir}/telnet
 %attr(0755,root,root) %{_bindir}/tftp
-%attr(0755,root,root) %{_bindir}/traceroute
+%attr(4755,root,root) %{_bindir}/traceroute
 %attr(0644,root,root) %{_infodir}/%{name}.info*
 %exclude %{_infodir}/dir
 %attr(0644,root,root) %{_mandir}/man1/*.1*
