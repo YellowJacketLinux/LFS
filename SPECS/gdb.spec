@@ -1,30 +1,29 @@
-Name:		gdb
-Version:	13.1
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	GNU Project Debugger
+Name:     gdb
+Version:  13.1
+Release:  %{?repo}0.rc2%{?dist}
+Summary:  GNU Project Debugger
 
-Group:		Development/Utilities
-License:	GPLv2 GPLv3 LGPLv2 LGPLv3
-URL:		https://www.sourceware.org/gdb/
-Source0:	https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
+Group:    Development/Utilities
+License:  GPLv2 GPLv3 LGPLv2 LGPLv3
+URL:      https://www.sourceware.org/gdb/
+Source0:  https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
 
-BuildRequires:	libexpat-devel
-BuildRequires:	liblzma-devel
-BuildRequires:	libmpfr-devel
-#BuildRequires:	libgmp-devel
-BuildRequires:	gmp-devel
-BuildRequires:	readline-devel
-BuildRequires:	libzstd-devel
-BuildRequires:	ncurses-devel
-BuildRequires:	python3-devel
-BuildRequires:	elfutils-devel
-BuildRequires:	libstdc++-devel
-BuildRequires:	dejagnu
+BuildRequires:  expat-devel
+BuildRequires:  liblzma-devel
+BuildRequires:  mpfr-devel
+BuildRequires:  gmp-devel
+BuildRequires:  readline-devel
+BuildRequires:  libzstd-devel
+BuildRequires:  ncurses-devel
+BuildRequires:  python3-devel
+BuildRequires:  elfutils-devel
+BuildRequires:  libstdc++-devel
+BuildRequires:  dejagnu
 %if %{?python3_ABI:1}%{!?python3_ABI:0}
 # Non-Standard Macro
-Requires:       %{python3_ABI}
+Requires: %{python3_ABI}
 %else
-Requires:       %{python3_sitearch}
+Requires: %{python3_sitearch}
 %endif
 
 %description
@@ -46,13 +45,15 @@ make %{?_smp_mflags}
 # after we have Doxygen
 # make -C gdb/doc doxy
 
-
 %check
 cd build/gdb/testsuite
+%if 0%{?runtests:1} == 1
 make site.exp
 echo  "set gdb_test_timeout 120" >> site.exp
 runtest > %{name}-runtest.log 2>&1 ||:
-
+%else
+echo "make check not run during packaging" > %{name}-runtest.log
+%endif
 
 %install
 cd build
@@ -60,7 +61,6 @@ make -C gdb install DESTDIR=%{buildroot}
 
 # after we have Doxygen
 # cp -Rv gdb/doc/doxy /usr/share/doc/gdb-13.1
-
 
 %files
 %defattr(-,root,root,-)
@@ -85,5 +85,8 @@ make -C gdb install DESTDIR=%{buildroot}
 
 
 %changelog
+* Tue Apr 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 13.1-0.rc2
+- Fix BuildRequires, tabs to spaces, conditionally run tests.
+
 * Thu Apr 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 13.1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
