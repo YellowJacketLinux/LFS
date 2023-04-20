@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  2.46
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  A perl module for parsing XML documents
 
 Group:    Perl/Libraries
@@ -14,6 +14,7 @@ BuildRequires:  expat-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
 BuildRequires:  perl(Test::More) perl(warnings)
+Requires: perl5-licenses = %{perl5_version}
 
 %description
 This module provides ways to parse XML documents. It is built on top
@@ -40,9 +41,17 @@ make test > %{name}-make.test.log 2>&1
 make install DESTDIR=%{buildroot}
 %{_fixperms} %{buildroot}%{perl5_vendorarch}
 
+cat > Perl5-Licenses.txt << "EOF"
+This package specifies it uses the Perl 5 licenses but did not include
+them in the package source.
+
+They can be found in the following directory:
+
+  %{perl5_licenses}
+
+EOF
 
 %files
-%defattr(-,root,root,-)
 %dir %{perl5_vendorarch}/XML
 %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser.pm
 %dir %{perl5_vendorarch}/XML/Parser
@@ -60,11 +69,15 @@ make install DESTDIR=%{buildroot}
 %attr(0555,root,root) %{perl5_vendorarch}/auto/XML/Parser/Expat/Expat.so
 # man files
 %attr(0644,root,root) %{_mandir}/man3/*.3*
+%license Perl5-Licenses.txt
 %doc %{name}-make.test.log
-%doc README samples
+%doc README samples Perl5-Licenses.txt
 
 
 
 %changelog
+* Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc2
+- License file
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

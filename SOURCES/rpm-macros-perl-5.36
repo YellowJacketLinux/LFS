@@ -11,3 +11,5 @@
 %perl5_vendorlib  %{_prefix}/lib/perl5/%{perl5_version}/vendor_perl
 %perl5_vendorarch %{_libdir}/perl5/%{perl5_version}/vendor_perl
 
+# License macros
+%perl5_licenses %{_datadir}/doc/perl-%{perl5_version}-licenses
