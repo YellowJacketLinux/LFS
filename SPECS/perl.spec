@@ -1,4 +1,4 @@
-%global specrel 0.dev1
+%global specrel 0.dev2
 
 ### UNFINISHED ###
 #
@@ -10,15 +10,8 @@
 #  and so that a bug fix that involves just a file or two doesn't
 #  mean a massive RPM update.
 #
-# Missing deps to resolve (blacklist them from being required):
-#
-# perl(Mac::BuildTools)
-# perl(Mac::InternetConfig)
-# perl(VMS::Filespec)
-# perl(VMS::Stdio)
-# perl(unicore::Name)
 
-%global __strip /bin/true
+%global __requires_exclude ^perl\\((Mac|VMS|unicore)
 
 # Version definitions
 %global perl5_version 5.36
@@ -43,7 +36,7 @@ Name:     perl
 #  internal perl requires
 Epoch:    2
 Version:  %{perl5_version}.0
-Release:	%{?repo}%{specrel}%{?dist}
+Release:  %{?repo}%{specrel}%{?dist}
 Summary:  People Hate Perl
 
 Group:    Programming/Languages
@@ -113,6 +106,13 @@ make install DESTDIR=%{buildroot}
 
 install -m755 -d %{buildroot}/usr/lib/rpm/macros.d
 install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
+
+##
+## /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w
+%{_fixperms} %{buildroot}%{perl5_archlib}
+%if 0%{?linuxMultiarch:1} == 1
+%{_fixperms} %{buildroot}%{perl5_privlib}
+%endif
 
 
 %files
@@ -513,7 +513,7 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/ParseXS/Utilities.pm
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/ParseXS.pod
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/Typemaps.pm
-%dir %attr(0444,root,root) %{perl5_privlib}/ExtUtils/Typemaps
+%dir %{perl5_privlib}/ExtUtils/Typemaps
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/Typemaps/Cmd.pm
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/Typemaps/InputMap.pm
 %attr(0444,root,root) %{perl5_privlib}/ExtUtils/Typemaps/OutputMap.pm
@@ -967,7 +967,7 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/Test2.pm
 %dir %{perl5_privlib}/Test2
 %attr(0444,root,root) %{perl5_privlib}/Test2/API.pm
-%dir %attr(0444,root,root) %{perl5_privlib}/Test2/API
+%dir %{perl5_privlib}/Test2/API
 %attr(0444,root,root) %{perl5_privlib}/Test2/API/Breakage.pm
 %attr(0444,root,root) %{perl5_privlib}/Test2/API/Context.pm
 %attr(0444,root,root) %{perl5_privlib}/Test2/API/Instance.pm
@@ -1181,7 +1181,7 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/perlfaq.pm
 # re
 %attr(0444,root,root) %{perl5_archlib}/re.pm
-%dir %attr(0444,root,root) %{perl5_archlib}/auto/re
+%dir %{perl5_archlib}/auto/re
 %attr(0555,root,root) %{perl5_archlib}/auto/re/re.so
 # sigtrap.pm
 %attr(0444,root,root) %{perl5_privlib}/sigtrap.pm
@@ -1402,5 +1402,9 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 
 
 %changelog
-* Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1:5.36.0-0.dev1
+* Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev2
+- Fix packaging bug (wrong perms on a few directories), filter out
+-  bogus requires, enable stripping.
+
+* Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
