@@ -2,8 +2,8 @@
 
 Name:     perl-%{cpanname}
 Version:  2.46
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	A perl module for parsing XML documents
+Release:  %{?repo}0.rc1%{?dist}
+Summary:  A perl module for parsing XML documents
 
 Group:    Perl/Libraries
 License:  GPL or Perl Artistic
