@@ -1,15 +1,14 @@
-Name:		zlib
-Version:	1.2.13
-Release:	%{?repo}0.rc3%{?dist}
+Name:     zlib
+Version:  1.2.13
+Release:  %{?repo}0.rc4%{?dist}
 Summary:	A compression library
 
-Group:		System Environment/Libraries
-License:	MIT
-URL:		https://zlib.net/
-Source0:	https://zlib.net/%{name}-%{version}.tar.xz
+Group:    System Environment/Libraries
+License:  Zlib
+URL:      https://zlib.net/
+Source0:  https://zlib.net/%{name}-%{version}.tar.xz
 
 #BuildRequires:	
-#Requires:	
 
 %description
 zlib is a massively spiffy yet delicately unobtrusive compression library. It
@@ -18,9 +17,9 @@ is free software that also is not patent encumbered.
 Note that zlib is not related to the Linux zlibc compressing File-I/O library.
 
 %package devel
-Summary:	Developer files for %{name}
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:  Developer files for %{name}
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 This package contains the library header files and the pkg-config file that are
@@ -70,6 +69,9 @@ mv %{buildroot}/%{_lib}/libz.a %{buildroot}%{_libdir}/
 %license LICENSE
 
 %changelog
+* Fri Apr 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.2.13-0.rc4
+- Fix mis-labeled license tag.
+
 * Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.2.13-0.rc3
 - Rebuild with now packaged gcc
 
