@@ -1,7 +1,7 @@
-%global specrel 0.dev6
+%global specrel 0.dev7
 # Version definitions
 %global perl5_version 5.36
-%global perl5_patch 0
+%global perl5_patch 1
 %global perl5_epoch 2
 %global rpmperlv %{perl5_version}.%{perl5_patch}
 
@@ -49,7 +49,7 @@ Summary:  People Hate Perl
 Group:    Programming/Languages
 License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://www.perl.org/
-Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.xz
+Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.gz
 Source1:  rpm-macros-perl-5.36
 Source2:  perl-manlist-%{rpmperlv}.txt
 Provides: %{perl5_API}
@@ -179,7 +179,7 @@ cp %{SOURCE2} ./manpagelist
 %attr(0755,root,root) %{_bindir}/json_pp
 %attr(0755,root,root) %{_bindir}/libnetcfg
 %attr(0755,root,root) %{_bindir}/perl
-%attr(0755,root,root) %{_bindir}/perl5.36.0
+%attr(0755,root,root) %{_bindir}/perl%{rpmperlv}
 %attr(0755,root,root) %{_bindir}/perlbug
 %attr(0755,root,root) %{_bindir}/perldoc
 #%%attr(0755,root,root) %%{_bindir}/perlivp
@@ -1481,6 +1481,9 @@ cp %{SOURCE2} ./manpagelist
 %doc Artistic Copying README
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.1-0.dev7
+- Update to 5.36.1
+
 * Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev6
 - Started work on subpackages
 
