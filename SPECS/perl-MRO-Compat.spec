@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.15
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  mro::* interface compatibility for Perls < 5.9.5
 BuildArch:  noarch
 
@@ -13,7 +13,12 @@ Source0:  https://cpan.metacpan.org/authors/id/H/HA/HAARG/%{cpanname}-%{version}
 
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
+%if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) perl(warnings)
+%endif
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 The "mro" namespace provides several utilities for dealing with method
@@ -39,7 +44,11 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
@@ -58,5 +67,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15-0.rc2
+- Require %%perl5_API, conditionally run make test.
+
 * Fri Apr 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

@@ -1,8 +1,15 @@
 %global cpanname Params-Util
 
+%if %{?repo:1}%{!?repo:0}
+%if "%{repo}" == "1.core."
+%global norequireautoconf foo
+%global norequireleaktrace bar
+%endif
+%endif
+
 Name:     perl-%{cpanname}
 Version:  1.102
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Simple, compact and correct param-checking functions
 
 Group:    Development/Libraries
@@ -18,15 +25,26 @@ BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(IPC::Cmd)
 BuildRequires:  perl(parent)
-#BuildRequires:  perl(Config::AutoConf) >= 0.315
+%if 0%{!?norequireautoconf:1}
+BuildRequires:  perl(Config::AutoConf) >= 0.315
+%endif
 # for test
+%if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) >= 0.96
 BuildRequires:  perl(warnings)
 BuildRequires:  perl(Storable)
-#BuildRequires:  perl(Test::LeakTrace)
+BuildRequires:  perl(Scalar::Util) >= 1.18
+BuildRequires:  perl(XSLoader) >= 0.22
+%if 0%{!?norequireleaktrace:1}
+BuildRequires:  perl(Test::LeakTrace)
+%endif
+%endif
 # Runtime
 Requires: perl(Scalar::Util) >= 1.18
 Requires: perl(XSLoader) >= 0.22
+%if 0%{?perl5_ABI:1} == 1
+Requires: %{perl5_ABI}
+%endif
 
 %description
 Params::Util provides a basic set of importable functions that makes
@@ -51,7 +69,11 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
@@ -76,5 +98,10 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.102-0.rc2
+- Conditionally BuildRequire Config::AutoConf and Test::LeakTrace
+- Conditionally run tests
+- Require %%perl5_ABI
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.102-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
