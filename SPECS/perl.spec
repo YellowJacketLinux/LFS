@@ -1,4 +1,4 @@
-%global specrel 0.dev4
+%global specrel 0.dev5
 
 ### UNFINISHED ###
 #
@@ -25,8 +25,11 @@
 %global perl5_sitearch   %{_libdir}/perl5/%{perl5_version}/site_perl
 %global perl5_vendorlib  %{_prefix}/lib/perl5/%{perl5_version}/vendor_perl
 %global perl5_vendorarch %{_libdir}/perl5/%{perl5_version}/vendor_perl
-# License directory
-%global perl5_licenses %{_datadir}/doc/perl-%{perl5_version}-licenses
+# YJL specific macros
+%global perl5_cpanlic %{_datadir}/licenses-cpan-common
+%global perl5_os_platform %{_arch}-linux-gnu
+%global perl5_API Perl-%{perl5_version}
+%global perl5_ABI %{perl5_API}-%{perl5_os_platform}
 
 %if "%{_lib}" == "lib64"
 %global linuxMultiarch true
@@ -46,6 +49,8 @@ License:  GPL or Perl Artistic
 URL:      https://www.perl.org/
 Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.xz
 Source1:  rpm-macros-perl-5.36
+Provides: %{perl5_API}
+Provides: %{perl5_ABI}
 
 #BuildRequires:	
 #Requires:	
@@ -55,20 +60,6 @@ Perl is a highly capable, feature-rich programming language with over
 30 years of development. Perl runs on over 100 platforms from portables
 to mainframes and is suitable for both rapid prototyping and large scale
 development projects.
-
-%package licenses
-Summary:    The perl5 license
-Group:      Legal
-BuildArch:  noarch
-Provides:   perl5-licenses = %{perl5_version}
-
-%description licenses
-Many perl modules do not include a license file but instead simply
-specify they are licensed under the terms of Perl 5 itself.
-
-This package provides a static location on the filesystem that will
-not change during a perl bugfix version update that packager can
-point to.
 
 %prep
 %setup -q
@@ -122,11 +113,6 @@ make install DESTDIR=%{buildroot}
 
 install -m755 -d %{buildroot}/usr/lib/rpm/macros.d
 install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
-
-install -m755 -d %{buildroot}%{perl5_licenses}
-install -m644 Artistic %{buildroot}%{perl5_licenses}/
-install -m644 Copying %{buildroot}%{perl5_licenses}/
-install -m644 README %{buildroot}%{perl5_licenses}/
 
 ##
 ## /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w
@@ -1421,13 +1407,12 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %doc %{name}-make.test.log
 %doc Artistic Copying AUTHORS README README.linux
 
-%files licenses
-%defattr(-,root,root,-)
-%attr(0644,root,root) %{perl5_licenses}/Artistic
-%attr(0644,root,root) %{perl5_licenses}/Copying
-%attr(0644,root,root) %{perl5_licenses}/README
 
 %changelog
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev5
+- New API/ABI macros, remove subpackage for Perl 5 licenses (doing
+- that differently)
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev4
 - Add subpackage for the Perl 5 licenses
 

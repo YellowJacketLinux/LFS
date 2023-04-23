@@ -11,5 +11,10 @@
 %perl5_vendorlib  %{_prefix}/lib/perl5/%{perl5_version}/vendor_perl
 %perl5_vendorarch %{_libdir}/perl5/%{perl5_version}/vendor_perl
 
-# License macros
-%perl5_licenses %{_datadir}/doc/perl-%{perl5_version}-licenses
+# License macro
+%perl5_cpanlic %{_datadir}/licenses-cpan-common
+
+# API/ABI specific macros
+%perl5_os_platform %{_arch}-linux-gnu
+%perl5_API Perl-%{perl5_version}
+%perl5_ABI %{perl5_API}-%{perl5_os_platform}
