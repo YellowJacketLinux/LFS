@@ -7,10 +7,11 @@ Summary:  Enhancing Test::More for UTF8-based projects
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Test::More::UTF8
 Source0:  https://cpan.metacpan.org/authors/id/M/MO/MONS/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
 %if 0%{?runtests:1} == 1
@@ -46,7 +47,6 @@ echo "make test not run during package build." > %{name}-make.test.log
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 %if 0%{?perl5_cpanlic:1} == 1
 cat > Perl5-Licenses.txt << "EOF"

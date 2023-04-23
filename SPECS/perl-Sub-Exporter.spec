@@ -2,15 +2,16 @@
 
 Name:     perl-%{cpanname}
 Version:  0.989
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  A sophisticated exporter for custom-built routines
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Sub::Exporter
 Source0:  https://cpan.metacpan.org/authors/id/R/RJ/RJBS/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 # for test
 %if 0%{?runtests:1} == 1
@@ -66,7 +67,6 @@ echo "make test not run during package build." > %{name}-make.test.log
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -88,7 +88,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.989-0.rc2
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.989-0.rc3
+- BuildRequires: perl-devel
 - Conditionally run tests, require %%perl5_API
 
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.989-0.rc1

@@ -2,18 +2,20 @@
 
 Name:     perl-%{cpanname}
 Version:  1.61
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Expand template text with embedded Perl
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Text::Template
 Source0:  https://cpan.metacpan.org/authors/id/M/MS/MSCHOUT/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
-BuildRequires:  perl(Test::More) perl(warnings)
+%if 0%{?runtests:1} == 1
+BuildRequires:  perl(Test::More)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Safe)
 BuildRequires:  perl(Test::More::UTF8)
@@ -27,6 +29,7 @@ BuildRequires:  perl(Exporter)
 BuildRequires:  perl(base)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(warnings)
+%endif
 # runtime
 Requires: perl(Carp)
 Requires: perl(Encode)
@@ -34,6 +37,9 @@ Requires: perl(Exporter)
 Requires: perl(base)
 Requires: perl(strict)
 Requires: perl(warnings)
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 This is a library for generating form letters, building HTML pages, or
@@ -57,11 +63,14 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -79,5 +88,10 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.61-0.rc2
+- BuildRequire perl-devel
+- Conditionally run tests
+- Require %%perl5_API
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.61-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

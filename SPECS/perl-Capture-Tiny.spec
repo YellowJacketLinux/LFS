@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.48
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Capture STDOUT and STDERR from Perl, XS or external programs
 
 Group:    Development/Libraries
@@ -11,6 +11,7 @@ URL:      https://metacpan.org/pod/Capture::Tiny
 Source0:  https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/%{cpanname}-%{version}.tar.gz
 BuildArch:  noarch
 
+BuildRequires:	perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.17
 # for test
 %if 0%{?runtests:1} == 1
@@ -64,7 +65,6 @@ echo "make test not run during package build." > %{name}-make.test.log
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -78,6 +78,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.48-0.rc3
+- BuildRequire perl-devel
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.48-0.rc2
 - Add %%license, run tests conditionally, require %%perl5_API
 

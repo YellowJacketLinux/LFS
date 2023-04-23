@@ -5,12 +5,12 @@
 
 Name:     perl-%{cpanname}
 Version:  0.104002
-Release:  %{?repo}0.dev2%{?dist}
+Release:  %{?repo}0.rc1%{?dist}
 Summary:  packages that provide templated software licenses
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/dist/Software-License
 Source0:  https://cpan.metacpan.org/authors/id/L/LE/LEONT/Software-License-0.104002.tar.gz
 ### AGPL
@@ -60,6 +60,7 @@ Source47: QPL-1.0.txt
 ### Zlib
 Source49: Zlib.txt
 
+BuildRequires:  python-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 # for test
 %if 0%{?runtests:1} == 1
@@ -91,6 +92,9 @@ Requires: perl(utf8)
 Requires: perl(warnings)
 # keep the two packages in sync
 Requires: common-CPAN-licenses = %{version}-%{release}
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 This package provides templated software licenses.
@@ -118,12 +122,15 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
 
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 install -m755 -d %{buildroot}%{perl5_cpanlic}
 cat > %{buildroot}%{perl5_cpanlic}/README.txt << "EOF"
@@ -577,9 +584,11 @@ install -m644 %{SOURCE49} %{buildroot}%{perl5_cpanlic}/Zlib/
 %attr(0644,root,root) %{perl5_cpanlic}/Zlib/Zlib.txt
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.dev2
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.rc1
 - Use %%{perl5_cpanlic} macro
 - Conditionally run tests
+- BuildRequires perl-devel
+- Requires %%perl5_API
 
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.dev1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

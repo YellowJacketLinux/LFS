@@ -9,14 +9,15 @@
 
 Name:     perl-%{cpanname}
 Version:  1.102
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Simple, compact and correct param-checking functions
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Params::Util
 Source0:  https://cpan.metacpan.org/authors/id/R/RE/REHSACK/Params-Util-1.102.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(File::Basename)
@@ -98,7 +99,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.102-0.rc2
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.102-0.rc3
+- BuildRequires perl-devel
 - Conditionally BuildRequire Config::AutoConf and Test::LeakTrace
 - Conditionally run tests
 - Require %%perl5_ABI

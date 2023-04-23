@@ -11,6 +11,7 @@ License:  Apache-2.0
 URL:      https://metacpan.org/pod/Test::FailWarnings
 Source0:  https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
 %if 0%{?runtests:1} == 1
@@ -82,7 +83,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.008-0.rc2
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.008-0.rc3
+- BuildRequires perl-devel
 - Conditionally run tests, require %%perl5_API
 
 * Fri Apr 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.008-0.rc1

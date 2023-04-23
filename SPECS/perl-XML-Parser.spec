@@ -1,24 +1,36 @@
 %global cpanname XML-Parser
 
+%if %{?repo:1}%{!?repo:0}
+%if "%{repo}" == "1.core."
+%global norequirelwp foo
+%endif
+%endif
+
 Name:     perl-%{cpanname}
 Version:  2.46
-Release:  %{?repo}0.rc3%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  A perl module for parsing XML documents
 
 Group:    Perl/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/XML::Parser
 Source0:  https://cpan.metacpan.org/authors/id/T/TO/TODDR/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  expat-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
 %if 0%{?runtests:1} == 1
-BuildRequires:  perl(Test::More) perl(warnings)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(warnings)
+%if 0%{!?norequirelwp:1} == 1
 BuildRequires:  perl(LWP::UserAgent)
 %endif
+%endif
 # runtime
+%if 0%{!?norequirelwp:1} == 1
 Requires: perl(LWP::UserAgent)
+%endif
 %if 0%{?perl5_cpanlic:1} == 1
 Requires: common-CPAN-licenses
 %endif
@@ -96,6 +108,10 @@ EOF
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc4
+- Make dependency on LWP::UserAgent conditional
+- BuildRequire perl-devel
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc3
 - Update how license is done, add ABI requirement
 

@@ -1,4 +1,9 @@
-%global specrel 0.dev5
+%global specrel 0.dev6
+# Version definitions
+%global perl5_version 5.36
+%global perl5_patch 0
+%global perl5_epoch 2
+%global rpmperlv %{perl5_version}.%{perl5_patch}
 
 ### UNFINISHED ###
 #
@@ -12,9 +17,6 @@
 #
 
 %global __requires_exclude ^perl\\((Mac|VMS|unicore)
-
-# Version definitions
-%global perl5_version 5.36
 
 # General macros
 %global __perl /usr/bin/perl
@@ -39,27 +41,65 @@ Name:     perl
 # Seems that Fedora/RHEL are at epoch 4 ????
 #  Epoch 2 seems to be at least needed because of
 #  internal perl requires
-Epoch:    2
-Version:  %{perl5_version}.0
+Epoch:    %{perl5_epoch}
+Version:  %{rpmperlv}
 Release:  %{?repo}%{specrel}%{?dist}
 Summary:  People Hate Perl
 
 Group:    Programming/Languages
-License:  GPL or Perl Artistic
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://www.perl.org/
 Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.xz
 Source1:  rpm-macros-perl-5.36
+Source2:  perl-manlist-%{rpmperlv}.txt
 Provides: %{perl5_API}
 Provides: %{perl5_ABI}
 
 #BuildRequires:	
-#Requires:	
+Requires:	%{name}-libperl = %{perl5_epoch}:%{rpmperlv}-%{release}
 
 %description
 Perl is a highly capable, feature-rich programming language with over
 30 years of development. Perl runs on over 100 platforms from portables
 to mainframes and is suitable for both rapid prototyping and large scale
 development projects.
+
+%package devel
+Summary:  Perl development files
+Group:    Development/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description devel
+This package contains the perl development tools that are needed to
+build perl5 modules. I recommend installing this package even if you
+do not think you will need it.
+
+%package libperl
+Summary:  The libperl.so library
+Group:    System Environment/Libraries
+Requires: perl = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description libperl
+This package contains the libperl.so runtime library.
+
+##########################
+#                        #
+# Separable Perl Modules #
+#                        #
+##########################
+
+%package Digest-MD5
+Epoch:    0
+Version:  2.58
+Summary:  Perl interface to the MD5 Algorithm
+Group:    System Environment/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description Digest-MD5
+The Digest::MD5 module allows you to use the RSA Data Security Inc. MD5
+Message Digest algorithm from within Perl programs. The algorithm takes
+as input a message of arbitrary length and produces as output a 128-bit
+"fingerprint" or "message digest" of the input.
 
 %prep
 %setup -q
@@ -114,6 +154,8 @@ make install DESTDIR=%{buildroot}
 install -m755 -d %{buildroot}/usr/lib/rpm/macros.d
 install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 
+cp %{SOURCE2} ./manpagelist
+
 ##
 ## /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w
 %{_fixperms} %{buildroot}%{perl5_archlib}
@@ -122,12 +164,8 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %endif
 
 
-%files
+%files -f manpagelist
 %defattr(-,root,root,-)
-###
-# rpm macro file
-###
-%attr(0644,root,root) /usr/lib/rpm/macros.d/macros.perl
 ###
 # /usr/bin stuff
 ###
@@ -136,7 +174,7 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0755,root,root) %{_bindir}/enc2xs
 %attr(0755,root,root) %{_bindir}/encguess
 %attr(0755,root,root) %{_bindir}/h2ph
-%attr(0755,root,root) %{_bindir}/h2xs
+#%%attr(0755,root,root) %%{_bindir}/h2xs
 %attr(0755,root,root) %{_bindir}/instmodsh
 %attr(0755,root,root) %{_bindir}/json_pp
 %attr(0755,root,root) %{_bindir}/libnetcfg
@@ -144,7 +182,7 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0755,root,root) %{_bindir}/perl5.36.0
 %attr(0755,root,root) %{_bindir}/perlbug
 %attr(0755,root,root) %{_bindir}/perldoc
-%attr(0755,root,root) %{_bindir}/perlivp
+#%%attr(0755,root,root) %%{_bindir}/perlivp
 %attr(0755,root,root) %{_bindir}/perlthanks
 %attr(0755,root,root) %{_bindir}/piconv
 %attr(0755,root,root) %{_bindir}/pl2pm
@@ -223,8 +261,6 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/Benchmark.pm
 #CORE
 %dir %{perl5_archlib}/CORE
-%attr(0444,root,root) %{perl5_archlib}/CORE/*.h
-%attr(0555,root,root) %{perl5_archlib}/CORE/libperl.so
 %attr(0444,root,root) %{perl5_privlib}/CORE.pod
 # CPAN
 %attr(0444,root,root) %{perl5_privlib}/CPAN.pm
@@ -356,11 +392,11 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/Devel/SelfStubber.pm
 # Digest
 %dir %{perl5_archlib}/Digest
-%attr(0444,root,root) %{perl5_archlib}/Digest/MD5.pm
+#%%attr(0444,root,root) %%{perl5_archlib}/Digest/MD5.pm
 %attr(0444,root,root) %{perl5_archlib}/Digest/SHA.pm
 %dir %{perl5_archlib}/auto/Digest
-%dir %{perl5_archlib}/auto/Digest/MD5
-%attr(0555,root,root) %{perl5_archlib}/auto/Digest/MD5/MD5.so
+#%%dir %%{perl5_archlib}/auto/Digest/MD5
+#%%attr(0555,root,root) %%{perl5_archlib}/auto/Digest/MD5/MD5.so
 %dir %{perl5_archlib}/auto/Digest/SHA
 %attr(0555,root,root) %{perl5_archlib}/auto/Digest/SHA/SHA.so
 %attr(0444,root,root) %{perl5_privlib}/Digest.pm
@@ -1395,20 +1431,59 @@ install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 %attr(0444,root,root) %{perl5_privlib}/warnings/register.pm
 #
 # ???
-%{perl5_archlib}/.packlist
+%exclude %{perl5_archlib}/.packlist
 #
 # pod - may need refinement
 %dir %{perl5_privlib}/pod
 %attr(0644,root,root) %{perl5_privlib}/pod/*.pod
 #man pages
-%{_mandir}/man1/*.1*
-%{_mandir}/man3/*.3*
+#%%{_mandir}/man1/*.1*
+#%%{_mandir}/man3/*.3*
 %license Artistic Copying README
 %doc %{name}-make.test.log
 %doc Artistic Copying AUTHORS README README.linux
 
+%files devel
+%defattr(-,root,root)
+%attr(0644,root,root) /usr/lib/rpm/macros.d/macros.perl
+%attr(0755,root,root) %{_bindir}/h2xs
+%attr(0755,root,root) %{_bindir}/perlivp
+#CORE
+%dir %{perl5_archlib}/CORE
+%attr(0444,root,root) %{perl5_archlib}/CORE/*.h
+# man pages
+%{_mandir}/man1/h2xs.1*
+%{_mandir}/man1/perlivp.1*
+%license Artistic Copying README
+%doc Artistic Copying README
+
+%files libperl
+%defattr(-,root,root,-)
+%attr(0555,root,root) %{perl5_archlib}/CORE/libperl.so
+%license Artistic Copying README
+%doc Artistic Copying README
+
+##########################
+#                        #
+# Separable Perl Modules #
+#                        #
+##########################
+
+%files Digest-MD5
+%defattr(-,root,root,-)
+%dir %{perl5_archlib}/Digest
+%attr(0444,root,root) %{perl5_archlib}/Digest/MD5.pm
+%dir %{perl5_archlib}/auto/Digest
+%dir %{perl5_archlib}/auto/Digest/MD5
+%attr(0555,root,root) %{perl5_archlib}/auto/Digest/MD5/MD5.so
+%attr(0644,root,root) %{_mandir}/man3/Digest::MD5.3*
+%license Artistic Copying README
+%doc Artistic Copying README
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev6
+- Started work on subpackages
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev5
 - New API/ABI macros, remove subpackage for Perl 5 licenses (doing
 - that differently)

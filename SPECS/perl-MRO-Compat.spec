@@ -2,15 +2,16 @@
 
 Name:     perl-%{cpanname}
 Version:  0.15
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  mro::* interface compatibility for Perls < 5.9.5
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/MRO::Compat
 Source0:  https://cpan.metacpan.org/authors/id/H/HA/HAARG/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
 %if 0%{?runtests:1} == 1
@@ -52,7 +53,6 @@ echo "make test not run during package build." > %{name}-make.test.log
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -67,6 +67,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15-0.rc3
+- BuildRequires perl-Devel
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15-0.rc2
 - Require %%perl5_API, conditionally run make test.
 

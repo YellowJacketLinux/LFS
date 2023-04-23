@@ -2,15 +2,16 @@
 
 Name:     perl-%{cpanname}
 Version:  0.113
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Parse and validate simple name/value option pairs
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/dist/Data-OptList
 Source0:  https://cpan.metacpan.org/authors/id/R/RJ/RJBS/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 BuildRequires:  perl(JSON::PP) >= 2.27300
 # for test
@@ -69,6 +70,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.113-0.rc3
+- BuildRequire perl-devel
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.113-0.rc2
 - Require %%perl5_API and conditionally run test suite.
 

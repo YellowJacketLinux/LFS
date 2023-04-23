@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.31
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Minimal try/catch module
 
 Group:    Development/Libraries
@@ -11,14 +11,21 @@ URL:      https://metacpan.org/pod/Try::Tiny
 Source0:  https://cpan.metacpan.org/authors/id/E/ET/ETHER/%{cpanname}-%{version}.tar.gz
 BuildArch:  noarch
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker)
 # for test
-BuildRequires:  perl(Test::More) perl(warnings)
+%if 0%{?runtests:1} == 1
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(warnings)
 BuildRequires:  perl(Capture::Tiny)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(CPAN::Meta)
 #BuildRequires:  perl(CPAN::Meta::Check)
 BuildRequires:  perl(CPAN::Meta::Requirements)
+%endif
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 This module provides bare bones try/catch/finally statements that are
@@ -45,11 +52,14 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -64,5 +74,10 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.31-0.rc2
+- BuildRequire perl-devel
+- Conditionally run tests
+- Require %%perl5_API
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.31-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
