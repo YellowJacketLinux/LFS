@@ -306,7 +306,7 @@
 %{_mandir}/man3/Devel::SelfStubber.3*
 %{_mandir}/man3/Digest.3*
 #%%{_mandir}/man3/Digest::MD5.3*
-%{_mandir}/man3/Digest::SHA.3*
+#%%{_mandir}/man3/Digest::SHA.3*
 %{_mandir}/man3/Digest::base.3*
 %{_mandir}/man3/Digest::file.3*
 %{_mandir}/man3/DirHandle.3*

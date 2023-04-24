@@ -1,4 +1,9 @@
-%global specrel 0.dev7
+# WARNING - subpackages have different
+#  versions that perl so always use a
+#  an incremented specrel even when
+#  updating perl5_patch (e.g. for
+#  5.36.0 to 5.36.1)
+%global specrel 0.dev8
 # Version definitions
 %global perl5_version 5.36
 %global perl5_patch 1
@@ -101,6 +106,19 @@ Message Digest algorithm from within Perl programs. The algorithm takes
 as input a message of arbitrary length and produces as output a 128-bit
 "fingerprint" or "message digest" of the input.
 
+%package Digest-SHA
+Epoch:    0
+Version:  6.02
+Summary:  Perl extension for SHA-1/224/256/384/512
+Group:    System Environment/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description Digest-SHA
+Digest::SHA is a complete implementation of the NIST Secure Hash Standard.
+It gives Perl programmers a convenient way to calculate SHA-1, SHA-224,
+SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256 message digests.
+The module can handle all types of input, including partial-byte data.
+
 %prep
 %setup -q
 
@@ -163,6 +181,8 @@ cp %{SOURCE2} ./manpagelist
 %{_fixperms} %{buildroot}%{perl5_privlib}
 %endif
 
+%post libperl -p /sbin/ldconfig
+%postun libperl -p /sbin/ldconfig
 
 %files -f manpagelist
 %defattr(-,root,root,-)
@@ -391,18 +411,8 @@ cp %{SOURCE2} ./manpagelist
 %endif
 %attr(0444,root,root) %{perl5_privlib}/Devel/SelfStubber.pm
 # Digest
-%dir %{perl5_archlib}/Digest
-#%%attr(0444,root,root) %%{perl5_archlib}/Digest/MD5.pm
-%attr(0444,root,root) %{perl5_archlib}/Digest/SHA.pm
-%dir %{perl5_archlib}/auto/Digest
-#%%dir %%{perl5_archlib}/auto/Digest/MD5
-#%%attr(0555,root,root) %%{perl5_archlib}/auto/Digest/MD5/MD5.so
-%dir %{perl5_archlib}/auto/Digest/SHA
-%attr(0555,root,root) %{perl5_archlib}/auto/Digest/SHA/SHA.so
 %attr(0444,root,root) %{perl5_privlib}/Digest.pm
-%if 0%{?linuxMultiarch:1} == 1
 %dir %{perl5_privlib}/Digest
-%endif
 %attr(0444,root,root) %{perl5_privlib}/Digest/base.pm
 %attr(0444,root,root) %{perl5_privlib}/Digest/file.pm
 # DirHandle.pm -- Dumpvalue.pm
@@ -1480,7 +1490,19 @@ cp %{SOURCE2} ./manpagelist
 %license Artistic Copying README
 %doc Artistic Copying README
 
+%files Digest-SHA
+%defattr(-,root,root,-)
+%dir %{perl5_archlib}/Digest
+%attr(0444,root,root) %{perl5_archlib}/Digest/SHA.pm
+%dir %{perl5_archlib}/auto/Digest
+%dir %{perl5_archlib}/auto/Digest/SHA
+%attr(0555,root,root) %{perl5_archlib}/auto/Digest/SHA/SHA.so
+%attr(0644,root,root) %{_mandir}/man3/Digest::SHA.3*
+
 %changelog
+* Sun Spr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.1-0.dev8
+- Working on subpackages
+
 * Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.1-0.dev7
 - Update to 5.36.1
 
