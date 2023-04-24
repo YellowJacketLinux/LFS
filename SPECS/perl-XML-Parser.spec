@@ -1,20 +1,42 @@
 %global cpanname XML-Parser
 
+%if %{?repo:1}%{!?repo:0}
+%if "%{repo}" == "1.core."
+%global norequirelwp foo
+%endif
+%endif
+
 Name:     perl-%{cpanname}
 Version:  2.46
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  A perl module for parsing XML documents
 
 Group:    Perl/Libraries
-License:  GPL or Perl Artistic
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/XML::Parser
 Source0:  https://cpan.metacpan.org/authors/id/T/TO/TODDR/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  expat-devel
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # for test
-BuildRequires:  perl(Test::More) perl(warnings)
-Requires: perl5-licenses = %{perl5_version}
+%if 0%{?runtests:1} == 1
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(warnings)
+%if 0%{!?norequirelwp:1} == 1
+BuildRequires:  perl(LWP::UserAgent)
+%endif
+%endif
+# runtime
+%if 0%{!?norequirelwp:1} == 1
+Requires: perl(LWP::UserAgent)
+%endif
+%if 0%{?perl5_cpanlic:1} == 1
+Requires: common-CPAN-licenses
+%endif
+%if 0%{?perl5_ABI:1} == 1
+Requires: %{perl5_ABI}
+%endif
 
 %description
 This module provides ways to parse XML documents. It is built on top
@@ -35,21 +57,27 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
 %{_fixperms} %{buildroot}%{perl5_vendorarch}
 
+%if 0%{?perl5_cpanlic:1} == 1
 cat > Perl5-Licenses.txt << "EOF"
 This package specifies it uses the Perl 5 licenses but did not include
 them in the package source.
 
 They can be found in the following directory:
 
-  %{perl5_licenses}
+  %{perl5_cpanlic}/Perl5/
 
 EOF
+%endif
 
 %files
 %dir %{perl5_vendorarch}/XML
@@ -69,13 +97,24 @@ EOF
 %attr(0555,root,root) %{perl5_vendorarch}/auto/XML/Parser/Expat/Expat.so
 # man files
 %attr(0644,root,root) %{_mandir}/man3/*.3*
+%if 0%{?perl5_cpanlic:1} == 1
 %license Perl5-Licenses.txt
+%doc Changes README samples Perl5-Licenses.txt
+%else
+%doc Changes README samples
+%endif
 %doc %{name}-make.test.log
-%doc README samples Perl5-Licenses.txt
 
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc4
+- Make dependency on LWP::UserAgent conditional
+- BuildRequire perl-devel
+
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc3
+- Update how license is done, add ABI requirement
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.46-0.rc2
 - License file
 

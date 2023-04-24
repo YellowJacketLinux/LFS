@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.008
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Add test failures if warnings are caught
 BuildArch:  noarch
 
@@ -11,8 +11,10 @@ License:  Apache-2.0
 URL:      https://metacpan.org/pod/Test::FailWarnings
 Source0:  https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/%{cpanname}-%{version}.tar.gz
 
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-devel
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # for test
+%if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) >= 0.96
 BuildRequires:  perl(warnings)
 BuildRequires:  perl(Capture::Tiny) >= 0.12
@@ -24,13 +26,21 @@ BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(lib)
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Cwd)
+BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(strict)
+%endif
 # Runtime
 Requires: perl(Carp)
 Requires: perl(Cwd)
 Requires: perl(File::Spec)
-Requires: perl(Test::More) >= 0.86
+Requires: perl(Test::More) >= 0.96
 Requires: perl(strict)
 Requires: perl(warnings)
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 This module hooks $SIG{__WARN__} and converts warnings to Test::More
@@ -50,11 +60,14 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -69,5 +82,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.008-0.rc3
+- BuildRequires perl-devel
+- Conditionally run tests, require %%perl5_API
+
 * Fri Apr 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.008-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

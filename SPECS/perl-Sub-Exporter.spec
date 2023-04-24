@@ -2,17 +2,19 @@
 
 Name:     perl-%{cpanname}
 Version:  0.989
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  A sophisticated exporter for custom-built routines
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Sub::Exporter
 Source0:  https://cpan.metacpan.org/authors/id/R/RJ/RJBS/%{cpanname}-%{version}.tar.gz
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 # for test
+%if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) >= 0.96
 BuildRequires:  perl(warnings)
 BuildRequires:  perl(CPAN::Meta) >= 2.120900
@@ -27,6 +29,7 @@ BuildRequires:  perl(Data::OptList) >= 0.100
 BuildRequires:  perl(Params::Util) >= 0.14
 BuildRequires:  perl(Sub::Install) >= 0.92
 BuildRequires:  perl(strict)
+%endif
 # runtime
 Requires: perl(Carp)
 Requires: perl(Data::OptList) >= 0.100
@@ -34,6 +37,9 @@ Requires: perl(Params::Util) >= 0.14
 Requires: perl(Sub::Install) >= 0.92
 Requires: perl(strict)
 Requires: perl(warnings)
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 ACHTUNG! If you're not familiar with Exporter or exporting, read
@@ -53,11 +59,14 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
@@ -79,5 +88,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.989-0.rc3
+- BuildRequires: perl-devel
+- Conditionally run tests, require %%perl5_API
+
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.989-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

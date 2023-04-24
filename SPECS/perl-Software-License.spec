@@ -1,14 +1,16 @@
 %global cpanname Software-License
-%global licensedir %{_datadir}/licenses-cpan-common
+%if 0%{!?perl5_cpanlic:1} == 1
+%global perl5_cpanlic %{_datadir}/licenses-cpan-common
+%endif
 
 Name:     perl-%{cpanname}
 Version:  0.104002
-Release:  %{?repo}0.dev1%{?dist}
+Release:  %{?repo}0.rc1%{?dist}
 Summary:  packages that provide templated software licenses
 BuildArch:  noarch
 
 Group:    Development/Libraries
-License:  GPL-1.0-or-later and Artistic-1.0-Perl
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/dist/Software-License
 Source0:  https://cpan.metacpan.org/authors/id/L/LE/LEONT/Software-License-0.104002.tar.gz
 ### AGPL
@@ -58,8 +60,10 @@ Source47: QPL-1.0.txt
 ### Zlib
 Source49: Zlib.txt
 
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 # for test
+%if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) perl(warnings)
 BuildRequires:  perl(CPAN::Meta) >= 2.120900
 BuildRequires:  perl(File::Spec)
@@ -74,6 +78,7 @@ BuildRequires:  perl(parent)
 BuildRequires:  perl(strict)
 BuildRequires:  perl(utf8)
 BuildRequires:  perl(Text::Template)
+%endif
 # runtime
 Requires: perl(Carp)
 Requires: perl(Data::Section)
@@ -87,6 +92,9 @@ Requires: perl(utf8)
 Requires: perl(warnings)
 # keep the two packages in sync
 Requires: common-CPAN-licenses = %{version}-%{release}
+%if 0%{?perl5_API:1} == 1
+Requires: %{perl5_API}
+%endif
 
 %description
 This package provides templated software licenses.
@@ -114,15 +122,18 @@ perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_
 make %{?_smp_mflags}
 
 %check
+%if 0%{?runtests:1} == 1
 make test > %{name}-make.test.log 2>&1
+%else
+echo "make test not run during package build." > %{name}-make.test.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
 
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
-install -m755 -d %{buildroot}%{licensedir}
-cat > %{buildroot}%{licensedir}/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}
+cat > %{buildroot}%{perl5_cpanlic}/README.txt << "EOF"
 A handful of perl modules on CPAN specify a license but do not actually
 include a LICENSE or COPYING file with the text of the license.
 
@@ -136,8 +147,8 @@ the SPDX version 3 identifier for the name of the licence file.
 EOF
 
 #AGPL
-install -m755 -d %{buildroot}%{licensedir}/AGPL
-cat > %{buildroot}%{licensedir}/AGPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/AGPL
+cat > %{buildroot}%{perl5_cpanlic}/AGPL/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The official source for this license file, also available in other
 file formats and lanuages, is:
@@ -145,23 +156,23 @@ file formats and lanuages, is:
     https://www.gnu.org/licenses/licenses.html
 
 EOF
-install -m644 %{SOURCE21} %{buildroot}%{licensedir}/AGPL/
+install -m644 %{SOURCE21} %{buildroot}%{perl5_cpanlic}/AGPL/
 
 #Apache
-install -m755 -d %{buildroot}%{licensedir}/Apache
-cat > %{buildroot}%{licensedir}/Apache/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/Apache
+cat > %{buildroot}%{perl5_cpanlic}/Apache/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files is:
 
     https://www.apache.org/licenses/
 
 EOF
-install -m644 %{SOURCE22} %{buildroot}%{licensedir}/Apache/
-install -m644 %{SOURCE23} %{buildroot}%{licensedir}/Apache/
+install -m644 %{SOURCE22} %{buildroot}%{perl5_cpanlic}/Apache/
+install -m644 %{SOURCE23} %{buildroot}%{perl5_cpanlic}/Apache/
 
 #Artistic
-install -m755 -d %{buildroot}%{licensedir}/Artistic
-cat > %{buildroot}%{licensedir}/Artistic/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/Artistic
+cat > %{buildroot}%{perl5_cpanlic}/Artistic/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files is:
 
@@ -183,12 +194,12 @@ The Artistic 2.0 license however is generally considered to be a free
 software license.
 
 EOF
-install -m644 %{SOURCE24} %{buildroot}%{licensedir}/Artistic/
-install -m644 %{SOURCE25} %{buildroot}%{licensedir}/Artistic/
+install -m644 %{SOURCE24} %{buildroot}%{perl5_cpanlic}/Artistic/
+install -m644 %{SOURCE25} %{buildroot}%{perl5_cpanlic}/Artistic/
 
 #BSD
-install -m755 -d %{buildroot}%{licensedir}/BSD
-cat > %{buildroot}%{licensedir}/BSD/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/BSD
+cat > %{buildroot}%{perl5_cpanlic}/BSD/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
@@ -198,22 +209,22 @@ There are several variations of the BSD-3-Clause license. The variation
 here is the variation from the above website.
 
 EOF
-install -m644 %{SOURCE26} %{buildroot}%{licensedir}/BSD/
+install -m644 %{SOURCE26} %{buildroot}%{perl5_cpanlic}/BSD/
 
 #CC0
-install -m755 -d %{buildroot}%{licensedir}/CC0
-cat > %{buildroot}%{licensedir}/CC0/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/CC0
+cat > %{buildroot}%{perl5_cpanlic}/CC0/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The official source for this license file is:
 
     https://creativecommons.org/share-your-work/public-domain/cc0/
 
 EOF
-install -m644 %{SOURCE27} %{buildroot}%{licensedir}/CC0/
+install -m644 %{SOURCE27} %{buildroot}%{perl5_cpanlic}/CC0/
 
 #EUPL
-install -m755 -d %{buildroot}%{licensedir}/EUPL
-cat > %{buildroot}%{licensedir}/EUPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/EUPL
+cat > %{buildroot}%{perl5_cpanlic}/EUPL/README.txt << "EOF"
 The text format of these licenses are provided for your convenience.
 For official information on the EUPL, please see:
 
@@ -225,12 +236,12 @@ please see:
     https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
 EOF
-install -m644 %{SOURCE28} %{buildroot}%{licensedir}/EUPL/
-install -m644 %{SOURCE29} %{buildroot}%{licensedir}/EUPL/
+install -m644 %{SOURCE28} %{buildroot}%{perl5_cpanlic}/EUPL/
+install -m644 %{SOURCE29} %{buildroot}%{perl5_cpanlic}/EUPL/
 
 #FreeBSD
-install -m755 -d %{buildroot}%{licensedir}/FreeBSD
-cat > %{buildroot}%{licensedir}/FreeBSD/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/FreeBSD
+cat > %{buildroot}%{perl5_cpanlic}/FreeBSD/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
@@ -240,11 +251,11 @@ There are several variations of the BSD-2-Clause license. The variation
 here is the variation from the above website.
 
 EOF
-install -m644 %{SOURCE30} %{buildroot}%{licensedir}/FreeBSD/
+install -m644 %{SOURCE30} %{buildroot}%{perl5_cpanlic}/FreeBSD/
 
 #GFDL
-install -m755 -d %{buildroot}%{licensedir}/GFDL
-cat > %{buildroot}%{licensedir}/GFDL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/GFDL
+cat > %{buildroot}%{perl5_cpanlic}/GFDL/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files, also available in other
 file formats and lanuages, is:
@@ -252,12 +263,12 @@ file formats and lanuages, is:
     https://www.gnu.org/licenses/licenses.html
 
 EOF
-install -m644 %{SOURCE31} %{buildroot}%{licensedir}/GFDL/
-install -m644 %{SOURCE32} %{buildroot}%{licensedir}/GFDL/
+install -m644 %{SOURCE31} %{buildroot}%{perl5_cpanlic}/GFDL/
+install -m644 %{SOURCE32} %{buildroot}%{perl5_cpanlic}/GFDL/
 
 #GPL
-install -m755 -d %{buildroot}%{licensedir}/GPL
-cat > %{buildroot}%{licensedir}/GPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/GPL
+cat > %{buildroot}%{perl5_cpanlic}/GPL/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files, also available in other
 file formats and lanuages, is:
@@ -265,24 +276,24 @@ file formats and lanuages, is:
     https://www.gnu.org/licenses/licenses.html
 
 EOF
-install -m644 %{SOURCE33} %{buildroot}%{licensedir}/GPL/
-install -m644 %{SOURCE34} %{buildroot}%{licensedir}/GPL/
-install -m644 %{SOURCE35} %{buildroot}%{licensedir}/GPL/
+install -m644 %{SOURCE33} %{buildroot}%{perl5_cpanlic}/GPL/
+install -m644 %{SOURCE34} %{buildroot}%{perl5_cpanlic}/GPL/
+install -m644 %{SOURCE35} %{buildroot}%{perl5_cpanlic}/GPL/
 
 #ISC
-install -m755 -d %{buildroot}%{licensedir}/ISC
-cat > %{buildroot}%{licensedir}/ISC/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/ISC
+cat > %{buildroot}%{perl5_cpanlic}/ISC/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
     https://opensource.org/license/isc-license-txt/
 
 EOF
-install -m644 %{SOURCE36} %{buildroot}%{licensedir}/ISC/
+install -m644 %{SOURCE36} %{buildroot}%{perl5_cpanlic}/ISC/
 
 #LGPL
-install -m755 -d %{buildroot}%{licensedir}/LGPL
-cat > %{buildroot}%{licensedir}/LGPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/LGPL
+cat > %{buildroot}%{perl5_cpanlic}/LGPL/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files, also available in other
 file formats and lanuages, is:
@@ -290,58 +301,58 @@ file formats and lanuages, is:
     https://www.gnu.org/licenses/licenses.html
 
 EOF
-install -m644 %{SOURCE37} %{buildroot}%{licensedir}/LGPL/
-install -m644 %{SOURCE38} %{buildroot}%{licensedir}/LGPL/
+install -m644 %{SOURCE37} %{buildroot}%{perl5_cpanlic}/LGPL/
+install -m644 %{SOURCE38} %{buildroot}%{perl5_cpanlic}/LGPL/
 
 #MIT
-install -m755 -d %{buildroot}%{licensedir}/MIT
-cat > %{buildroot}%{licensedir}/MIT/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/MIT
+cat > %{buildroot}%{perl5_cpanlic}/MIT/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
     https://opensource.org/license/mit/
 
 EOF
-install -m644 %{SOURCE39} %{buildroot}%{licensedir}/MIT/
+install -m644 %{SOURCE39} %{buildroot}%{perl5_cpanlic}/MIT/
 
 #MPL
-install -m755 -d %{buildroot}%{licensedir}/MPL
-cat > %{buildroot}%{licensedir}/MPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/MPL
+cat > %{buildroot}%{perl5_cpanlic}/MPL/README.txt << "EOF"
 The text format of these license files are provided for your convenience.
 The official source for these license files is:
 
     https://www.mozilla.org/en-US/MPL/
 
 EOF
-install -m644 %{SOURCE40} %{buildroot}%{licensedir}/MPL/
-install -m644 %{SOURCE41} %{buildroot}%{licensedir}/MPL/
-install -m644 %{SOURCE42} %{buildroot}%{licensedir}/MPL/
+install -m644 %{SOURCE40} %{buildroot}%{perl5_cpanlic}/MPL/
+install -m644 %{SOURCE41} %{buildroot}%{perl5_cpanlic}/MPL/
+install -m644 %{SOURCE42} %{buildroot}%{perl5_cpanlic}/MPL/
 
 #OpenSSL
-install -m755 -d %{buildroot}%{licensedir}/OpenSSL
-cat > %{buildroot}%{licensedir}/OpenSSL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/OpenSSL
+cat > %{buildroot}%{perl5_cpanlic}/OpenSSL/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The official source for the license can be found at:
 
     https://www.openssl.org/source/license.html
 
 EOF
-install -m644 %{SOURCE43} %{buildroot}%{licensedir}/OpenSSL/
+install -m644 %{SOURCE43} %{buildroot}%{perl5_cpanlic}/OpenSSL/
 
 #SSLeay
-install -m755 -d %{buildroot}%{licensedir}/SSLeay
-cat > %{buildroot}%{licensedir}/SSLeay/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/SSLeay
+cat > %{buildroot}%{perl5_cpanlic}/SSLeay/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The official source for the license can be found at:
 
     https://www.openssl.org/source/license.html
 
 EOF
-install -m644 %{SOURCE44} %{buildroot}%{licensedir}/SSLeay/
+install -m644 %{SOURCE44} %{buildroot}%{perl5_cpanlic}/SSLeay/
 
 #Perl5
-install -m755 -d %{buildroot}%{licensedir}/Perl5
-cat > %{buildroot}%{licensedir}/Perl5/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/Perl5
+cat > %{buildroot}%{perl5_cpanlic}/Perl5/README.txt << "EOF"
 There is technically no such thing as a "Perl 5" license. However many
 Perl modules simply state they are licensed under the same terms as
 Perl 5 itself.
@@ -357,24 +368,24 @@ More information on Perl licensing can be found at:
     https://dev.perl.org/licenses/
 
 EOF
-install -m644 %{SOURCE45} %{buildroot}%{licensedir}/Perl5/
-install -m644 %{SOURCE24} %{buildroot}%{licensedir}/Perl5/
-install -m644 %{SOURCE33} %{buildroot}%{licensedir}/Perl5/
+install -m644 %{SOURCE45} %{buildroot}%{perl5_cpanlic}/Perl5/
+install -m644 %{SOURCE24} %{buildroot}%{perl5_cpanlic}/Perl5/
+install -m644 %{SOURCE33} %{buildroot}%{perl5_cpanlic}/Perl5/
 
 #PostgreSQL
-install -m755 -d %{buildroot}%{licensedir}/PostgreSQL
-cat > %{buildroot}%{licensedir}/PostgreSQL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/PostgreSQL
+cat > %{buildroot}%{perl5_cpanlic}/PostgreSQL/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The official source for the license can be found at:
 
     https://www.postgresql.org/about/licence/
 
 EOF
-install -m644 %{SOURCE46} %{buildroot}%{licensedir}/PostgreSQL/
+install -m644 %{SOURCE46} %{buildroot}%{perl5_cpanlic}/PostgreSQL/
 
 #QPL
-install -m755 -d %{buildroot}%{licensedir}/QPL
-cat > %{buildroot}%{licensedir}/QPL/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/QPL
+cat > %{buildroot}%{perl5_cpanlic}/QPL/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
@@ -387,18 +398,18 @@ to be "FLOSS" if it is dual-licensed with another license that is a
 free software license (such as a GPL license).
 
 EOF
-install -m644 %{SOURCE47} %{buildroot}%{licensedir}/QPL/
+install -m644 %{SOURCE47} %{buildroot}%{perl5_cpanlic}/QPL/
 
 #Zlib
-install -m755 -d %{buildroot}%{licensedir}/Zlib
-cat > %{buildroot}%{licensedir}/Zlib/README.txt << "EOF"
+install -m755 -d %{buildroot}%{perl5_cpanlic}/Zlib
+cat > %{buildroot}%{perl5_cpanlic}/Zlib/README.txt << "EOF"
 The text format of this license file is provided for your convenience.
 The Open Source Initiative web page for this license:
 
     https://opensource.org/license/zlib-license-php/
 
 EOF
-install -m644 %{SOURCE49} %{buildroot}%{licensedir}/Zlib/
+install -m644 %{SOURCE49} %{buildroot}%{perl5_cpanlic}/Zlib/
 
 
 %files
@@ -481,97 +492,103 @@ install -m644 %{SOURCE49} %{buildroot}%{licensedir}/Zlib/
 
 %files -n common-CPAN-licenses
 %defattr(-,root,root,-)
-%dir %{licensedir}
-%attr(0644,root,root) %{licensedir}/README.txt
+%dir %{perl5_cpanlic}
+%attr(0644,root,root) %{perl5_cpanlic}/README.txt
 # Source 21
-%dir %{licensedir}/AGPL
-%attr(0644,root,root) %{licensedir}/AGPL/README.txt
-%attr(0644,root,root) %{licensedir}/AGPL/AGPL-3.0.txt
+%dir %{perl5_cpanlic}/AGPL
+%attr(0644,root,root) %{perl5_cpanlic}/AGPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/AGPL/AGPL-3.0.txt
 # Source 22,23
-%dir %{licensedir}/Apache
-%attr(0644,root,root) %{licensedir}/Apache/README.txt
-%attr(0644,root,root) %{licensedir}/Apache/Apache-1.1.txt
-%attr(0644,root,root) %{licensedir}/Apache/Apache-2.0.txt
+%dir %{perl5_cpanlic}/Apache
+%attr(0644,root,root) %{perl5_cpanlic}/Apache/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Apache/Apache-1.1.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Apache/Apache-2.0.txt
 # Source 24,25
-%dir %{licensedir}/Artistic
-%attr(0644,root,root) %{licensedir}/Artistic/README.txt
-%attr(0644,root,root) %{licensedir}/Artistic/Artistic-1.0-Perl.txt
-%attr(0644,root,root) %{licensedir}/Artistic/Artistic-2.0.txt
+%dir %{perl5_cpanlic}/Artistic
+%attr(0644,root,root) %{perl5_cpanlic}/Artistic/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Artistic/Artistic-1.0-Perl.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Artistic/Artistic-2.0.txt
 # Source 26
-%dir %{licensedir}/BSD
-%attr(0644,root,root) %{licensedir}/BSD/README.txt
-%attr(0644,root,root) %{licensedir}/BSD/BSD-3-Clause.txt
+%dir %{perl5_cpanlic}/BSD
+%attr(0644,root,root) %{perl5_cpanlic}/BSD/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/BSD/BSD-3-Clause.txt
 # Source 27
-%dir %{licensedir}/CC0
-%attr(0644,root,root) %{licensedir}/CC0/README.txt
-%attr(0644,root,root) %{licensedir}/CC0/CC0-1.0.txt
+%dir %{perl5_cpanlic}/CC0
+%attr(0644,root,root) %{perl5_cpanlic}/CC0/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/CC0/CC0-1.0.txt
 # Source 28,29
-%dir %{licensedir}/EUPL
-%attr(0644,root,root) %{licensedir}/EUPL/README.txt
-%attr(0644,root,root) %{licensedir}/EUPL/EUPL-1.1.txt
-%attr(0644,root,root) %{licensedir}/EUPL/EUPL-1.2.txt
+%dir %{perl5_cpanlic}/EUPL
+%attr(0644,root,root) %{perl5_cpanlic}/EUPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/EUPL/EUPL-1.1.txt
+%attr(0644,root,root) %{perl5_cpanlic}/EUPL/EUPL-1.2.txt
 # Source 30
-%dir %{licensedir}/FreeBSD
-%attr(0644,root,root) %{licensedir}/FreeBSD/README.txt
-%attr(0644,root,root) %{licensedir}/FreeBSD/BSD-2-Clause.txt
+%dir %{perl5_cpanlic}/FreeBSD
+%attr(0644,root,root) %{perl5_cpanlic}/FreeBSD/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/FreeBSD/BSD-2-Clause.txt
 # Source 31,32
-%dir %{licensedir}/GFDL
-%attr(0644,root,root) %{licensedir}/GFDL/README.txt
-%attr(0644,root,root) %{licensedir}/GFDL/GFDL-1.2.txt
-%attr(0644,root,root) %{licensedir}/GFDL/GFDL-1.3.txt
+%dir %{perl5_cpanlic}/GFDL
+%attr(0644,root,root) %{perl5_cpanlic}/GFDL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/GFDL/GFDL-1.2.txt
+%attr(0644,root,root) %{perl5_cpanlic}/GFDL/GFDL-1.3.txt
 # Source 33,34,35
-%dir %{licensedir}/GPL
-%attr(0644,root,root) %{licensedir}/GPL/README.txt
-%attr(0644,root,root) %{licensedir}/GPL/GPL-1.0.txt
-%attr(0644,root,root) %{licensedir}/GPL/GPL-2.0.txt
-%attr(0644,root,root) %{licensedir}/GPL/GPL-3.0.txt
+%dir %{perl5_cpanlic}/GPL
+%attr(0644,root,root) %{perl5_cpanlic}/GPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/GPL/GPL-1.0.txt
+%attr(0644,root,root) %{perl5_cpanlic}/GPL/GPL-2.0.txt
+%attr(0644,root,root) %{perl5_cpanlic}/GPL/GPL-3.0.txt
 # Source 36
-%dir %{licensedir}/ISC
-%attr(0644,root,root) %{licensedir}/ISC/README.txt
-%attr(0644,root,root) %{licensedir}/ISC/ISC.txt
+%dir %{perl5_cpanlic}/ISC
+%attr(0644,root,root) %{perl5_cpanlic}/ISC/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/ISC/ISC.txt
 # Source 37,38
-%dir %{licensedir}/LGPL
-%attr(0644,root,root) %{licensedir}/LGPL/README.txt
-%attr(0644,root,root) %{licensedir}/LGPL/LGPL-2.1.txt
-%attr(0644,root,root) %{licensedir}/LGPL/LGPL-3.0.txt
+%dir %{perl5_cpanlic}/LGPL
+%attr(0644,root,root) %{perl5_cpanlic}/LGPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/LGPL/LGPL-2.1.txt
+%attr(0644,root,root) %{perl5_cpanlic}/LGPL/LGPL-3.0.txt
 # Source 39
-%dir %{licensedir}/MIT
-%attr(0644,root,root) %{licensedir}/MIT/README.txt
-%attr(0644,root,root) %{licensedir}/MIT/MIT.txt
+%dir %{perl5_cpanlic}/MIT
+%attr(0644,root,root) %{perl5_cpanlic}/MIT/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/MIT/MIT.txt
 # Source 40,41,42
-%dir %{licensedir}/MPL
-%attr(0644,root,root) %{licensedir}/MPL/README.txt
-%attr(0644,root,root) %{licensedir}/MPL/MPL-1.0.txt
-%attr(0644,root,root) %{licensedir}/MPL/MPL-1.1.txt
-%attr(0644,root,root) %{licensedir}/MPL/MPL-2.0.txt
+%dir %{perl5_cpanlic}/MPL
+%attr(0644,root,root) %{perl5_cpanlic}/MPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/MPL/MPL-1.0.txt
+%attr(0644,root,root) %{perl5_cpanlic}/MPL/MPL-1.1.txt
+%attr(0644,root,root) %{perl5_cpanlic}/MPL/MPL-2.0.txt
 # Source 43
-%dir %{licensedir}/OpenSSL
-%attr(0644,root,root) %{licensedir}/OpenSSL/README.txt
-%attr(0644,root,root) %{licensedir}/OpenSSL/OpenSSL.txt
+%dir %{perl5_cpanlic}/OpenSSL
+%attr(0644,root,root) %{perl5_cpanlic}/OpenSSL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/OpenSSL/OpenSSL.txt
 # Source 44
-%dir %{licensedir}/SSLeay
-%attr(0644,root,root) %{licensedir}/SSLeay/README.txt
-%attr(0644,root,root) %{licensedir}/SSLeay/SSLeay.txt
+%dir %{perl5_cpanlic}/SSLeay
+%attr(0644,root,root) %{perl5_cpanlic}/SSLeay/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/SSLeay/SSLeay.txt
 # Source 45 24 33
-%dir %{licensedir}/Perl5
-%attr(0644,root,root) %{licensedir}/Perl5/README.txt
-%attr(0644,root,root) %{licensedir}/Perl5/Perl5-License.txt
-%attr(0644,root,root) %{licensedir}/Perl5/Artistic-1.0-Perl.txt
-%attr(0644,root,root) %{licensedir}/Perl5/GPL-1.0.txt
+%dir %{perl5_cpanlic}/Perl5
+%attr(0644,root,root) %{perl5_cpanlic}/Perl5/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Perl5/Perl5-License.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Perl5/Artistic-1.0-Perl.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Perl5/GPL-1.0.txt
 # Source46
-%dir %{licensedir}/PostgreSQL
-%attr(0644,root,root) %{licensedir}/PostgreSQL/README.txt
-%attr(0644,root,root) %{licensedir}/PostgreSQL/PostgreSQL.txt
+%dir %{perl5_cpanlic}/PostgreSQL
+%attr(0644,root,root) %{perl5_cpanlic}/PostgreSQL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/PostgreSQL/PostgreSQL.txt
 # Source47
-%dir %{licensedir}/QPL
-%attr(0644,root,root) %{licensedir}/QPL/README.txt
-%attr(0644,root,root) %{licensedir}/QPL/QPL-1.0.txt
+%dir %{perl5_cpanlic}/QPL
+%attr(0644,root,root) %{perl5_cpanlic}/QPL/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/QPL/QPL-1.0.txt
 # Source48
 # Source49
-%dir %{licensedir}/Zlib
-%attr(0644,root,root) %{licensedir}/Zlib/README.txt
-%attr(0644,root,root) %{licensedir}/Zlib/Zlib.txt
+%dir %{perl5_cpanlic}/Zlib
+%attr(0644,root,root) %{perl5_cpanlic}/Zlib/README.txt
+%attr(0644,root,root) %{perl5_cpanlic}/Zlib/Zlib.txt
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.rc1
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.rc1
+- Use %%{perl5_cpanlic} macro
+- Conditionally run tests
+- BuildRequires perl-devel
+- Requires %%perl5_API
+
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.dev1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

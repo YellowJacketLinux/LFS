@@ -1,4 +1,14 @@
-%global specrel 0.dev4
+# WARNING - subpackages have different
+#  versions that perl so always use a
+#  an incremented specrel even when
+#  updating perl5_patch (e.g. for
+#  5.36.0 to 5.36.1)
+%global specrel 0.dev8
+# Version definitions
+%global perl5_version 5.36
+%global perl5_patch 1
+%global perl5_epoch 2
+%global rpmperlv %{perl5_version}.%{perl5_patch}
 
 ### UNFINISHED ###
 #
@@ -13,9 +23,6 @@
 
 %global __requires_exclude ^perl\\((Mac|VMS|unicore)
 
-# Version definitions
-%global perl5_version 5.36
-
 # General macros
 %global __perl /usr/bin/perl
 %global perl5 %__perl
@@ -25,8 +32,11 @@
 %global perl5_sitearch   %{_libdir}/perl5/%{perl5_version}/site_perl
 %global perl5_vendorlib  %{_prefix}/lib/perl5/%{perl5_version}/vendor_perl
 %global perl5_vendorarch %{_libdir}/perl5/%{perl5_version}/vendor_perl
-# License directory
-%global perl5_licenses %{_datadir}/doc/perl-%{perl5_version}-licenses
+# YJL specific macros
+%global perl5_cpanlic %{_datadir}/licenses-cpan-common
+%global perl5_os_platform %{_arch}-linux-gnu
+%global perl5_API Perl-%{perl5_version}
+%global perl5_ABI %{perl5_API}-%{perl5_os_platform}
 
 %if "%{_lib}" == "lib64"
 %global linuxMultiarch true
@@ -36,19 +46,22 @@ Name:     perl
 # Seems that Fedora/RHEL are at epoch 4 ????
 #  Epoch 2 seems to be at least needed because of
 #  internal perl requires
-Epoch:    2
-Version:  %{perl5_version}.0
+Epoch:    %{perl5_epoch}
+Version:  %{rpmperlv}
 Release:  %{?repo}%{specrel}%{?dist}
 Summary:  People Hate Perl
 
 Group:    Programming/Languages
-License:  GPL or Perl Artistic
+License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://www.perl.org/
-Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.xz
+Source0:  https://www.cpan.org/src/5.0/perl-%{version}.tar.gz
 Source1:  rpm-macros-perl-5.36
+Source2:  perl-manlist-%{rpmperlv}.txt
+Provides: %{perl5_API}
+Provides: %{perl5_ABI}
 
 #BuildRequires:	
-#Requires:	
+Requires:	%{name}-libperl = %{perl5_epoch}:%{rpmperlv}-%{release}
 
 %description
 Perl is a highly capable, feature-rich programming language with over
@@ -56,19 +69,55 @@ Perl is a highly capable, feature-rich programming language with over
 to mainframes and is suitable for both rapid prototyping and large scale
 development projects.
 
-%package licenses
-Summary:    The perl5 license
-Group:      Legal
-BuildArch:  noarch
-Provides:   perl5-licenses = %{perl5_version}
+%package devel
+Summary:  Perl development files
+Group:    Development/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
 
-%description licenses
-Many perl modules do not include a license file but instead simply
-specify they are licensed under the terms of Perl 5 itself.
+%description devel
+This package contains the perl development tools that are needed to
+build perl5 modules. I recommend installing this package even if you
+do not think you will need it.
 
-This package provides a static location on the filesystem that will
-not change during a perl bugfix version update that packager can
-point to.
+%package libperl
+Summary:  The libperl.so library
+Group:    System Environment/Libraries
+Requires: perl = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description libperl
+This package contains the libperl.so runtime library.
+
+##########################
+#                        #
+# Separable Perl Modules #
+#                        #
+##########################
+
+%package Digest-MD5
+Epoch:    0
+Version:  2.58
+Summary:  Perl interface to the MD5 Algorithm
+Group:    System Environment/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description Digest-MD5
+The Digest::MD5 module allows you to use the RSA Data Security Inc. MD5
+Message Digest algorithm from within Perl programs. The algorithm takes
+as input a message of arbitrary length and produces as output a 128-bit
+"fingerprint" or "message digest" of the input.
+
+%package Digest-SHA
+Epoch:    0
+Version:  6.02
+Summary:  Perl extension for SHA-1/224/256/384/512
+Group:    System Environment/Libraries
+Requires: %{name} = %{perl5_epoch}:%{rpmperlv}-%{release}
+
+%description Digest-SHA
+Digest::SHA is a complete implementation of the NIST Secure Hash Standard.
+It gives Perl programmers a convenient way to calculate SHA-1, SHA-224,
+SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256 message digests.
+The module can handle all types of input, including partial-byte data.
 
 %prep
 %setup -q
@@ -123,10 +172,7 @@ make install DESTDIR=%{buildroot}
 install -m755 -d %{buildroot}/usr/lib/rpm/macros.d
 install -m644 %{SOURCE1} %{buildroot}/usr/lib/rpm/macros.d/macros.perl
 
-install -m755 -d %{buildroot}%{perl5_licenses}
-install -m644 Artistic %{buildroot}%{perl5_licenses}/
-install -m644 Copying %{buildroot}%{perl5_licenses}/
-install -m644 README %{buildroot}%{perl5_licenses}/
+cp %{SOURCE2} ./manpagelist
 
 ##
 ## /usr/bin/chmod -Rf a+rX,u+w,g-w,o-w
@@ -135,13 +181,11 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %{_fixperms} %{buildroot}%{perl5_privlib}
 %endif
 
+%post libperl -p /sbin/ldconfig
+%postun libperl -p /sbin/ldconfig
 
-%files
+%files -f manpagelist
 %defattr(-,root,root,-)
-###
-# rpm macro file
-###
-%attr(0644,root,root) /usr/lib/rpm/macros.d/macros.perl
 ###
 # /usr/bin stuff
 ###
@@ -150,15 +194,15 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %attr(0755,root,root) %{_bindir}/enc2xs
 %attr(0755,root,root) %{_bindir}/encguess
 %attr(0755,root,root) %{_bindir}/h2ph
-%attr(0755,root,root) %{_bindir}/h2xs
+#%%attr(0755,root,root) %%{_bindir}/h2xs
 %attr(0755,root,root) %{_bindir}/instmodsh
 %attr(0755,root,root) %{_bindir}/json_pp
 %attr(0755,root,root) %{_bindir}/libnetcfg
 %attr(0755,root,root) %{_bindir}/perl
-%attr(0755,root,root) %{_bindir}/perl5.36.0
+%attr(0755,root,root) %{_bindir}/perl%{rpmperlv}
 %attr(0755,root,root) %{_bindir}/perlbug
 %attr(0755,root,root) %{_bindir}/perldoc
-%attr(0755,root,root) %{_bindir}/perlivp
+#%%attr(0755,root,root) %%{_bindir}/perlivp
 %attr(0755,root,root) %{_bindir}/perlthanks
 %attr(0755,root,root) %{_bindir}/piconv
 %attr(0755,root,root) %{_bindir}/pl2pm
@@ -237,8 +281,6 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %attr(0444,root,root) %{perl5_privlib}/Benchmark.pm
 #CORE
 %dir %{perl5_archlib}/CORE
-%attr(0444,root,root) %{perl5_archlib}/CORE/*.h
-%attr(0555,root,root) %{perl5_archlib}/CORE/libperl.so
 %attr(0444,root,root) %{perl5_privlib}/CORE.pod
 # CPAN
 %attr(0444,root,root) %{perl5_privlib}/CPAN.pm
@@ -369,18 +411,8 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %endif
 %attr(0444,root,root) %{perl5_privlib}/Devel/SelfStubber.pm
 # Digest
-%dir %{perl5_archlib}/Digest
-%attr(0444,root,root) %{perl5_archlib}/Digest/MD5.pm
-%attr(0444,root,root) %{perl5_archlib}/Digest/SHA.pm
-%dir %{perl5_archlib}/auto/Digest
-%dir %{perl5_archlib}/auto/Digest/MD5
-%attr(0555,root,root) %{perl5_archlib}/auto/Digest/MD5/MD5.so
-%dir %{perl5_archlib}/auto/Digest/SHA
-%attr(0555,root,root) %{perl5_archlib}/auto/Digest/SHA/SHA.so
 %attr(0444,root,root) %{perl5_privlib}/Digest.pm
-%if 0%{?linuxMultiarch:1} == 1
 %dir %{perl5_privlib}/Digest
-%endif
 %attr(0444,root,root) %{perl5_privlib}/Digest/base.pm
 %attr(0444,root,root) %{perl5_privlib}/Digest/file.pm
 # DirHandle.pm -- Dumpvalue.pm
@@ -1409,25 +1441,78 @@ install -m644 README %{buildroot}%{perl5_licenses}/
 %attr(0444,root,root) %{perl5_privlib}/warnings/register.pm
 #
 # ???
-%{perl5_archlib}/.packlist
+%exclude %{perl5_archlib}/.packlist
 #
 # pod - may need refinement
 %dir %{perl5_privlib}/pod
 %attr(0644,root,root) %{perl5_privlib}/pod/*.pod
 #man pages
-%{_mandir}/man1/*.1*
-%{_mandir}/man3/*.3*
+#%%{_mandir}/man1/*.1*
+#%%{_mandir}/man3/*.3*
 %license Artistic Copying README
 %doc %{name}-make.test.log
 %doc Artistic Copying AUTHORS README README.linux
 
-%files licenses
+%files devel
+%defattr(-,root,root)
+%attr(0644,root,root) /usr/lib/rpm/macros.d/macros.perl
+%attr(0755,root,root) %{_bindir}/h2xs
+%attr(0755,root,root) %{_bindir}/perlivp
+#CORE
+%dir %{perl5_archlib}/CORE
+%attr(0444,root,root) %{perl5_archlib}/CORE/*.h
+# man pages
+%{_mandir}/man1/h2xs.1*
+%{_mandir}/man1/perlivp.1*
+%license Artistic Copying README
+%doc Artistic Copying README
+
+%files libperl
 %defattr(-,root,root,-)
-%attr(0644,root,root) %{perl5_licenses}/Artistic
-%attr(0644,root,root) %{perl5_licenses}/Copying
-%attr(0644,root,root) %{perl5_licenses}/README
+%attr(0555,root,root) %{perl5_archlib}/CORE/libperl.so
+%license Artistic Copying README
+%doc Artistic Copying README
+
+##########################
+#                        #
+# Separable Perl Modules #
+#                        #
+##########################
+
+%files Digest-MD5
+%defattr(-,root,root,-)
+%dir %{perl5_archlib}/Digest
+%attr(0444,root,root) %{perl5_archlib}/Digest/MD5.pm
+%dir %{perl5_archlib}/auto/Digest
+%dir %{perl5_archlib}/auto/Digest/MD5
+%attr(0555,root,root) %{perl5_archlib}/auto/Digest/MD5/MD5.so
+%attr(0644,root,root) %{_mandir}/man3/Digest::MD5.3*
+%license Artistic Copying README
+%doc Artistic Copying README
+
+%files Digest-SHA
+%defattr(-,root,root,-)
+%dir %{perl5_archlib}/Digest
+%attr(0444,root,root) %{perl5_archlib}/Digest/SHA.pm
+%dir %{perl5_archlib}/auto/Digest
+%dir %{perl5_archlib}/auto/Digest/SHA
+%attr(0555,root,root) %{perl5_archlib}/auto/Digest/SHA/SHA.so
+%attr(0644,root,root) %{_mandir}/man3/Digest::SHA.3*
 
 %changelog
+* Sun Spr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.1-0.dev8
+- Working on subpackages
+
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.1-0.dev7
+- Update to 5.36.1
+
+* Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev6
+- Started work on subpackages
+
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev5
+- New API/ABI macros, remove subpackage for Perl 5 licenses (doing
+- that differently)
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2:5.36.0-0.dev4
 - Add subpackage for the Perl 5 licenses
 
