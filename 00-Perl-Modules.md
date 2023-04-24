@@ -237,10 +237,91 @@ required to build it as it is only listed as `"suggests"` but with a
 few exception, I do `BuildRequires:` the `"suggests"`.
 
 Those are the `BuildRequires:` that *must* be present on the RPM build
-system regardless of whether or not tests are run,
+system regardless of whether or not tests are run.
 
+To run tests, the RPM build system will usually need quite a few additional
+Perl modules available---modules used by the test scripts themselves.
 
+Those `BuildRequires:` meta tags should be wrapped inside a conditional:
 
+    %if 0%{?runtests:1} == 1
+    BuildRequires:  perl(Foo::Bar) >= 3.14159
+    [...]
+    %endif
+
+That way, the RPM build system only needs to install them if the `%{runtests}`
+macro is defined so that circular dependencies where A requires B for tests,
+B requires C for tests, and C requires A for tests can be worked around by
+building them without running tests first.
+
+Again in the `"prereqs"` entry of the JSON file, there will be a `"runtime"`
+and a `"test"` entry. Everything in there (except for the specified minimum
+version of `perl`) should be added within the `%{runtests}` conditional. For
+example:
+
+    "prereqs" : {
+      [...]
+      "runtime" : {
+        "requires" : {
+          "Carp" : "0",
+          "Data::Section" : "0",
+          "File::Spec" : "0",
+          "IO::Dir" : "0",
+          "Module::Load" : "0",
+          "Text::Template" : "0",
+          "parent" : "0",
+          "perl" : "5.006",
+          "strict" : "0",
+          "utf8" : "0",
+          "warnings" : "0"
+        }
+      },
+      "test" : {
+        "recommends" : {
+          "CPAN::Meta" : "2.120900"
+        },
+        "requires" : {
+          "ExtUtils::MakeMaker" : "0",
+          "File::Spec" : "0",
+          "Test::More" : "0.96",
+          "Try::Tiny" : "0"
+        }
+      }
+    },
+
+would translate to:
+
+    %if 0%{?runtests:1} == 1
+    BuildRequires:  perl(Carp)
+    BuildRequires:  perl(Data::Section)
+    BuildRequires:  perl(File::Spec)
+    BuildRequires:  perl(IO::Dir)
+    BuildRequires:  perl(Module::Load)
+    BuildRequires:  perl(Text::Template)
+    BuildRequires:  perl(parent)
+    BuildRequires:  perl(strict)
+    BuildRequires:  perl(utf8)
+    BuildRequires:  perl(warnings)
+    BuildRequires:  perl(CPAN::Meta) >= 2.120900
+    BuildRequires:  perl(Test::More) >= 0.96
+    BuildRequires:  perl(Try::Tiny)
+    %endif
+
+Note that I left out `"perl" : "5.006"`, `"ExtUtils::MakeMaker" : "0"`,
+and the second `"File::Spec" : "0"`.
+
+Requiring specific versions of Perl itself is problematic because of
+`Epoch:` metadata tags that were necessary due to RPM evaluating version
+strings as integers deliminated by a `.` while Perl evaluated everything
+after the dot as fractional.
+
+There is already a `BuildRequires:  perl(ExtUtils::MakeMaker)` that
+precedes the `%{runtests}` conditional, so a second is not needed. And
+obviously do not also need two `BuildRequires:  perl(File::Spec)` tags.
+
+__MORE LATER__
+
+I will write more later.
 
 
 
