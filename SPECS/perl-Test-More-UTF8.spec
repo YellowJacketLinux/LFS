@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.05
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Enhancing Test::More for UTF8-based projects
 BuildArch:  noarch
 
@@ -77,7 +77,7 @@ EOF
 
 
 %changelog
-* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.05-0.rc2
+* Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.05-0.rc3
 - Fix license issue, conditional run tests, add API requirement.
 
 * Sat Apr 22 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.05-0.rc1

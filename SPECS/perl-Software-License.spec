@@ -60,7 +60,7 @@ Source47: QPL-1.0.txt
 ### Zlib
 Source49: Zlib.txt
 
-BuildRequires:  python-devel
+BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.78
 # for test
 %if 0%{?runtests:1} == 1

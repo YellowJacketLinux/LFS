@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  0.008
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  Add test failures if warnings are caught
 BuildArch:  noarch
 
