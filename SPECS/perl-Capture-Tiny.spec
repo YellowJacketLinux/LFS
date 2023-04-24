@@ -12,7 +12,7 @@ Source0:  https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/%{cpanname}-%{versi
 BuildArch:  noarch
 
 BuildRequires:	perl-devel
-BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.17
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # for test
 %if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) >= 0.62

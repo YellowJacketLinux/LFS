@@ -18,7 +18,7 @@ URL:      https://metacpan.org/pod/Params::Util
 Source0:  https://cpan.metacpan.org/authors/id/R/RE/REHSACK/Params-Util-1.102.tar.gz
 
 BuildRequires:  perl-devel
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Copy)

@@ -18,7 +18,7 @@ Source0:  https://cpan.metacpan.org/authors/id/T/TO/TODDR/%{cpanname}-%{version}
 
 BuildRequires:  perl-devel
 BuildRequires:  expat-devel
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # for test
 %if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More)
