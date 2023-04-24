@@ -239,6 +239,8 @@ few exception, I do `BuildRequires:` the `"suggests"`.
 Those are the `BuildRequires:` that *must* be present on the RPM build
 system regardless of whether or not tests are run.
 
+### Conditional Test Requirements
+
 To run tests, the RPM build system will usually need quite a few additional
 Perl modules available---modules used by the test scripts themselves.
 
