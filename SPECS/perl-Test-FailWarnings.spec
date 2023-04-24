@@ -12,7 +12,7 @@ URL:      https://metacpan.org/pod/Test::FailWarnings
 Source0:  https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/%{cpanname}-%{version}.tar.gz
 
 BuildRequires:  perl-devel
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 # for test
 %if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More) >= 0.96
@@ -68,7 +68,6 @@ echo "make test not run during package build." > %{name}-make.test.log
 
 %install
 make install DESTDIR=%{buildroot}
-%{_fixperms} %{buildroot}%{perl5_vendorlib}
 
 
 %files
