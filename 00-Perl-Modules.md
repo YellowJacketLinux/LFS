@@ -592,6 +592,7 @@ automatically run aftef `%install`.
 Example:
 
     %files
+    %defattr(-,root,root,-)
     %dir %{perl5_vendorarch}/XML
     %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser.pm
     %dir %{perl5_vendorarch}/XML/Parser
@@ -608,7 +609,91 @@ Example:
     %dir %{perl5_vendorarch}/auto/XML/Parser/Expat
     %attr(0555,root,root) %{perl5_vendorarch}/auto/XML/Parser/Expat/Expat.so
 
+### Man Pages
 
+For man pages, the standard `0644` permissions are fine:
+
+    %attr(0644,root,root) %{_mandir}/man3/*.3*
+
+### Make test log
+
+The output of `make test` should be packaged as documentation:
+
+    %doc %{name}-make.test.log
+
+### Package Documentation
+
+Any documentation file within the Perl module source that is potentially
+useful to the end user should be packaged with the `%doc` macro.
+
+This usually includes the `Changes` file, a `README` file, any license
+files, and with some packages the `examples` directory.
+
+
+RPM Packaging of the License File(s)
+------------------------------------
+
+Note that specification of `%license` is part of the `%files` section.
+
+Every Perl module __MUST__ package the upstream-provided License file(s)
+using both the `%license` macro *and* the `%doc` macro.
+
+Furthermore, the packager __MUST__ ensure that the `License:` meta-tag
+matches the upstream-provided License file(s).
+
+Unfortunately, a small handful of Perl modules on CPAN do not include
+the applicable license files.
+
+It is probably illegal and certainly bad form for anyone other that the
+upstream maintainer to add a license file to a package.
+
+For YJL there is a workaround. YJL has a packaged called
+`common-CPAN-licenses` that contains *most* of the various OpenSource
+licenses used in Perl modules on CPAN.
+
+When a Perl module does not include the license text *and* the text
+of the licenses specified by the package are included in that package,
+add the following to the Runtime `Requires:` RPM spec file meta tags:
+
+    %if 0%{?perl5_cpanlic:1} == 1
+    Requires: common-CPAN-licenses
+    %endif
+
+Then in the spec file `%install` section, add something like the
+following:
+
+    %if 0%{?perl5_cpanlic:1} == 1
+    cat > Perl5-Licenses.txt << "EOF"
+    This package specifies it uses the Perl 5 licenses but did not include
+    them in the package source.
+
+    They can be found in the following directory:
+
+      %{perl5_cpanlic}/Perl5/
+
+    EOF
+    %endif
+
+Obviously if the package does not specify the Perl 5 license, then that
+needs to be tailored to the license it does specify.
+
+The created `Perl5-Licenses.txt` (or whatever if it is a different
+specified license) can then be conditionally included in `%files`:
+
+    %if 0%{?perl5_cpanlic:1} == 1
+    %license Perl5-Licenses.txt
+    %doc Changes README samples Perl5-Licenses.txt
+    %else
+    %doc Changes README samples
+    %endif
+    %doc %{name}-make.test.log
+
+
+End Notes
+---------
+
+These are general guidelines. There are conditions that are not covered
+by these guidelines, and conditions that may require deviation from them.
 
 
 
