@@ -135,4 +135,19 @@ needs the OpenSSL API for which LibreSSL is not sufficient.
 Filesystem
 ----------
 
+YJL will follow the
+[FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/index.html)
+specification.
+
+Despite being a 64-bit operating system, LFS will use `/{,usr/}lib`
+for libraries rather than the `/{,usr/}lib64` that the majority of
+64-bit x86\_64 Linux distributions use.
+
+There are plans for multilib support, but done differently than most
+distributions do it.
+
+For more information, see [01-FHS-Note](01-FHS-Note.md) and
+[01-Multilib](01-Multilib.md).
+
+
 
