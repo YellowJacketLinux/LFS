@@ -239,6 +239,12 @@ few exception, I do `BuildRequires:` the `"suggests"`.
 Those are the `BuildRequires:` that *must* be present on the RPM build
 system regardless of whether or not tests are run.
 
+Some (but not all) binary Perl modules will need a `BuildRequires:`
+added for a library dependency, e.g. for XML::Parser which links
+against `libexpat.so`:
+
+    BuildRequires:  expat-devel
+
 ### Conditional Test Requirements
 
 To run tests, the RPM build system will usually need quite a few additional
@@ -321,9 +327,294 @@ There is already a `BuildRequires:  perl(ExtUtils::MakeMaker)` that
 precedes the `%{runtests}` conditional, so a second is not needed. And
 obviously do not also need two `BuildRequires:  perl(File::Spec)` tags.
 
-__MORE LATER__
 
-I will write more later.
+Runtime Requirements
+--------------------
+
+For the RPM spec file `Requires:` tags, RPM is actually pretty good at
+figuring that out automatically *however* I always set it up manually
+anyway.
+
+Use the `"runtime"` section of the `"prereqs"` from the `META.json` or
+`MYMETA.json` file. For example:
+
+
+    "prereqs" : {
+      [...]
+      "runtime" : {
+        "requires" : {
+          "Carp" : "0",
+          "Data::Section" : "0",
+          "File::Spec" : "0",
+          "IO::Dir" : "0",
+          "Module::Load" : "0",
+          "Text::Template" : "0",
+          "parent" : "0",
+          "perl" : "5.006",
+          "strict" : "0",
+          "utf8" : "0",
+          "warnings" : "0"
+        }
+      },
+    },
+
+That translates to:
+
+    Requires: perl(Carp)
+    Requires: perl(Data::Section)
+    Requires: perl(File::Spec)
+    Requires: perl(IO::Dir)
+    Requires: perl(Module::Load)
+    Requires: perl(Text::Template)
+    Requires: perl(parent)
+    Requires: perl(strict)
+    Requires: perl(utf8)
+    Requires: perl(warnings)
+
+Notice again I left out the explicit Perl version requirement. An RPM
+package archive restricts the building of the module to a specific series
+of Perl versions (e.g. 5.36.x) or on some distributions, an even more
+specific of Perl.
+
+For YJL, this is handled with the `%{perl5_API}` and `%{perl5_ABI}`
+RPM macros, but they should be used in such a way that the package
+still works when built for another distribution.
+
+For `noarch` packages, use the following:
+
+    %if 0%{?perl5_API:1} == 1
+    Requires: %{perl5_API}
+    %endif
+
+For binary packages, instead use the following:
+
+    %if 0%{?perl5_ABI:1} == 1
+    Requires: %{perl5_ABI}
+    %endif
+
+In both cases, those `Requires:` are provided by the YJL build of Perl
+(see [perl.spec](SPECS/perl.spec)).
+
+By wrapping the `Requires:` in a conditional, the spec files will still
+build installable packages on other GNU/Linux distributions as well.
+
+
+The RPM Package Description
+---------------------------
+
+For the `%description` part of a CPAN Perl Module, when available I
+just take the description offered on CPAN. Sometimes it does require
+some redaction for the purpose of a an RPM package.
+
+
+The RPM Spec File Build Preparation Section
+-------------------------------------------
+
+Generally this will just be the two lines:
+
+    %prep
+    %setup -n %{cpanname}-%{version}
+
+In once case, the `Changes` file which I like to package with the
+`%doc` macro had an execution bit set on it in the source package.
+
+In that case, I fixed it within `%prep`:
+
+    %prep
+    %setup -n %{cpanname}-%{version}
+    chmod -x Changes
+
+(using `%__chmod` would have been better, note to self)
+
+
+The RPM Spec File Build Section
+-------------------------------
+
+Most (but not all) Perl modules on CPAN build using a `Makefile.PL`
+file to generate the Makefile.
+
+There are other build systems. I will cross that bridge when I come
+to them and describe them here, so they can be water under the bridge.
+
+### Makefile.PL Build System
+
+When a Perl module has a `Makefile.PL` the `%build` section should
+*almost always* look like this:
+
+    %build
+    %__perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 NO_PERLLOCAL=1 OPTIMIZE="$RPM_OPT_FLAGS"
+    make %{?_smp_mflags}
+
+The `INSTALLDIRS=vendor` tells `Makefile.PL` that this is being packaged
+for installation and should use the directories defined when `%__perl`
+was built for distribution vendor-provided Perl modules.
+
+The `NO_PACKLIST=1` tells the `Makefile.PL` not to create a packlist.
+A packlist interferes with RPM package installation and the functionallity
+is provided by RPM itself.
+
+The `NO_PERLLOCAL=1` tells the `Makefile.PL` that `perllocal.pod` should
+not be updated. That is for packages installed through the CPAN utility
+itself (or manually built on the system).
+
+The `OPTIMIZE="$RPM_OPT_FLAGS"` is really only needed for binary Perl
+modules but it does not hurt anything when used with `noarch` Perl
+modules. It allows the optimization flags set by RPM to be used. This
+is important for binary modules as it includes things like
+`-D_FORTIFY_SOURCE=2` that help protect against things like buffer
+overflows from being exploited.
+
+With the `make` command, the `%{?_smp_mflags}` again is really only
+needed for binary Perl modules but does not hurt anything with `noarch`
+Perl modules. It just speeds up the build process on systems that have
+more than one CPU core available for building.
+
+### Note on SMP MFLAGS
+
+The value of `%{?_smp_mflags}` is initially defined by RPM based upon
+how many cores are available on the system.
+
+My particular hardware uses a case with less than optimal air flow, and
+is located in the naturally warmest room of the house.
+
+As a result, when I allow all eight cores to be used and build something
+very CPU intensive for long periods of time (like building GCC), on hot
+days I actually CPU temperature warnings.
+
+So in my `~/.rpmmacros` file I set the following:
+
+    %_smp_mflags -j4
+
+When only using four cores, the build takes a little longer but I am
+less likely to get the CPU temperature warnings and when I do still
+get them I can just take the case lid off during the build.
+
+My case is a low-profile 'Media PC' case but with a server motherboard
+and a Xeon processor. Furthermore there is a fanless nVidia GPU in it
+with a large heat sink that restricts airflow inside the case.
+What I need to do is have a machinst drill ventilation holes in the
+lid right above the CPU cooler fan.
+
+Anyway I mention manually setting the `%_smp_mflags` to only use a
+subset of available cores in case anyone else has a similar situation
+when the default value of ALL cores is used and CPU temperature warnings
+happen with very intensive builds.
+
+
+The RPM Spec File Check Section
+-------------------------------
+
+In almost all cases, the `%check` section of the RPM spec file should
+look like this:
+
+    %check
+    %if 0%{?runtests:1} == 1
+    make test > %{name}-make.test.log 2>&1
+    %else
+    echo "make test not run during package build." > %{name}-make.test.log
+    %endif
+
+The `%if` block only runs the test if the RPM build system has defined
+the `%{runtests}` macro.
+
+The `%else` block indicates that tests were not run when that macro has
+not been defined on the build system.
+
+YJL policy is to log test results and package them with `%doc` just in
+case the end user ever wants or needs to review them, so that is why
+it is important to indicate tests were not run when they are not run.
+
+On the production build server they will always be run but to package
+the results of tests with `%doc` the results file needs to exist even
+if the tests were not run.
+
+In some cases, such as when an X11 server is needed to run the tests,
+the above `%check` system may need modification.
+
+
+The RPM Spec File Install Section
+---------------------------------
+
+Both `noarch` and binary Perl modules generally need the following
+`%install` section:
+
+    %install
+    make install DESTDIR=%{buildroot}
+
+Perl tends to install modules without the write bit set. for noarch
+packages that is not a problem, but for binary Perl modules it interferes
+with the ability for RPM to strip the binaries.
+
+Binary Perl modules thus need the following addition:
+
+    %{_fixperms} %{buildroot}%{perl5_vendorarch}
+
+That will set the write bit so that RPM stripping works.
+
+
+The RPM Spec File Files Section
+-------------------------------
+
+The `%files` should always set the `%defattr`:
+
+%files
+%defattr(-,root,root,-)
+
+The package should own all directories it installs inside of the
+`%{perl5_vendorlib}` (for noarch) or `%{perl5_vendorlib}` (for binary)
+directories, even if those directories are already owned by a module
+that is dependency.
+
+With a dependency, it is all possible the dependency is installed in
+either `%perl5_privlib` or `%perl5_sitelib` for `noarch` dependencies,
+or in `%perl5_archlib` or `%perl5_sitearch` for binary dependencies.
+
+In those cases, the Perl module being packages would leave empty
+directories behind when uninstalled if it does own all directories
+inside of its module install directory.
+
+Since Perl likes to install without the write bit, I like to manually
+specify the attributes of installed files without the write bit.
+
+Due to a bug in current versions of RPM (see (00-RPM-POST-INSTALL-BUG.md))
+the attributes of binary modules should set manually anyway.
+
+Honestly the RPM bug may not matter for binary Perl modules, they may
+not need the execution bit set to work on GNU/Linux, I do not know.
+
+Anyway what I do is manually set the the attributes for text files
+inside the Perl module directory to `0444` and I manually set the
+attributes for binary files inside the Perl module directory to
+`0555`. Thus, the attributes match what they looked like after the
+install but before `%{_fixperms}` and before the RPM scriptlets that
+automatically run aftef `%install`.
+
+Example:
+
+    %files
+    %dir %{perl5_vendorarch}/XML
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser.pm
+    %dir %{perl5_vendorarch}/XML/Parser
+    %dir %{perl5_vendorarch}/XML/Parser/Encodings
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/Encodings/Japanese_Encodings.msg
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/Encodings/README
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/Encodings/*.enc
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/Expat.pm
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/LWPExternEnt.pl
+    %dir %{perl5_vendorarch}/XML/Parser/Style
+    %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser/Style/*.pm
+    %dir %{perl5_vendorarch}/auto/XML
+    %dir %{perl5_vendorarch}/auto/XML/Parser
+    %dir %{perl5_vendorarch}/auto/XML/Parser/Expat
+    %attr(0555,root,root) %{perl5_vendorarch}/auto/XML/Parser/Expat/Expat.so
+
+
+
+
+
+
+
+
 
 
 
