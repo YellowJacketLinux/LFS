@@ -5,8 +5,8 @@ This file explains the packaging guidelines that I am attempting to
 follow for Free Libre Open Source Software (FLOSS) Perl modules from
 [CPAN](https://metacpan.org/)
 
-These guildelines are for RPM packages, not for installing modules via
-the native cpan installer (which also works).
+These guidelines are for RPM packages, not for installing modules via
+the native CPAN installer (which also works).
 
 
 YJL RPM Macros for Perl
@@ -27,7 +27,7 @@ For packaging modules from CPAN, the following macros are used:
 * `%{perl5_ABI}` --- Used in YJL to limit a binary package to the
   series of Perl it was packaged for.
 * `%{perl5_cpanlic}` --- Used in YJL for the handful of cases where
-  a perl packages specifies a license but does not actually include
+  a Perl packages specifies a license but does not actually include
   the license in the package tarball.
 
 ### Non-Perl Specific Macros
@@ -36,7 +36,7 @@ Virtually every Perl module has tests that should be run, but to avoid
 circular dependency issues one should *always* be able to build a Perl
 module without running the tests.
 
-The `%{runtests}` macro is a boolean macro that YJL uses to determine
+The `%{runtests}` macro is a Boolean macro that YJL uses to determine
 whether or not tests should be run.
 
 To conditionally run tests, I use the following in my `~/.rpmmacros`
@@ -82,10 +82,10 @@ Scripting language specific macros should be versioned, and I chose
 to not follow the incorrect mainstream naming scheme just because that
 is what all (or most) distributions do.
 
-Other distros LOVE to have distro-specific Perl and Python macros that
-are difficult to identify what it is they are trying to do, making
-building their RPM spec files a nightmare on another system, so I
-do not feel bad about this deviation one bit *especially* since this
+Other distributions LOVE to have distribution-specific Perl and Python
+macros that are difficult to identify what it is they are trying to do,
+making building their RPM spec files a nightmare on another system, so
+I do not feel bad about this deviation one bit *especially* since this
 deviation from common practice is cake to work around.
 
 
@@ -93,7 +93,7 @@ First Line Of The RPM Spec File
 -------------------------------
 
 The very first line should define the CPAN name of the module in a macro
-name `cpanname`. Usually it is the perl module but replacing any
+name `cpanname`. Usually it is the Perl module but replacing any
 occurrences `::` with a `-`, e.g. the Perl module `Test::More::UTF8`
 would have a CPAN name of `Test-More-UTF8`.
 
@@ -133,8 +133,8 @@ just using `Development/Libraries` as such:
 
     Group:    Development/Libraries
 
-To me that does not quite feel right as most perl modules are both
-development *and* runtime libraries. I will figure that out later.
+To me that does not quite feel right as most Perl modules are both
+development *and* run-time libraries. I will figure that out later.
 It seems on my CentOS 7.9.2009 (running the ancient Perl 5.16.3)
 that many Perl modules just do not specify a group. Anyway...
 
@@ -142,7 +142,7 @@ For the RPM spec file `License:` metadata tag, the
 [SPDX License Identifier](https://spdx.org/licenses/) should be used.
 
 Many (but not) Perl modules on CPAN specify they use the same license
-as Perl5 itself, and on CPAN those packages are labelled as
+as Perl5 itself, and on CPAN those packages are labeled as
 
     License: perl_5
 
@@ -191,8 +191,8 @@ Of course if the package itself specifies an even newer version of
 Note the version of `ExtUtils::MakeMaker` in Perl 5.36.1 is 7.64, for
 YJL itself that version requirement will always be met regardless of
 whether or not it is specified, but it still needs to be specified so
-that people trying to build the package for another distro (such as
-CentOS 7 where it is only at version 6.68 if not updated).
+that people trying to build the package for another distribution (such
+as CentOS 7 where it is only at version 6.68 if not updated).
 
 ### Determining Build Requirements
 
@@ -320,7 +320,7 @@ and the second `"File::Spec" : "0"`.
 
 Requiring specific versions of Perl itself is problematic because of
 `Epoch:` metadata tags that were necessary due to RPM evaluating version
-strings as integers deliminated by a `.` while Perl evaluated everything
+strings as integers delimited by a `.` while Perl evaluated everything
 after the dot as fractional.
 
 There is already a `BuildRequires:  perl(ExtUtils::MakeMaker)` that
@@ -328,8 +328,8 @@ precedes the `%{runtests}` conditional, so a second is not needed. And
 obviously do not also need two `BuildRequires:  perl(File::Spec)` tags.
 
 
-Runtime Requirements
---------------------
+Run-Time Requirements
+---------------------
 
 For the RPM spec file `Requires:` tags, RPM is actually pretty good at
 figuring that out automatically *however* I always set it up manually
@@ -450,7 +450,7 @@ for installation and should use the directories defined when `%__perl`
 was built for distribution vendor-provided Perl modules.
 
 The `NO_PACKLIST=1` tells the `Makefile.PL` not to create a packlist.
-A packlist interferes with RPM package installation and the functionallity
+A packlist interferes with RPM package installation and the functionality
 is provided by RPM itself.
 
 The `NO_PERLLOCAL=1` tells the `Makefile.PL` that `perllocal.pod` should
@@ -490,9 +490,9 @@ less likely to get the CPU temperature warnings and when I do still
 get them I can just take the case lid off during the build.
 
 My case is a low-profile 'Media PC' case but with a server motherboard
-and a Xeon processor. Furthermore there is a fanless nVidia GPU in it
+and a Xeon processor. Furthermore there is a fan-less nVidia GPU in it
 with a large heat sink that restricts airflow inside the case.
-What I need to do is have a machinst drill ventilation holes in the
+What I need to do is have a machinist drill ventilation holes in the
 lid right above the CPU cooler fan.
 
 Anyway I mention manually setting the `%_smp_mflags` to only use a
@@ -587,7 +587,7 @@ inside the Perl module directory to `0444` and I manually set the
 attributes for binary files inside the Perl module directory to
 `0555`. Thus, the attributes match what they looked like after the
 install but before `%{_fixperms}` and before the RPM scriptlets that
-automatically run aftef `%install`.
+automatically run after `%install`.
 
 Example:
 
@@ -648,12 +648,12 @@ It is probably illegal and certainly bad form for anyone other that the
 upstream maintainer to add a license file to a package.
 
 For YJL there is a workaround. YJL has a packaged called
-`common-CPAN-licenses` that contains *most* of the various OpenSource
+`common-CPAN-licenses` that contains *most* of the various Open Source
 licenses used in Perl modules on CPAN.
 
 When a Perl module does not include the license text *and* the text
 of the licenses specified by the package are included in that package,
-add the following to the Runtime `Requires:` RPM spec file meta tags:
+add the following to the Run-Time `Requires:` RPM spec file meta tags:
 
     %if 0%{?perl5_cpanlic:1} == 1
     Requires: common-CPAN-licenses
