@@ -29,7 +29,7 @@ __Yellow Jacket GNU/Linux 6.1__
 
 to indicate the Linux 6.1 series kernel is shipped with it.
 
-### Subversion
+### GLibC Subversion
 
 YJL will have a subversion referencing the version of GLibC used for
 the build. The subversion will be referenced in the `/etc/yjl-release`
@@ -38,6 +38,31 @@ tag.
 If I had an installer now, that file would thus contain:
 
     Yellow Jacket GNU/Linux 6.1 (GLibC 2.37)
+
+### Kernel Package
+
+YJL will provide vanilla kernel packages (I do not intend to provide
+patched kernels) but I also hope to create a system by which a user
+can download GPG signed kernel configuration files tailored to their
+hardware (say, a particular NUC series) and the GPG kernel source and
+build customized kernel packages on their system with little technical
+experience required.
+
+### The Philosophy
+
+When a given LTS kernel provides what a user needs, that user should
+not have to upgrade their install to a completely new version that may
+do things quite differently (like the SystemV to SystemD init upgrade,
+X11 to Wayland, etc.) just to have a system that has modern libraries
+and programs.
+
+An upgrade of YJL to a newer LTS kernel does not mean there will be
+major structural updates to how YJL works, but if there are, that is
+when they will happen.
+
+Of course a user can install a newer kernel (even non-LTS) if they so
+choose and/or need features of a newer kernel but do not want the
+structural changes of a newer YJL.
 
 
 GNU C Library (GLibC)
@@ -164,4 +189,10 @@ Repository Layers
 “Ogres are like onions. Onions have layers. Ogres have have layers.
 Onions have layers. You get it? We both have layers.” --- Shrek
 
+Unlike distributions that try to package everything under the sun,
+YJL will provide a solid core that groups of users with a particular
+interest or need can build on top of---even replacing packages in
+the solid core if their specialist need requires it.
 
+See [01-Repository-Macro](01-Repository-Macro.md) for more information
+on how this layering system would work.
