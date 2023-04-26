@@ -4,8 +4,8 @@
 # General macros
 %__perl /usr/bin/perl
 %perl5 %__perl
-%perl5_privlib    %{_prefix}/lib/perl5/%{perl5_version}/core_perl
-%perl5_archlib    %{_libdir}/perl5/%{perl5_version}/core_perl
+%perl5_corelib    %{_prefix}/lib/perl5/%{perl5_version}/core_perl
+%perl5_corearch   %{_libdir}/perl5/%{perl5_version}/core_perl
 %perl5_sitelib    %{_prefix}/lib/perl5/%{perl5_version}/site_perl
 %perl5_sitearch   %{_libdir}/perl5/%{perl5_version}/site_perl
 %perl5_vendorlib  %{_prefix}/lib/perl5/%{perl5_version}/vendor_perl
