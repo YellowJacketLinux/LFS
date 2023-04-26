@@ -422,9 +422,7 @@ In that case, I fixed it within `%prep`:
 
     %prep
     %setup -n %{cpanname}-%{version}
-    chmod -x Changes
-
-(using `%__chmod` would have been better, note to self)
+    %__chmod -x Changes
 
 
 The RPM Spec File Build Section
@@ -566,8 +564,8 @@ directories, even if those directories are already owned by a module
 that is dependency.
 
 With a dependency, it is all possible the dependency is installed in
-either `%perl5_privlib` or `%perl5_sitelib` for `noarch` dependencies,
-or in `%perl5_archlib` or `%perl5_sitearch` for binary dependencies.
+either `%perl5_corelib` or `%perl5_sitelib` for `noarch` dependencies,
+or in `%perl5_corearch` or `%perl5_sitearch` for binary dependencies.
 
 In those cases, the Perl module being packages would leave empty
 directories behind when uninstalled if it does own all directories
