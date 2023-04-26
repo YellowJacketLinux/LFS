@@ -169,8 +169,8 @@ for libraries rather than the `/{,usr/}lib64` that the majority of
 There are plans for multilib support, but done differently than most
 distributions do it.
 
-For more information, see [01-FHS-Note](01-FHS-Note.md) and
-[01-Multilib](01-Multilib.md).
+For more information, see [FHS-Note](01-FHS-Note.md) and
+[Multilib-Note](02-Multilib-Note.md).
 
 
 Package Management
