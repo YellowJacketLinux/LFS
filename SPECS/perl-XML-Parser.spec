@@ -80,6 +80,7 @@ EOF
 %endif
 
 %files
+%defattr(-,root,root,-)
 %dir %{perl5_vendorarch}/XML
 %attr(0444,root,root) %{perl5_vendorarch}/XML/Parser.pm
 %dir %{perl5_vendorarch}/XML/Parser

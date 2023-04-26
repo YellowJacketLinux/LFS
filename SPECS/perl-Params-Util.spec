@@ -62,7 +62,7 @@ params and data are coming in from outside your code.
 
 %prep
 %setup -n %{cpanname}-%{version}
-chmod -x Changes
+%__chmod -x Changes
 
 
 %build
