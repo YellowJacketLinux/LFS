@@ -202,3 +202,4 @@ started:
 
 * [01-Non-Standard-Macros](01-Non-Standard-Macros.md)
 * [01-Perl-Modules](01-Perl-Modules.ms)
+* [APX-RPM-Post-Install-Bug](APX-RPM-Post-Install-Bug.md)
