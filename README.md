@@ -196,3 +196,9 @@ the solid core if their specialist need requires it.
 
 See [01-Repository-Macro](01-Repository-Macro.md) for more information
 on how this layering system would work.
+
+Packaging guidelines will need to be written. Some of this has been
+started:
+
+* [01-Non-Standard-Macros](01-Non-Standard-Macros.md)
+* [01-Perl-Modules](01-Perl-Modules.ms)
