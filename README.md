@@ -201,5 +201,5 @@ Packaging guidelines will need to be written. Some of this has been
 started:
 
 * [Non-Standard-Macros](04-Non-Standard-Macros.md)
-* [Perl-Modules](05-Perl-Modules.ms)
+* [Perl-Modules](05-Perl-Modules.md)
 * [APX-RPM-Post-Install-Bug](APX-RPM-Post-Install-Bug.md)
