@@ -29,20 +29,26 @@ __Yellow Jacket GNU/Linux 6.1__
 
 to indicate the Linux 6.1 series kernel is shipped with it.
 
+### Subversion
+
+YJL will have a subversion referencing the version of GLibC used for
+the build. The subversion will be referenced in the `/etc/yjl-release`
+tag.
+
+If I had an installer now, that file would thus contain:
+
+    Yellow Jacket GNU/Linux 6.1 (GLibC 2.37)
+
 
 GNU C Library (GLibC)
 ---------------------
 
-YJL will use the ‘Current Stable’ version of GLibC when the bootstrap
-takes place and will not be updated within a YJL release cycle unless
-there is a serious security issue that can not easily be addressed by
-patching the YJL GLibC version of GLibC.
+Every time a new stable version of GLibC is released (about every six
+months) another bootstrap of YJL will take place using the new GLibC.
 
-Upgrading GLibC is not *supposed* to break binary compatility as long
-as the __SAME__ kernel headers are used, and usually it does not break
-binary compatibility, but I am convinced it is better to not update
-GLibC if and when known security or other critical bugs can patched
-within the running version of GLibC.
+Once all packages are built and a testing period has been performed,
+the new subversion will be released as an update to the old previous
+subversion thus allowing the update to take place.
 
 
 GNU C Compiler (GCC)
@@ -51,16 +57,15 @@ GNU C Compiler (GCC)
 YJL will use the ‘Current Stable’ version of GCC when the bootstrap
 takes place. Point release updates of GCC (e.g. GCC 12.2.0 to 12.2.1)
 will be made available as updates. Major version updates (e.g. 12.2.x
-to 12.3.x) *may* be made available as packages that install in `/opt`
-in parallel to the system GCC.
+to 12.3.x) would have to take place at the next GLibC bootstrap.
 
 The YJL GCC packaging will always include the c,c++,ada, and d compilers
 that are required to build newer versions of themselves. Fortran, Go,
 and Objc/Objc++ will be made available *except* for in the `1.core`
 package repository.
 
-Older versions of GCC *may* be made available in `/opt` but will only
-provide c/c++ compilers.
+Older versions of GCC *may* be made available in `/opt/legacy` but will
+only provide c/c++ compilers if made available.
 
 
 Perl5
@@ -68,12 +73,8 @@ Perl5
 
 YJL will use the ‘Current Stable’ version of Perl5 when the bootstrap
 takes place. Point release updates of Perl5 (e.g. 5.36.0 to 5.36.1)
-will be made available as updates.
-
-There should only ever be one Perl5 interpreter on a system. When a
-Perl series is no longer being updated, YJL *may* provide an *optional*
-update repository that allows the system Perl5 to be updated to a
-newer series.
+will be made available as updates. Major updates to Perl5 (e.g. 5.36.x
+to 5.38.x) would have to take place at the next GLibC bootstrap.
 
 
 Python3
@@ -81,13 +82,8 @@ Python3
 
 YJL will use the ‘Current Stable’ version of Python3 when the bootstrap
 takes place. Point releases of Python3 (e.g. Python 3.11.2 to 3.11.3)
-will be made available as updates.
-
-There should only ever be one Python3 interpreter on a system. Due to
-the fact that many applications (including RPM itself) build Python
-modules of their own that are tied to a Python3 series, it is unlikely
-that new Python3 series will be made available when the current Python3
-series is no longer receiving updates.
+will be made available as updates. Major updates to Python3 (e.g. 3.11.x
+to 3.12.x) would have to take place at the next GLibC bootstrap.
 
 
 Python2
@@ -103,6 +99,8 @@ It will install into `/opt/legacy/python2` as the install prefix. Scripts
 that call Python2 should call it using the shebang:
 
     #!/usr/bin/env python2
+
+The user calling it will of course have to have the appropriate path.
 
 Some add-on modules will be built for it as need arises.
 
@@ -149,5 +147,21 @@ distributions do it.
 For more information, see [01-FHS-Note](01-FHS-Note.md) and
 [01-Multilib](01-Multilib.md).
 
+
+Package Management
+------------------
+
+YJL will use the [RPM Package Manager](http://rpm.org/) for package
+management.
+
+RPM was chosen because I have a lot of personal experience with it,
+not because it is inherently better than other available options.
+
+
+Repository Layers
+-----------------
+
+“Ogres are like onions. Onions have layers. Ogres have have layers.
+Onions have layers. You get it? We both have layers.” --- Shrek
 
 
