@@ -194,12 +194,12 @@ YJL will provide a solid core that groups of users with a particular
 interest or need can build on top of---even replacing packages in
 the solid core if their specialist need requires it.
 
-See [01-Repository-Macro](01-Repository-Macro.md) for more information
+See [Repository-Macro](03-Repository-Macro.md) for more information
 on how this layering system would work.
 
 Packaging guidelines will need to be written. Some of this has been
 started:
 
-* [01-Non-Standard-Macros](01-Non-Standard-Macros.md)
-* [01-Perl-Modules](01-Perl-Modules.ms)
+* [Non-Standard-Macros](04-Non-Standard-Macros.md)
+* [Perl-Modules](05-Perl-Modules.ms)
 * [APX-RPM-Post-Install-Bug](APX-RPM-Post-Install-Bug.md)
