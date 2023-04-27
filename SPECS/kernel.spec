@@ -3,7 +3,7 @@
 %global __strip /bin/true
 # kernel tags
 %global kseries 6.1
-%global krel 25
+%global krel 26
 %global localktag genesis.1
 
 Name:     kernel
@@ -12,7 +12,7 @@ Release:  %{?repo}%{localktag}%{?dist}
 Summary:  The Linux kernel
 
 Group:    System Environment/Kernel
-License:  GPLv2
+License:  GPL-2.0 WITH Linux-syscall-note
 URL:      https://www.kernel.org
 Source0:  https://www.kernel.org/pub/linux/kernel/v6.x/linux-%{version}.tar.xz
 Source1:  config-%{version}-%{localktag}
@@ -87,6 +87,9 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 
 
 %changelog
+* Thu Apr 27 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.26-genesis.1
+- Update to 6.1.26
+
 * Thu Apr 20 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.25-genesis.1
 - Update to 6.1.25
 
