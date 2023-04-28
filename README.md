@@ -156,6 +156,22 @@ the OpenSSL API provided by LibreSSL.
 [OpenSSL](https://www.openssl.org/) will be provided for software that
 needs the OpenSSL API for which LibreSSL is not sufficient.
 
+### FIPS Note
+
+YJL has zero interest in
+[FIPS Compliance](https://www.nist.gov/federal-information-processing-standards-fips)
+
+See [LibreSSL Portable Issue 572](https://github.com/libressl/portable/issues/572)
+
+FIPS compliance does not make a system more secure, it only means
+there is a means by which to invoke a subset of approved cryptographic
+functions that meet a standard defined in a board room, some of which
+have not aged very well and should not be used.
+
+If you are obligated to FIPS compliance, use something else, or create
+a custom repository with a FIPS-mode OpenSSL and rebuild all TLS related
+packages to link against it.
+
 
 Filesystem
 ----------
