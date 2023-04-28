@@ -6,7 +6,7 @@ are non defined by RPM but are considered ‘defacto-standard’ such as
 some of the python macros.
 
 When using non-standard macros that are defined outside of an RPM spec
-file, the RPM spec file *must* accomodate building when and where that
+file, the RPM spec file *must* accommodate building when and where that
 macro is not defined.
 
 The following non-standard macros are being used by YJL.
@@ -15,8 +15,10 @@ The following non-standard macros are being used by YJL.
 2. [The `%repo` macro](#the-repo-macro)
 3. [The `%insinfo` macro](#the-insinfo-macro)
 4. [The `%runtests` macro](#the-runtests-macro)
-5. [The `%cpuoptimize` macro](#the-cpuoptimize-macro)
-6. [TODO --- Python Custom Macros](#todo-----python-custom-macros)
+5. [The `%libresslAPI` macro](#the-libresslapi-macro)
+6. [The `%cpuoptimize` macro](#the-cpuoptimize-macro)
+7. [Perl Specific Macros](#perl-specific-macros)
+8. [TODO --- Python Custom Macros](#todo-----python-custom-macros)
 
 
 The `%dist` macro
@@ -49,7 +51,7 @@ YLJ uses it to define which package repository within YJL the package
 was built for, and also uses it for conditional features depending
 upon which package repository it is being built for.
 
-See the file [00-REPO-MACRO.md](00-REPO-MACRO.md) for more information.
+See the [Repository-Macro](03-Repository-Macro.md) for more information.
 
 It is most commonly used at the beginning of a RPM `Release:` tag
 definition and when used in RPM `Release:` tag, it *must* be used at
@@ -129,7 +131,7 @@ the macro is *not* defined, the fallback then defines `%insinfo` to
 
 When a package installs `.info` files, the `%insinfo` macro *must* be
 used in the `%post` scriptlet to add the info file to the info database
-and `%insinfo --deleted` *must* be used in the `%preun` scriptlet to
+and `%insinfo --delete` *must* be used in the `%preun` scriptlet to
 remove the file from the info database *when the package is deleted
 and not just being updated*.
 
@@ -156,6 +158,26 @@ the test suite does not run.
 
 With most packages, tests are fast enough that they just should always
 be run.
+
+
+The `%libresslAPI` macro
+------------------------
+
+Packages the require the OpenSSL API but can build against LibreSSL are
+built against LibreSSL *however* to keep the RPM spec file portable to
+other GNU/Linux distributions that likely do not have `libressl-devel`.
+
+YJL defines the `%libresslAPI` macro so that during package build time,
+the RPM spec file can use it as a Boolean (either defined or not) to
+determine whether it should build require `libressl-devel` or `openssl-devel`.
+
+Example:
+
+    %if 0%{?libresslAPI:1} == 1
+    BuildRequires:  libressl-devel
+    %else
+    BuildRequires:  openssl-devel
+    %endif
 
 
 The `%cpuoptimize` macro
@@ -208,12 +230,12 @@ an optimized package, use the following:
     [do stuff]
     %endif
 
-### Defing the `%cpuoptimize` macro
+### Defining the `%cpuoptimize` macro
 
 For packages like GMP where the build script itself determines the
 proper optimizations to make, it does not really matter what the macro
 is defined to be as long as it begins with a `.`, does not end with a
-`.`, and otherwise only contains characters legal in an RPM `Realease:`
+`.`, and otherwise only contains characters legal in an RPM `Release:`
 metadata tag.
 
 Currently in my `~/.rpmmacros` file I have the following:
@@ -236,6 +258,12 @@ source package and get such optimization.
 Linux kernel optimization is not done within the RPM spec file itself
 but is performed during `make config`. Kernel packages should not use
 this macro tag.
+
+
+Perl Specific Macros
+--------------------
+
+For Perl, see [Perl Modules](05-Perl-Modules.md)
 
 
 TODO --- Python Custom Macros

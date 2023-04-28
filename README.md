@@ -1,104 +1,240 @@
-RPM Bootstrapping of LFS 11.3
-=============================
+YellowJacket GNU/Linux (YJL)
+============================
 
-In the old days when non-avian dinosaurs walked the earth, Red Hat had
-a decent end-user distribution called Red Hat Linux. I got my start in
-Linux using MKLinux DR3 which basically was Red Hat 5.1 ported to the
-Mach Microkernel.
+YellowJacket GNU/Linux is currently a *personal* GNU/Linux distribution
+that is based upon [Linux From Scratch 11.3](https://www.linuxfromscratch.org/)
+built using [CentOS 7.9.2009](https://www.centos.org/) as the build
+host.
 
-Well, by decent end-user distribution, we will not talk about Red Hat 7
-and the GCC 2.98 debacle...
+When an installer is ready, I will welcome contributors to this project
+but if it never becomes popular, I will still use and maintain it myself.
 
-Sometime later, when yum came into being, third party package repositories
-become common with Fedora Extras being the most popular. Those were good
-days.
+The purpose of YJL is to be a desktop distribution for hobbyists.
+Commercial ‘Enterprise’ GNU/Linux is of no interest for this project.
 
-Sometime later, the desktop end-user distribution became Fedora and with
-it came a very rapid release cycle with a quick EOL (End Of Life) and
-the focus seemed to change, with Fedora basically becoming a testing
-ground for what was going to be included in the next RHEL. I became
-disenfranchised with Fedora, and constantly needing to install a new
-buggy version because the version I had been using when EOL as soon as
-the bugs in it seemed to largely be ironed out.
+If you want to read what motivated this, see [The Why](APX-The-Why.md)
 
-I switched to CentOS 5 which had an incredible lifespan, and stuck with
-CentOS 5 until CentOS 7 was released.
+1. [Versioning Scheme](#versioning-scheme)
+2. [Kernel Package](#kernel-package)
+3. [GNU C Library (GLibC)](#gnu-c-library-glibc)
+4. [GNU Compiler Collection (GCC)](#gnu-compiler-collection-gcc)
+5. [Perl5](#perl5)
+6. [Python3](#python3)
+7. [Python2](#python2)
+8. [TLS Stack](#tls-stack)
+9. [Filesystem](#filesystem)
+10. [Package Management](#package-management)
+11. [Repository Layers](#repository-layers)
 
-CentOS 7 targets enterprise use but in many respects I used it in a
-similar fashion as the old Red Hat plus additional repository system
-meaning I maintained my own package repositories for things like FFmpeg,
-GStreamer, VLC, PHP, etc. where the CentOS/EPEL versions of those
-packages either did not exist or were too old.
 
-CentOS 7 was my base, and when I needed something more modern than what
-it shipped with, I built it (using GCC 5.x in `/opt` when GCC 4.x was
-too old, e.g. for building Audacity).
+Versioning Scheme
+-----------------
 
-CentOS 7 will go EOL on June 30, 2024 (just over a year from now),
-CentOS 8 is already EOL (as of December 31, 2021), and when CentOS 7
-goes EOL people will be forced into CentOS Stream which I really have
-no interest in. It looks like it is a QA distro for RHEL, so that the
-users are basically unpaid testers for RHEL.
+YJL will use ‘LTS’ kernels allowing longevity of a release without the
+expense of a kernel engineer to back-port kernel patches yet still retain
+a stable kernel API for the release.
 
-Frack that. I do not want to be a free tester for their commercial
-product they profit from.
+Thus, it is logical to me to give a YJL release the same version as the
+LTS kernel it ships with.
 
-Linux From Scratch
+If I had an installer now, it would thus be:
+
+__Yellow Jacket GNU/Linux 6.1__
+
+to indicate the Linux 6.1 series kernel is shipped with it.
+
+### GLibC Subversion
+
+YJL will have a subversion referencing the version of GLibC used for
+the build. The subversion will be referenced in the `/etc/yjl-release`
+tag.
+
+If I had an installer now, that file would thus contain:
+
+    Yellow Jacket GNU/Linux 6.1 (GLibC 2.37)
+
+
+Kernel Package
+--------------
+
+YJL will provide vanilla kernel packages (I do not intend to provide
+patched kernels) but I also hope to create a system by which a user
+can download GPG signed kernel configuration files tailored to their
+hardware (say, a particular NUC series) and the GPG signed kernel
+source and build customized kernel packages on their system with little
+technical experience required.
+
+Kernels will be vanilla LTS kernels and updates will be fron the same
+kernel series.
+
+### The Philosophy
+
+When a given LTS kernel provides what a user needs, that user should
+not have to upgrade their install to a completely new version that may
+do things quite differently (like the SystemV to SystemD init upgrade,
+X11 to Wayland, etc.) just to have a system that has modern libraries
+and programs.
+
+An upgrade of YJL to a newer LTS kernel does not mean there will be
+major structural updates to how YJL works, but if there are, that is
+when they will happen.
+
+Of course a user can install a newer kernel (even non-LTS) if they so
+choose and/or need features of a newer kernel but do not want the
+structural changes of a newer YJL.
+
+
+GNU C Library (GLibC)
+---------------------
+
+Every time a new stable version of GLibC is released (about every six
+months) another bootstrap of YJL will take place using the new GLibC.
+
+Once all packages are built and a testing period has been performed,
+the new subversion will be released as an update to the old previous
+subversion thus allowing the update to take place.
+
+
+GNU Compiler Collection (GCC)
+-----------------------------
+
+YJL will use the ‘Current Stable’ version of GCC when the bootstrap
+takes place. Point release updates of GCC (e.g. GCC 12.2.0 to 12.2.1)
+will be made available as updates. Major version updates (e.g. 12.2.x
+to 12.3.x) would have to take place at the next GLibC bootstrap.
+
+The YJL GCC packaging will always include the c,c++,ada, and d compilers
+that are required to build newer versions of themselves. FORTRAN, Go,
+and Objc/Objc++ will be made available *except* for in the `1.core`
+package repository.
+
+Older versions of GCC *may* be made available in `/opt/legacy` but will
+only provide c/c++ compilers if made available.
+
+
+Perl5
+-----
+
+YJL will use the ‘Current Stable’ version of Perl5 when the bootstrap
+takes place. Point release updates of Perl5 (e.g. 5.36.0 to 5.36.1)
+will be made available as updates. Major updates to Perl5 (e.g. 5.36.x
+to 5.38.x) would have to take place at the next GLibC bootstrap.
+
+
+Python3
+-------
+
+YJL will use the ‘Current Stable’ version of Python3 when the bootstrap
+takes place. Point releases of Python3 (e.g. Python 3.11.2 to 3.11.3)
+will be made available as updates. Major updates to Python3 (e.g. 3.11.x
+to 3.12.x) would have to take place at the next GLibC bootstrap.
+
+
+Python2
+-------
+
+Python2 is an expired environment but there still are legitimate reasons
+to have it for some users.
+
+The last version of Python2, with some security patches, will be available
+in an optional add-on repository.
+
+It will install into `/opt/legacy/python2` as the install prefix. Scripts
+that call Python2 should call it using the shebang:
+
+    #!/usr/bin/env python2
+
+The user calling it will of course have to have the appropriate path.
+
+Some add-on modules will be built for it as need arises.
+
+
+TLS Stack
+---------
+
+[GnuTLS](https://www.gnutls.org/) will be the default system TLS stack.
+Any software that needs a TLS stack that *can* be built against GnuTLS
+*will* be built against GnuTLS.
+
+GnuTLS will *not* be built with the OpenSSL API compatibility layer.
+
+### LibreSSL
+
+For software (including `kmod`) that needs the OpenSSL API,
+[LibreSSL](https://www.libressl.org/) will be used where the OpenSSL
+API provided by LibreSSL is sufficient.
+
+LibreSSL will be installed in such a way as to allow a parallel install
+of OpenSSL for cases where the OpenSSL API is needed but newer than
+the OpenSSL API provided by LibreSSL.
+
+### OpenSSL
+
+[OpenSSL](https://www.openssl.org/) will be provided for software that
+needs the OpenSSL API for which LibreSSL is not sufficient.
+
+### FIPS Note
+
+YJL has zero interest in
+[FIPS Compliance](https://www.nist.gov/federal-information-processing-standards-fips)
+
+See [LibreSSL Portable Issue 572](https://github.com/libressl/portable/issues/572)
+
+FIPS compliance does not make a system more secure, it only means
+there is a means by which to invoke a subset of approved cryptographic
+functions that meet a standard defined in a board room, some of which
+have not aged very well and should not be used.
+
+If you are obligated to FIPS compliance, use something else, or create
+a custom repository with a FIPS-mode OpenSSL and rebuild all TLS related
+packages to link against it.
+
+
+Filesystem
+----------
+
+YJL will follow the
+[FHS 3.0](https://refspecs.linuxfoundation.org/FHS_3.0/index.html)
+specification.
+
+Despite being a 64-bit operating system, LFS will use `/{,usr/}lib`
+for libraries rather than the `/{,usr/}lib64` that the majority of
+64-bit x86\_64 Linux distributions use.
+
+There are plans for multilib support, but done differently than most
+distributions do it.
+
+For more information, see [FHS-Note](01-FHS-Note.md) and
+[Multilib-Note](02-Multilib-Note.md).
+
+
+Package Management
 ------------------
 
-I had done the Linux From Scratch (LFS) project a couple times in the
-past as part of learning Linux, so I decided that I wanted to just do
-Linux From Scratch as my desktop distribution without an upstream
-vendor telling me I have to move to a new product. I can upgrade it
-when I feel like it.
+YJL will use the [RPM Package Manager](http://rpm.org/) for package
+management.
 
-LFS lacks a package manager. There are several options available, but
-I am already fond of the RPM Package Manager (RPM).
-
-This git repository contains the RPM spec files for my RPM bootstrapping
-of LFS 11.3 with just enough additional packages for a basic TLS capable
-networking (based on GnuTLS as the TLS stack) and RPM itself with the
-dependencies needed to build RPM.
-
-This may remain a personal project forever but I do hope to eventally
-(as in before June 30, 2024) have both a decent desktop environment
-and an installer, potentially allowing this to become a community
-driven “Socialist GNU/Linux” (users own the means to production) that
-is not driven or steered by capitalist interests as that is what I
-blame the demise of Red Hat on.
-
-Note that Fedora is actually a very good distribution for numerous use
-cases, it is just I felt really left out of those cases. I think it
-is possible to still meet many of those use cases without taking the
-direction Fedora took when Fedora Extras went away and the Red Hat
-distribution for desktop end users became Fedora.
-
-Please note I would not be able to spend the time I am spending on
-this without a benefactor who like me is saddened that the EOL of
-CentOS 7 seems to be the EOL of an era.
-
-Also please note I would not be able to create this project without
-the Free Software Movement having resulted in a large collection of
-high-quality FLOSS (Free-Libre Open Source Software).
-
-Servers will run on this when I am done, but servers really should
-have SELinux and I have no interest in SELinux for Desktop users,
-which is my target.
-
-Use a commercial distribution for your server needs, preferably one
-with a support contract and experienced coders who can deal with both
-security and usability bugs in a timely manner.
-
-EOF
+RPM was chosen because I have a lot of personal experience with it,
+not because it is inherently better than other available options.
 
 
+Repository Layers
+-----------------
 
+“Ogres are like onions. Onions have layers. Ogres have have layers.
+Onions have layers. You get it? We both have layers.” --- Shrek
 
+Unlike distributions that try to package everything under the sun,
+YJL will provide a solid core that groups of users with a particular
+interest or need can build on top of---even replacing packages in
+the solid core if their specialist need requires it.
 
+See [Repository-Macro](03-Repository-Macro.md) for more information
+on how this layering system would work.
 
+Packaging guidelines will need to be written. Some of this has been
+started:
 
-
-
-
-
-
+* [Non-Standard-Macros](04-Non-Standard-Macros.md)
+* [Perl-Modules](05-Perl-Modules.md)
+* [APX-RPM-Post-Install-Bug](APX-RPM-Post-Install-Bug.md)
