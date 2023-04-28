@@ -19,7 +19,7 @@ Versioning Scheme
 -----------------
 
 YJL will use ‘LTS’ kernels allowing longevity of a release without the
-expense of a kernel engineer to backport kernel patches yet still retain
+expense of a kernel engineer to back-port kernel patches yet still retain
 a stable kernel API for the release.
 
 Thus, it is logical to me to give a YJL release the same version as the
@@ -87,7 +87,7 @@ will be made available as updates. Major version updates (e.g. 12.2.x
 to 12.3.x) would have to take place at the next GLibC bootstrap.
 
 The YJL GCC packaging will always include the c,c++,ada, and d compilers
-that are required to build newer versions of themselves. Fortran, Go,
+that are required to build newer versions of themselves. FORTRAN, Go,
 and Objc/Objc++ will be made available *except* for in the `1.core`
 package repository.
 
