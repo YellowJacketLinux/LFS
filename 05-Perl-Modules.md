@@ -467,37 +467,6 @@ needed for binary Perl modules but does not hurt anything with `noarch`
 Perl modules. It just speeds up the build process on systems that have
 more than one CPU core available for building.
 
-### Note on SMP MFLAGS
-
-The value of `%{?_smp_mflags}` is initially defined by RPM based upon
-how many cores are available on the system.
-
-My particular hardware uses a case with less than optimal air flow, and
-is located in the naturally warmest room of the house.
-
-As a result, when I allow all eight cores to be used and build something
-very CPU intensive for long periods of time (like building GCC), on hot
-days I actually CPU temperature warnings.
-
-So in my `~/.rpmmacros` file I set the following:
-
-    %_smp_mflags -j4
-
-When only using four cores, the build takes a little longer but I am
-less likely to get the CPU temperature warnings and when I do still
-get them I can just take the case lid off during the build.
-
-My case is a low-profile 'Media PC' case but with a server motherboard
-and a Xeon processor. Furthermore there is a fan-less nVidia GPU in it
-with a large heat sink that restricts airflow inside the case.
-What I need to do is have a machinist drill ventilation holes in the
-lid right above the CPU cooler fan.
-
-Anyway I mention manually setting the `%_smp_mflags` to only use a
-subset of available cores in case anyone else has a similar situation
-when the default value of ALL cores is used and CPU temperature warnings
-happen with very intensive builds.
-
 
 The RPM Spec File Check Section
 -------------------------------
