@@ -1,5 +1,5 @@
-RPM Bootstrapping of LFS 11.3
-=============================
+The Motivation for YJL
+======================
 
 In the old days when non-avian dinosaurs walked the earth, Red Hat had
 a decent end-user distribution called Red Hat Linux. I got my start in
@@ -90,15 +90,4 @@ with a support contract and experienced coders who can deal with both
 security and usability bugs in a timely manner.
 
 EOF
-
-
-
-
-
-
-
-
-
-
-
 

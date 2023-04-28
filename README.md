@@ -12,6 +12,8 @@ but if it never becomes popular, I will still use and maintain it myself.
 The purpose of YJL is to be a desktop distribution for hobbyists.
 Commercial ‘Enterprise’ GNU/Linux is of no interest for this project.
 
+If you want to read what motivated this, see [The Why](APX-The-Why.md)
+
 
 Versioning Scheme
 -----------------
