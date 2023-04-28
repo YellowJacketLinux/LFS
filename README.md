@@ -17,6 +17,14 @@ If you want to read what motivated this, see [The Why](APX-The-Why.md)
 1. [Versioning Scheme](#versioning-scheme)
 2. [Kernel Package](#kernel-package)
 3. [GNU C Library (GLibC)](#gnu-c-library-glibc)
+4. [GNU Compiler Collection (GCC)](#gnu-compiler-collection-gcc)
+5. [Perl5](#perl5)
+6. [Python3](#python3)
+7. [Python2](#python2)
+8. [TLS Stack](#tls-stack)
+9. [Filesystem](#filesystem)
+10. [Package Management](#package-management)
+11. [Repository Layers](#repository-layers)
 
 
 Versioning Scheme
