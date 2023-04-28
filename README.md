@@ -14,6 +14,10 @@ Commercial ‘Enterprise’ GNU/Linux is of no interest for this project.
 
 If you want to read what motivated this, see [The Why](APX-The-Why.md)
 
+1. [Versioning Scheme](#versioning-scheme)
+2. [Kernel Package](#kernel-package)
+3. [GNU C Library (GLibC)](#gnu-c-library-glibc)
+
 
 Versioning Scheme
 -----------------
@@ -41,14 +45,19 @@ If I had an installer now, that file would thus contain:
 
     Yellow Jacket GNU/Linux 6.1 (GLibC 2.37)
 
-### Kernel Package
+
+Kernel Package
+--------------
 
 YJL will provide vanilla kernel packages (I do not intend to provide
 patched kernels) but I also hope to create a system by which a user
 can download GPG signed kernel configuration files tailored to their
-hardware (say, a particular NUC series) and the GPG kernel source and
-build customized kernel packages on their system with little technical
-experience required.
+hardware (say, a particular NUC series) and the GPG signed kernel
+source and build customized kernel packages on their system with little
+technical experience required.
+
+Kernels will be vanilla LTS kernels and updates will be fron the same
+kernel series.
 
 ### The Philosophy
 
@@ -78,8 +87,8 @@ the new subversion will be released as an update to the old previous
 subversion thus allowing the update to take place.
 
 
-GNU C Compiler (GCC)
---------------------
+GNU Compiler Collection (GCC)
+-----------------------------
 
 YJL will use the ‘Current Stable’ version of GCC when the bootstrap
 takes place. Point release updates of GCC (e.g. GCC 12.2.0 to 12.2.1)
