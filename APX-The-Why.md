@@ -60,7 +60,7 @@ of LFS 11.3 with just enough additional packages for a basic TLS capable
 networking (based on GnuTLS as the TLS stack) and RPM itself with the
 dependencies needed to build RPM.
 
-This may remain a personal project forever but I do hope to eventally
+This may remain a personal project forever but I do hope to eventually
 (as in before June 30, 2024) have both a decent desktop environment
 and an installer, potentially allowing this to become a community
 driven “Socialist GNU/Linux” (users own the means to production) that

@@ -6,7 +6,7 @@ are non defined by RPM but are considered ‘defacto-standard’ such as
 some of the python macros.
 
 When using non-standard macros that are defined outside of an RPM spec
-file, the RPM spec file *must* accomodate building when and where that
+file, the RPM spec file *must* accommodate building when and where that
 macro is not defined.
 
 The following non-standard macros are being used by YJL.
@@ -168,8 +168,8 @@ built against LibreSSL *however* to keep the RPM spec file portable to
 other GNU/Linux distributions that likely do not have `libressl-devel`.
 
 YJL defines the `%libresslAPI` macro so that during package build time,
-the RPM spec file can use it as a boolean (either defined or not) to
-determ whether it should build require `libressl-devel` or `openssl-devel`.
+the RPM spec file can use it as a Boolean (either defined or not) to
+determine whether it should build require `libressl-devel` or `openssl-devel`.
 
 Example:
 
@@ -230,12 +230,12 @@ an optimized package, use the following:
     [do stuff]
     %endif
 
-### Defing the `%cpuoptimize` macro
+### Defining the `%cpuoptimize` macro
 
 For packages like GMP where the build script itself determines the
 proper optimizations to make, it does not really matter what the macro
 is defined to be as long as it begins with a `.`, does not end with a
-`.`, and otherwise only contains characters legal in an RPM `Realease:`
+`.`, and otherwise only contains characters legal in an RPM `Release:`
 metadata tag.
 
 Currently in my `~/.rpmmacros` file I have the following:

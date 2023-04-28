@@ -47,11 +47,17 @@ __MUST__ end in a `.` when it is defined.
 
 ___1.core.___  
 : The core of YJL. Basically LFS plus enough for RPM and basic system
-usage including a text browser, mouse support, and fcron support.
+usage including a text browser, e-mail client, SSH server/client, GPM
+mouse support, NTPD client, and fcron support. I likely will add a 
+console-based game.
 
 ___2.cli.___  
 : Programs and libraries that do not need a graphical user interface,
 including the rebuild of some packages from the `1.core` repository.
+
+___2.py2.___  
+: Python2 and modules for Python2. This repository will not be active
+by default.
 
 ___3.gui.___  
 : Programs and libraries intended to support a Graphical Desktop
@@ -62,6 +68,10 @@ ___4.apps.___
 : Graphical programs that require a Graphical Desktop Environment but
 are not part of a *specific* Desktop Environment. For example, Firefox
 and Thunderbird.
+
+___4.pyworld.___  
+: Python 3 modules that are of interest to Python programmers and
+students but are not specifically needed by any programs in LFS.
 
 ___5.mate.___  
 : The MATE Graphical Desktop Environment.
