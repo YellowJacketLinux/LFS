@@ -656,6 +656,20 @@ specified license) can then be conditionally included in `%files`:
     %doc %{name}-make.test.log
 
 
+Disabling Makefile.PL Prompts
+-----------------------------
+
+Sometimes a Makefile.PL script will want user interaction. To just
+accept the defaults, add the line:
+
+    PERL_MM_USE_DEFAULT=1 \
+
+directly above the `perl Makefile.PL` line.
+
+See the `ExtUtils::MakeMaker` documentation for more information.
+
+
+
 End Notes
 ---------
 
