@@ -156,6 +156,9 @@ TLS Stack
 Any software that needs a TLS stack that *can* be built against GnuTLS
 *will* be built against GnuTLS.
 
+GnuTLS is licensed using GPLv3+ and LGPLv2+ which are *without question*
+compatible with the licenses of most software on a GNU/Linux system.
+
 GnuTLS will *not* be built with the OpenSSL API compatibility layer.
 
 ### LibreSSL
@@ -168,10 +171,24 @@ LibreSSL will be installed in such a way as to allow a parallel install
 of OpenSSL for cases where the OpenSSL API is needed but newer than
 the OpenSSL API provided by LibreSSL.
 
+LibreSSL is licensed under the OpenSSL license which is not considered
+to be compatible with the GPL licenses however there is a system library
+exception.
+
+#### LibreSSL as a System Library
+
+The kernel module loader (kmod) links against LibreSSL, which to me
+clearly qualifies LibreSSL as a ‘System Library’ with respect the
+[GPL System Library Exception](https://www.gnu.org/licenses/gpl-faq.en.html#SystemLibraryException)
+for both GPLv2 and GPLv3.
+
 ### OpenSSL
 
 [OpenSSL](https://www.openssl.org/) will be provided for software that
 needs the OpenSSL API for which LibreSSL is not sufficient.
+
+OpenSSL is now licensed under the Apache 2.0 license rather than the
+OpenSSL/SSLeay license it formerly used.
 
 ### FIPS Note
 
