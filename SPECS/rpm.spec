@@ -19,7 +19,7 @@ BuildRequires:	libcap-devel
 BuildRequires:	libacl-devel
 BuildRequires:	libarchive-devel
 BuildRequires:	libmagic-devel
-BuildRequires:	libsqlite3-devel
+BuildRequires:	sqlite3-devel
 Requires:	librpm = %{version}-%{release}
 
 %description
