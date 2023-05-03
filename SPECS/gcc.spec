@@ -48,26 +48,26 @@
 %global gcc_languages c,c++,ada,d
 %endif
 
-Name:		gcc
-Version:	12.2.0
-Release:	%{?repo}%{specrel}%{?dist}
-Summary:	The GCC C Compiler
+Name:     gcc
+Version:  12.2.0
+Release:  %{?repo}%{specrel}%{?dist}
+Summary:  The GCC C Compiler
 
-Group:		Development/Languages
-License:	LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
-URL:		https://gcc.gnu.org/
-Source0:	https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
+Group:    Development/Languages
+License:  LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
+URL:      https://gcc.gnu.org/
+Source0:  https://ftp.gnu.org/gnu/gcc/gcc-%{version}/gcc-%{version}.tar.xz
 # isl 0.24
-Source1:	https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2
-BuildRequires:	binutils   >= 2.35
-BuildRequires:	gawk       >= 3.1.5
-BuildRequires:	make       >= 3.80
-BuildRequires:	gmp-devel  >= 4.3.2
-BuildRequires:	mpfr-devel >= 3.1.0
-BuildRequires:	mpc-devel  >= 1.0.1
-BuildRequires:	glibc-devel
-BuildRequires:	zlib-devel
-BuildRequires:	libzstd-devel
+Source1:  https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.24.tar.bz2
+BuildRequires:  binutils   >= 2.35
+BuildRequires:  gawk       >= 3.1.5
+BuildRequires:  make       >= 3.80
+BuildRequires:  gmp-devel  >= 4.3.2
+BuildRequires:  mpfr-devel >= 3.1.0
+BuildRequires:  mpc-devel  >= 1.0.1
+BuildRequires:  glibc-devel
+BuildRequires:  zlib-devel
+BuildRequires:  libzstd-devel
 # below evaluates to 1 if defined
 %if 0%{?gccbootstrap:1} == 1
 BuildRequires:  gcc1220
@@ -80,17 +80,17 @@ BuildRequires:  gcc-gnat
 BuildRequires:  gcc-gdc
 %endif
 # gdb might only be needed for tests?
-BuildRequires:	gdb
+BuildRequires:  gdb
 %if 0%{?runtests:1} == 1
 BuildRequires:  dejagnu    >= 1.5.3
-BuildRequires:	expect
-BuildRequires:	tcl
+BuildRequires:  expect
+BuildRequires:  tcl
 %if %{buildlevel} == 1
-BuildRequires:	valgrind
+BuildRequires:  valgrind
 %endif
 %endif
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 
 %description
@@ -98,11 +98,11 @@ GCC is the GNU Compiler Collection. This package contains gcc, the C
 compiler, and is needed to compile source code written in C.
 
 %package c++
-Summary:	GCC C++ compiler
-Group:		Development/Languages
+Summary:  GCC C++ compiler
+Group:    Development/Languages
 License:  LGPLv2, LGPLv3, GPLv2, GPLv3 w/ Runtime Exception
-Requires:	libstdc++ = %{version}-%{release}
-Requires:	libstdc++-devel = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
+Requires: libstdc++-devel = %{version}-%{release}
 
 %description c++
 GCC is the GNU Compiler Collection. This package contains g++, the C++
@@ -137,14 +137,14 @@ compiler, and is needed to compile source code written in D.
 
 %if 0%{?buildfortran} == 1
 %package gfortran
-Summary:	GCC fortran compiler
-Group:		Development/Languages
-License:	GPLv3
-Provides:	libgfortran-devel = %{version}-%{release}
-Requires:	libgfortran = %{version}-%{release}
-Requires:	%{name} = %{version}-%{release}
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  GCC fortran compiler
+Group:    Development/Languages
+License:  GPLv3
+Provides: libgfortran-devel = %{version}-%{release}
+Requires: libgfortran = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description gfortran
 GCC is the GNU Compiler Collection. This package contains gfortran,
@@ -154,14 +154,14 @@ in fortran.
 
 %if 0%{?buildgo} == 1
 %package go
-Summary:	GCC go compiler
-Group:		Development/Languages
-License:	GPLv3
-Provides:	libgo-devel = %{version}-%{release}
-Requires:	%{name} = %{version}-%{release}
-Requires:	libgo = %{version}-%{release}
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  GCC go compiler
+Group:    Development/Languages
+License:  GPLv3
+Provides: libgo-devel = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
+Requires: libgo = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description go
 GCC is the GNU Compiler Collection. This package contains gccgo, the
@@ -170,12 +170,12 @@ go compiler, and is needed to compile source code written in go.
 
 %if 0%{?buildobjc} == 1
 %package objc
-Summary:	GCC objc/objc-c++ compile support
-Group:		Development/Languages
-Provides:	libobjc-devel = %{version}-%{release}
-Requires:	%{name}       = %{version}-%{release}
-Requires:	%{name}-c++   = %{version}-%{release}
-Requires:	libobjc       = %{version}-%{release}
+Summary:  GCC objc/objc-c++ compile support
+Group:    Development/Languages
+Provides: libobjc-devel = %{version}-%{release}
+Requires: %{name}       = %{version}-%{release}
+Requires: %{name}-c++   = %{version}-%{release}
+Requires: libobjc       = %{version}-%{release}
 
 %description objc
 GCC is the GNU Compiler Collection. This package contains the objc
@@ -184,32 +184,32 @@ in objc/objc-c++
 %endif
 
 %package -n cpp
-Summary:	GCC C Pre-Processor
-Group:		Development/Languages
-Requires:	%{name} = %{version}-%{release}
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  GCC C Pre-Processor
+Group:    Development/Languages
+Requires: %{name} = %{version}-%{release}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description -n cpp
 GCC is the GNU Compiler Collection. This package contains cpp, the
 C Pre-Processor.
 
 %package -n libstdc++
-Summary:	libstdc++ library
-Group:		System Environment/Libraries
-License:	GPLv3 w/ Runtime Exception
-Requires:	libgcc = %{version}-%{release}
+Summary:  libstdc++ library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libgcc = %{version}-%{release}
 
 %description -n libstdc++
 This package contains libstdc++ from the GNU Compiler Collection. This
 is the standard C++ library of functions.
 
 %package -n libstdc++-devel
-Summary:	Development files for libstdc++
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	%{name}-c++ = %{version}-%{release}
-Requires:	libstdc++   = %{version}-%{release}
+Summary:  Development files for libstdc++
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: %{name}-c++ = %{version}-%{release}
+Requires: libstdc++   = %{version}-%{release}
 
 %description -n libstdc++-devel
 This package contains the header files and related development files
@@ -217,19 +217,19 @@ that are needed to compile software that links against the libstdc++
 library.
 
 %package -n libstdc++-static
-Summary:	libstdc++ static libraries
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	libstdc++-devel = %{version}-%{release}
+Summary:  libstdc++ static libraries
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libstdc++-devel = %{version}-%{release}
 
 %description -n libstdc++-static
 This package contains the libstdc++ static libraries. Most people do
 not need the static libraries.
 
 %package -n libgcc
-Summary:	libcc_s library
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
+Summary:  libcc_s library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
 
 %description -n libgcc
 This package contains the libgcc_s library.
@@ -284,21 +284,21 @@ do not need this package.
 
 %if 0%{?buildfortran} == 1
 %package -n libgfortran
-Summary:	The libgfortran shared library
-Group:		System Environment/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	libquadmath = %{version}-%{release}
-Requires:	libgcc = %{version}-%{release}
+Summary:  The libgfortran shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libquadmath = %{version}-%{release}
+Requires: libgcc = %{version}-%{release}
 
 %description -n libgfortran
 This package contains the libgfortran shared library that is part of
 the GNU Compiler Collection.
 
 %package -n libgfortran-static
-Summary:	The libgfortran static library
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	%{name}-gfortran = %{version}-%{release}
+Summary:  The libgfortran static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: %{name}-gfortran = %{version}-%{release}
 
 %description -n libgfortran-static
 This package contains the static libgfortran.a library from the GNU
@@ -307,20 +307,20 @@ Compiler Collection. You probably do not need this package.
 
 %if 0%{?buildgo} == 1
 %package -n libgo
-Summary:	The libgo shared library
-Group:		System Environment/Libraries
-License:	Google MIT-Style
-Requires:       libgcc = %{version}-%{release}
+Summary:  The libgo shared library
+Group:    System Environment/Libraries
+License:  Google MIT-Style
+Requires: libgcc = %{version}-%{release}
 
 %description -n libgo
 This package contains the libgo shared library that is part of the GNU
 Compiler Collection.
 
 %package -n libgo-static
-Summary:	The libgo static libraries
-Group:		Development/Libraries
-License:        Google MIT-Style
-Requires:	%{name}-go = %{version}-%{release}
+Summary:  The libgo static libraries
+Group:    Development/Libraries
+License:  Google MIT-Style
+Requires: %{name}-go = %{version}-%{release}
 
 %description -n libgo-static
 This package contains the libgo static libraries that are part of the
@@ -329,20 +329,20 @@ GNU Compiler Collection. You probably do not need this package.
 
 %if 0%{?buildobjc} == 1
 %package -n libobjc
-Summary:	The libobjc shared library
-Group:		System Environment/Libraries
-License:	GPLv3 w/ Runtime Exception
-Requires:	libgcc = %{version}-%{release}
+Summary:  The libobjc shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libgcc = %{version}-%{release}
 
 %description -n libobjc
 This package contains the libobjc shared library that is part of the
 GNU Compiler Collection.
 
 %package -n libobjc-static
-Summary:	The libobjc static library
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	%{name}-objc = %{version}-%{release}
+Summary:  The libobjc static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: %{name}-objc = %{version}-%{release}
 
 %description -n libobjc-static
 This package contains the libobjc.a static library that is part of the
@@ -354,73 +354,73 @@ GNU Compiler Collection. You probably do not need this package.
 #
 
 %package -n libasan
-Summary:	GCC libasan shared library
-Group:		System Environment/Libraries
-License:	Dual BSD-Like and MIT
-Requires:	libgcc = %{version}-%{release}
-Requires:	libstdc++ = %{version}-%{release}
+Summary:  GCC libasan shared library
+Group:    System Environment/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libgcc = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
 
 %description -n libasan
 This package contains the libasan shared library from the GNU Compiler
 Collection.
 
 %package -n liblsan
-Summary:	liblsan shared library
-Group:		System Environment/Libraries
-License:        Dual BSD-Like and MIT
-Requires:       libgcc = %{version}-%{release}
-Requires:       libstdc++ = %{version}-%{release}
+Summary:  liblsan shared library
+Group:    System Environment/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libgcc = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
 
 %description -n liblsan
 The liblsan shared library
 
 %package -n libtsan
-Summary:        libtsan shared library
-Group:          System Environment/Libraries
-License:        Dual BSD-Like and MIT
-Requires:       libgcc = %{version}-%{release}
-Requires:       libstdc++ = %{version}-%{release}
+Summary:  libtsan shared library
+Group:    System Environment/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libgcc = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
 
 %description -n libtsan
 The libtsan shared library
 
 %package -n libubsan
-Summary:	libubsan shared library
-Group:		System Environment/Libraries
-License:        Dual BSD-Like and MIT
-Requires:       libgcc = %{version}-%{release}
-Requires:       libstdc++ = %{version}-%{release}
+Summary:  libubsan shared library
+Group:    System Environment/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libgcc = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
 
 %description -n libubsan
 The libubsan shared library
 
 %package -n libsanitizer-devel
-Summary:	Developer files for the various sanitizer libraries.
-Group:		Development/Libraries
-License:        Dual BSD-Like and MIT
-Requires:	libasan  = %{version}-%{release}
-Requires:	liblsan  = %{version}-%{release}
-Requires:	libtsan  = %{version}-%{release}
-Requires:	libubsan = %{version}-%{release}
-Requires:	libstdc++-devel = %{version}-%{release}
-Provides:	libasan-devel   = %{version}-%{release}
-Provides:	liblsan-devel   = %{version}-%{release}
-Provides:       libtsan-devel   = %{version}-%{release}
-Provides:	libubsan-devel  = %{version}-%{release}
+Summary:  Developer files for the various sanitizer libraries.
+Group:    Development/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libasan  = %{version}-%{release}
+Requires: liblsan  = %{version}-%{release}
+Requires: libtsan  = %{version}-%{release}
+Requires: libubsan = %{version}-%{release}
+Requires: libstdc++-devel = %{version}-%{release}
+Provides: libasan-devel   = %{version}-%{release}
+Provides: liblsan-devel   = %{version}-%{release}
+Provides: libtsan-devel   = %{version}-%{release}
+Provides: libubsan-devel  = %{version}-%{release}
 
 %description -n libsanitizer-devel
 This package contains the developer files needed to compile software
 that links against the libasan, liblsan, libtsan, and libubsan libraries.
 
 %package -n libsanitizer-static
-Summary:	GCC sanitizer static libraries
-Group:		Development/Libraries
-License:        Dual BSD-Like and MIT
-Requires:	libsanitizer-devel = %{version}-%{release}
-Provides:	libasan-static
-Provides:	liblsan-static
-Provides:	libtsan-static
-Provides:	libubsan-static
+Summary:  GCC sanitizer static libraries
+Group:    Development/Libraries
+License:  Dual BSD-Like and MIT
+Requires: libsanitizer-devel = %{version}-%{release}
+Provides: libasan-static
+Provides: liblsan-static
+Provides: libtsan-static
+Provides: libubsan-static
 
 %description -n libsanitizer-static
 This package contains the static libraries for libasan, liblsan, libtsan,
@@ -432,158 +432,158 @@ this package.
 #
 
 %package -n libatomic
-Summary:	libatomic shared library
-Group:		System Environment/Libraries
-License:	GPLv3 w/ Runtime Exception
+Summary:  libatomic shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
 
 %description -n libatomic
 This package includes the libatomic shared library from the GNU
 Compiler Collection.
 
 %package -n libatomic-static
-Summary:        libatomic static library
-Group:          Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:       gcc-libs-devel = %{version}-%{release}
+Summary:  libatomic static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: gcc-libs-devel = %{version}-%{release}
 
 %description -n libatomic-static
 This package includes the libatomic.a static library from the GNU
 Compiler Collection. You probably do not need this package.
 
 %package -n libgomp
-Summary:	libgomp shared library
-Group:		System Environment/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  libgomp shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description -n libgomp
 This package contains the shared libgomp library from the GNU
 Compiler Collection.
 
 %package -n libgomp-static
-Summary:	libgomp static library
-Group:          Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:       %{name}-libs-devel = %{version}-%{release}
+Summary:  libgomp static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: %{name}-libs-devel = %{version}-%{release}
 
 %description -n libgomp-static
 This package contains the static libgomp.a library from the GNU
 Compiler Collection. You probably do not need this package.
 
 %package -n libitm
-Summary:	libitm shared library
-Group:		System Environment/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  libitm shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description -n libitm
 This package contains the libitm shared library from the GNU Compiler
 Collection.
 
 %package -n libitm-static
-Summary:	libitm static library
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:       %{name}-libs-devel = %{version}-%{release}
+Summary:  libitm static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: %{name}-libs-devel = %{version}-%{release}
 
 %description -n libitm-static
 This package contains the libitm.a static library from the GNU Compiler
 Collection. You probably do not need this package.
 
 %package -n libquadmath
-Summary:	libquadmath shared library
-Group:		System Environment/Libraries
-License:	LGPLv2
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Summary:  libquadmath shared library
+Group:    System Environment/Libraries
+License:  LGPLv2
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description -n libquadmath
 This package includes the libquadmath shared library from the GNU
 Compiler Collection.
 
 %package -n libquadmath-static
-Summary:	libquadmath static library
-Group:		Development/Libraries
-License:        LGPLv2
-Requires:	%{name}-libs-devel = %{version}-%{release}
+Summary:  libquadmath static library
+Group:    Development/Libraries
+License:  LGPLv2
+Requires: %{name}-libs-devel = %{version}-%{release}
 
 %description -n libquadmath-static
 This package contains the static libquadmath.a library from the GNU
 Compiler Collection. You probably do not need this package.
 
 %package -n libcc1
-Summary:	The libcc1 shared library
-Group:		System Environment/Libraries
-License:	GPLv3
-Requires:	libgcc    = %{version}-%{release}
-Requires:       libstdc++ = %{version}-%{release}
+Summary:  The libcc1 shared library
+Group:    System Environment/Libraries
+License:  GPLv3
+Requires: libgcc    = %{version}-%{release}
+Requires: libstdc++ = %{version}-%{release}
 
 %description -n libcc1
 This package contains the libcc1 shared library from the GNU Compiler
 Collection.
 
 %package -n libcc1-devel
-Summary:	Developer files for libcc1
-Group:		Development/Libraries
-License:        GPLv3
-Requires:	libcc1          = %{version}-%{release}
-Requires:	libstdc++-devel = %{version}-%{release}
+Summary:  Developer files for libcc1
+Group:    Development/Libraries
+License:  GPLv3
+Requires: libcc1          = %{version}-%{release}
+Requires: libstdc++-devel = %{version}-%{release}
 
 %description -n libcc1-devel
 This package includes the developer files needed to compile software
 that links against the libcc1 library.
 
 %package -n libssp
-Summary:	The libssp shared library
-Group:		System Environment/Libraries
-License:        GPLv3 w/ Runtime Exception
+Summary:  The libssp shared library
+Group:    System Environment/Libraries
+License:  GPLv3 w/ Runtime Exception
 
 %description -n libssp
 This package contains the libssp shared library that is part of the
 GNU Compiler Collection.
 
 %package -n libssp-static
-Summary:	libssp static library
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	libssp-devel = %{version}-%{release}
+Summary:  libssp static library
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libssp-devel = %{version}-%{release}
 
 %description -n libssp-static
 This package contains the static libssp.a library that is part of the
 GNU Compiler Collection. You probably do not need this package.
 
 %package -n libssp-devel
-Summary:	libssp developer files
-Group:		Development/Libraries
-License:        GPLv3 w/ Runtime Exception
-Requires:	libssp = %{version}-%{release}
+Summary:  libssp developer files
+Group:    Development/Libraries
+License:  GPLv3 w/ Runtime Exception
+Requires: libssp = %{version}-%{release}
 
 %description -n libssp-devel
 This package contains the developer files needed to build software that
 links against the libssp library.
 
 %package libs-devel
-Summary:	Development library symbolic links
-Group:		Development/Libraries
-Requires:	libatomic   = %{version}-%{release}
-Requires:	libgomp     = %{version}-%{release}
-Requires:	libitm      = %{version}-%{release}
-Requires:	libquadmath = %{version}-%{release}
-Provides:	libatomic-devel   = %{version}-%{release}
-Provides:	libgomp-devel     = %{version}-%{release}
-Provides:	libitm-devel      = %{version}-%{release}
-Provides:	libquadmath-devel = %{version}-%{release}
+Summary:  Development library symbolic links
+Group:    Development/Libraries
+Requires: libatomic   = %{version}-%{release}
+Requires: libgomp     = %{version}-%{release}
+Requires: libitm      = %{version}-%{release}
+Requires: libquadmath = %{version}-%{release}
+Provides: libatomic-devel   = %{version}-%{release}
+Provides: libgomp-devel     = %{version}-%{release}
+Provides: libitm-devel      = %{version}-%{release}
+Provides: libquadmath-devel = %{version}-%{release}
 
 %description libs-devel
 This package contains the "libfoo.so" symbolic links to libraries within
 several of the GCC library packages.
 
 %package install-tools
-Summary:	GCC install-tools
-Group:		Development/Utilities
-Requires:	%{name} = %{version}-%{release}
+Summary:  GCC install-tools
+Group:    Development/Utilities
+Requires: %{name} = %{version}-%{release}
 
 %description install-tools
 This package contains the install-tools that are part of the GNU
