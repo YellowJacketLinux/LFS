@@ -25,6 +25,7 @@ If you want to read what motivated this, see [The Why](APX-The-Why.md)
 9. [Filesystem](#filesystem)
 10. [Package Management](#package-management)
 11. [Repository Layers](#repository-layers)
+12. [JSON Configuration Tool](#json-configuration-tool)
 
 
 Versioning Scheme
@@ -98,18 +99,15 @@ subversion thus allowing the update to take place.
 GNU Compiler Collection (GCC)
 -----------------------------
 
-YJL will use the ‘Current Stable’ version of GCC when the bootstrap
-takes place. Point release updates of GCC (e.g. GCC 12.2.0 to 12.2.1)
-will be made available as updates. Major version updates (e.g. 12.2.x
-to 12.3.x) would have to take place at the next GLibC bootstrap.
+YJL will use the ‘Current Stable’ branch of GCC when the bootstrap takes
+place. Branch release updates of GCC (e.g. GCC 12.2.0 to 12.3.0) will
+be made available as updates. Major version updates (e.g. 12.x.y to
+13.x.y) would have to take place at the next GLibC bootstrap.
 
 The YJL GCC packaging will always include the c,c++,ada, and d compilers
 that are required to build newer versions of themselves. FORTRAN, Go,
-and Objc/Objc++ will be made available *except* for in the `1.core`
-package repository.
-
-Older versions of GCC *may* be made available in `/opt/legacy` but will
-only provide c/c++ compilers if made available.
+Objc/Objc++, and Modula-2 will be made available *except* for in the
+`1.core` package repository.
 
 
 Perl5
@@ -255,3 +253,120 @@ started:
 * [Non-Standard-Macros](04-Non-Standard-Macros.md)
 * [Perl-Modules](05-Perl-Modules.md)
 * [APX-RPM-Post-Install-Bug](APX-RPM-Post-Install-Bug.md)
+
+
+JSON Configuration Tool
+-----------------------
+
+This currently is conceptual vaporware without a single line of code
+written.
+
+This vaporware tool would be called `json-sysconfig` and would keep
+JSON (JavaScript Object Notation) files within the directory
+`/var/lib/json-sysconfig`. Either Perl or Python could be used to
+write it but I will likely write it in Python (Python3).
+
+Many plain text system configuration files would lend themselves well
+to a JSON adaptation and the advantage of a JSON adaptation is that it
+would ease interaction of those configuration files with RPM.
+
+As a simple example, the `/etc/shells` file. On a typical minimal system
+its contents might look something like this:
+
+    # Begin /etc/shells
+    /bin/bash
+    /bin/sh
+    # End /etc/shells
+
+The sysadmin wants to add the ‘tcsh’ package, some users who come from
+a BSD world may feel more comfortable using ‘tcsh’ as their shell, so
+when the ‘tcsh’ package is installed it should add both `/usr/bin/tcsh`
+and `/usr/bin/csh` to the `/etc/shells` file.
+
+One way to accomplish this is with a generic tool that has specific
+configurations and specific code for those configurations.
+
+The tool, say named `/usr/sbin/json-sysconfig`, could take three arguments
+when updating its JSON object for the configuration:
+
+1. Keyword for the configuration being managed (e.g. etc-shells)
+2. Action to take (e.g. add or remove)
+3. Configuration Argument (e.g. `/usr/bin/tcsh`)
+
+The JSON file would correspond with the keyword, for example:
+
+    /var/lib/json-config/etc-shells.json
+
+The ‘tcsh’ package could then have the following scriptlets:
+
+    %post
+    if [ $1 == 1 ]; then
+    %{_sbindir}/json-sysconfig etc-shells add "/bin/tcsh" ||:
+    %{_sbindir}/json-sysconfig etc-shells add "/bin/csh"  ||:
+    %{_sbindir}/json-sysconfig etc-shells --update        ||:
+    fi
+
+    %postun
+    if [ $1 == 0 ]; then
+    %{_sbindir}/json-sysconfig etc-shells remove "/bin/tcsh" ||:
+    %{_sbindir}/json-sysconfig etc-shells remove "/bin/csh"  ||:
+    %{_sbindir}/json-sysconfig etc-shells --update           ||:
+    fi
+
+The `json-sysconfig --update` is what would cause the contents of the
+JSON object to be written to the corresponding configuration file, but
+with a safety precaution.
+
+For every configuration file potentially under the management of the
+`json-sysconfig` utility, one entry in the JSON object would be a
+SHA-256 checksum.
+
+If either the checksum is
+
+    e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+or the checksum matches the *current* configuration file, then the
+old configuration (if it exists) is saved as `${filename}.rpmsave-timestamp`
+and the new configuration file is written, and the JSON object is
+updated with the new checksum.
+
+However for a non-empty file checksum where the checksum in the JSON
+database does not match the configuration file to be written, then the
+new configuration file is written as `${filename}.rpmnew-timestamp`
+leaving the existing configuration file alone, and the JSON object is
+updated with the new checksum.
+
+If a system administrator wants to manually maintain a file, editing
+the file manually will cause the checksum to no longer match so that
+it is never over-written. Alternatively, the system administrator could
+simply manually update the checksum to something like
+
+    0000000000000000000000000000000000000000000000000000000000000000
+
+so that it never matches. The command `json-sysconfig --disable etc-shells`
+for example could do that automatically.
+
+When a system administrator DOES want the file administered by the
+`json-sysconfig` utility again, the system administrator and do something
+like:
+
+    json-sysconfig --activate etc-shells
+    json-sysconfig --update etc-shells
+
+The `--activate` switch would simply set the checksum to the empty-file
+checksum that triggers the utility to re-write the file regardless of
+the checksum of the file.
+
+### Kernel Grub Configuration
+
+In theory, such a tool could also be used to manage the `/boot/grub/grub.cfg`
+file HOWEVER a separate tool will be written for that for the following
+reasons:
+
+1. The `/boot` partition may be shared, so the JSON file would have to
+   live on `/boot` instead of within `/var/lib`
+2. The management of kernels is more complex, because sometimes the same
+   files in `/boot` are under RPM management but also used by multiple
+   installs of the operating system.
+
+See [APX-Grub-Configuration](APX-Grub-Configuration.md). 
