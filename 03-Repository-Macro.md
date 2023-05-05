@@ -69,9 +69,13 @@ ___4.apps.___
 are not part of a *specific* Desktop Environment. For example, Firefox
 and Thunderbird.
 
-___4.pyworld.___  
-: Python 3 modules that are of interest to Python programmers and
-students but are not specifically needed by any programs in LFS.
+___5.cpan.___  
+: Perl 5 modules from CPAN that are of interest to Perl programmers
+and students but are not specifically needed by any programs in YJL.
+
+___4.pypi.___  
+: Python 3 modules from PyPi that are of interest to Python programmers
+and students but are not specifically needed by any programs in YJL.
 
 ___5.mate.___  
 : The MATE Graphical Desktop Environment.
