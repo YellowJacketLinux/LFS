@@ -369,4 +369,94 @@ reasons:
    files in `/boot` are under RPM management but also used by multiple
    installs of the operating system.
 
-See [APX-Grub-Configuration](APX-Grub-Configuration.md). 
+See [APX-Grub-Configuration](APX-Grub-Configuration.md).
+
+
+YJL Installer
+=============
+
+This is a ways off, but I would like the installer to be ncurses based
+(perhaps Python backend, e.g. python dialog) and rather simple.
+
+The disk partitioning tool should be a separate tool from the installer,
+for safety I want them separate. I do not want an existing `/boot` or
+`/home` to be accidentally formatted, for example.
+
+A separate formatting utility does not guarantee that will not happen
+but I suspect it can reduce such mistakes.
+
+The partitioning tool will not *create* volume groups but *probably*
+should recognize existing volume groups.
+
+In an age where 256MiB SSDs and 1 TiB platter drives are small, I believe
+volume groups are very useful on servers but add un-necessary complexity
+to desktop systems—especially when trying to recover data by mounting
+a drive on another system.
+
+The partitioning tool will only support the creation of ext2 and ext4
+filesystems (er, and swap). Again, this is to ease recovery of data
+when necessary.
+
+Nutshell, ext2 will be stronly recommended where journaling is not
+needed (for example, `/boot`) and ext4 everywhere else (except for
+the swap partition, if created).
+
+In socialist/communal housing (including college dormitories), an
+encrypted filesystem can be extremely important for end-users. Support
+for encrypted filesystems is planned but will not be available in the
+initial release.
+
+If it is possible to *reliably* distinguish between platter drives
+and solid state drives, swap partitions would only be permitted on
+platter drives and even then, recommended against if the swap partition
+is on the same physical drive as the root partition.
+
+I might be convinced otherwise and I still have to research, but I am
+under the impression that on single-drive systems and SSD only systems,
+a swap file is almost always the better route than a swap partition.
+
+Note that for desktop systems with at least 4 GiB of system memory,
+swap is almost never used except when suspending the session (in which
+case the entire memory is typically dumped to swap to be reloaded upon
+system wake).
+
+A distinct `/boot` partition will *always* be used. It can be shared
+with other GNU/Linux installs, but that can be problematic because
+some GNU/Linux distributions simply nuke the existing grub configuration
+when updating their kernel. I wish that had been something that the
+LSB had properly addressed, but it did not. Instead the LSB specified
+controversial things like package managers... 🙄
+
+As far as the installer itself is concerned, obviously some hardware
+detection has to take place (e.g. network interfaces) but I would like
+to keep the installer as KISS as possible.
+
+Perhaps the following installation profiles:
+
+1. Minimal Command Line (repo `1.core.`)
+2. Standard Command Line (+ repo `2.cli.`)
+3. Xfce Graphical (Standard CLI + repo `3.gui.`, `4.apps.`, `5.xfce.`)
+4. MATE Graphical (Standard CLI + repo `3.gui.`, `4.apps.`, `5.mate.`)
+5. Xfce + Mate Graphical (Standard CLI + repo `3.gui.`, `4.apps.`, `5.xfce.`, `5.mate`)
+
+Additionally, an option to install the matching "development environment".
+
+Post install, the user can refine their install using DNF (for example,
+installing publishing tools like Docbook or an alternate desktop environment
+like Gnome3 or Deepin, assuming repositories for them exist).
+
+The ‘Minimal Command Line + Development Environment’ will be all that
+is necessary if the user wants a minimal environment with which to build
+[Linux From Scratch](https://www.linuxfromscratch.org/) although I do
+recommend a desktop environment simply because graphical web browsers
+are very beneficial to reading the LFS book.
+
+Not every package that is to be part of YJL will be on the installer.
+I want to keep the installer image as small as practical. For those who
+need additional packages that are not part of the installer for offline
+installation, the relevant package repositories can be downloaded to
+physical media via rsync. It may be prudent to once a month or so create
+a image that can be written to a thumb drive that contains all of YJL
+so that those without an Internet connection or those with slow Internet
+can grab it by torrent from somewhere with a good Internet connection
+and sneakernet update/install. 
