@@ -69,7 +69,7 @@ ___4.apps.___
 are not part of a *specific* Desktop Environment. For example, Firefox
 and Thunderbird.
 
-___5.cpan.___  
+___4.cpan.___  
 : Perl 5 modules from CPAN that are of interest to Perl programmers
 and students but are not specifically needed by any programs in YJL.
 
