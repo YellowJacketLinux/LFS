@@ -1,3 +1,7 @@
+%global bashv 5.2.15
+%global bcompv 2.11
+%global bcompdir %{_datadir}/bash-completion
+
 # Many (most?) distributions put install-info in /{,usr/}sbin
 #  YJL defines this macro to /usr/bin/install-info
 #  so define it to be in /sbin/ if not defined.
@@ -5,57 +9,80 @@
 %global insinfo /sbin/install-info
 %endif
 
-Name:		bash
-Version:	5.2.15
-Release:	%{?repo}0.rc4%{?dist}
-Summary:	The Bourne Again Shell
+Name:     bash
+Version:  5.2.15
+Release:  %{?repo}0.rc5%{?dist}
+Summary:  The Bourne Again Shell
 
-Group:		System Environment/Shells
-License:	GPLv3
-URL:		https://gnu.org/software/bash
-Source0:	https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
+Group:    System Environment/Shells
+License:  GPL-3.0-or-later and GPL-2.0-or-later
+URL:      https://gnu.org/software/bash
+Source0:  https://ftp.gnu.org/gnu/%{name}/%{name}-%{version}.tar.gz
+Source1:  https://github.com/scop/bash-completion/releases/download/%{bcompv}/bash-completion-%{bcompv}.tar.xz
 # These are from BLFS - https://www.linuxfromscratch.org/blfs/view/stable/postlfs/profile.html 2023-03-11
-Source1:	bash-profile
-Source2:	bash-bashrc
+Source11: bash-profile
+Source12: bash-bashrc
 
-BuildRequires:	readline-devel
-BuildRequires:	ncurses-devel
-Requires(post):	%{insinfo}
-Requires(preun):	%{insinfo}
+BuildRequires:  readline-devel
+BuildRequires:  ncurses-devel
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
+Provides: bash-completion
 
 %description
 Bash is a Unix shell and scripting language developed for the GNU project as a
 replacement for the Bourne shell. Bash is the stanard shell for the GNU/Linux
 operating system.
 
+This package also includes bash-completion %{bcompv}.
+
 %package devel
-Summary:	Development files for %{name}
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Summary:  Development files for %{name}
+Group:    Development/Libraries
+Requires: %{name} = %{version}-%{release}
+Provides: bash-completion-devel
 
 %description devel
 This package includes the headers and related files needed to build software
 that uses bash.
 
 %prep
-%setup -q
+%setup -c -q
+tar -xf %{SOURCE1}
 
 
 %build
+cd bash-%{bashv}
 %configure \
   --bindir=/bin \
   --without-bash-malloc \
   --with-installed-readline 
 #  --docdir=%{_datadir}/doc/%{name}-%{version}
 make %{?_smp_mflags}
+cd ../bash-completion-%{bcompv}
+%configure
+make %{?_smp_mflags}
 
 
 %install
+cd bash-%{bashv}
 make install DESTDIR=%{buildroot}
+
+cd ../bash-completion-%{bcompv}
+make install DESTDIR=%{buildroot}
+rm -f %{buildroot}%{_sysconfdir}/profile.d/bash_completion.sh
+cd ..
+mkdir bash-completion
+for docfile in AUTHORS CHANGES CONTRIBUTING.md COPYING README.md; do
+  cp -p bash-completion-%{bcompv}/${docfile} bash-completion/
+done
+cp -p bash-completion-%{bcompv}/COPYING ./COPYING.bash-completion
+cp -p bash-%{bashv}/COPYING ./COPYING.bash
 %find_lang %{name}
+
 ln -sf bash %{buildroot}/bin/sh
-install -m644 -D %{SOURCE1} %{buildroot}/%{_sysconfdir}/profile
-install -m644 %{SOURCE2} %{buildroot}/%{_sysconfdir}/bashrc
+install -m644 -D %{SOURCE11} %{buildroot}/%{_sysconfdir}/profile
+install -m644 %{SOURCE12} %{buildroot}/%{_sysconfdir}/bashrc
 install -d %{buildroot}%{_sysconfdir}/profile.d
 install -d %{buildroot}%{_sysconfdir}/skel
 
@@ -260,10 +287,22 @@ fi
 %attr(0644,root,root) %{_mandir}/man1/bash.1*
 %attr(0644,root,root) %{_mandir}/man1/bashbug.1*
 # %%{_datadir}/doc/%%{name}-%%{version}
-%license COPYING
-%doc AUTHORS CHANGES COMPAT COPYING ChangeLog NEWS RBASH
-%doc doc/README doc/FAQ doc/INTRO doc/bash.html doc/bashref.html
-%doc doc/bash.pdf doc/bashref.pdf
+# Bash Completion
+%dir %{bcompdir}
+%attr(0644,root,root) %{bcompdir}/bash_completion
+%{bcompdir}/completions
+%dir %{bcompdir}/helpers
+%attr(0644,root,root) %{bcompdir}/helpers/perl
+%attr(0644,root,root) %{bcompdir}/helpers/python
+# otro
+%license COPYING.bash-completion COPYING.bash
+%doc bash-%{bashv}/AUTHORS bash-%{bashv}/CHANGES bash-%{bashv}/COMPAT
+%doc bash-%{bashv}/COPYING bash-%{bashv}/ChangeLog bash-%{bashv}/NEWS
+%doc bash-%{bashv}/RBASH
+%doc bash-%{bashv}/doc/README bash-%{bashv}/doc/FAQ bash-%{bashv}/doc/INTRO
+%doc bash-%{bashv}/doc/bash.html bash-%{bashv}/doc/bashref.html
+%doc bash-%{bashv}/doc/bash.pdf bash-%{bashv}/doc/bashref.pdf
+%doc bash-completion
 
 %files devel
 %defattr(-,root,root,-)
@@ -274,11 +313,25 @@ fi
 %attr(0755,root,root) %dir %{_includedir}/bash/include
 %attr(0644,root,root) %{_includedir}/bash/include/*.h
 %attr(0644,root,root) %{_libdir}/pkgconfig/%{name}.pc
-%license COPYING
-
+%dir %{_datadir}/cmake
+%dir %{_datadir}/cmake/bash-completion
+%attr(0644,root,root) %{_datadir}/cmake/bash-completion/*.cmake
+%attr(0644,root,root) %{_datadir}/pkgconfig/bash-completion.pc
+# otro
+%license COPYING.bash-completion COPYING.bash
+%doc bash-%{bashv}/AUTHORS bash-%{bashv}/CHANGES bash-%{bashv}/COMPAT
+%doc bash-%{bashv}/COPYING bash-%{bashv}/ChangeLog bash-%{bashv}/NEWS
+%doc bash-%{bashv}/RBASH
+%doc bash-%{bashv}/doc/README bash-%{bashv}/doc/FAQ bash-%{bashv}/doc/INTRO
+%doc bash-%{bashv}/doc/bash.html bash-%{bashv}/doc/bashref.html
+%doc bash-%{bashv}/doc/bash.pdf bash-%{bashv}/doc/bashref.pdf
+%doc bash-completion
 
 
 %changelog
+* Fri May 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 5.2.15-0.rc5
+- Add bash-completion package
+
 * Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 5.2.15-0.rc4
 - Use insinfo macro, add post/preun requires.
 
