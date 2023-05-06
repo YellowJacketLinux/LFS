@@ -2,7 +2,7 @@
 
 Name:     perl-%{cpanname}
 Version:  2.081
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  SSL sockets with IO::Socket interface
 BuildArch:  noarch
 
@@ -17,11 +17,11 @@ BuildRequires:  perl(Net::SSLeay) >= 1.59
 # for test
 %if 0%{?runtests:1} == 1
 BuildRequires:  perl(Test::More)
-#BuildRequires:  perl(Mozilla::CA)
+BuildRequires:  perl(Mozilla::CA)
 BuildRequires:  perl(Scalar::Util)
 %endif
 # runtime
-#Requires: perl(Mozilla::CA)
+Requires: perl(Mozilla::CA)
 Requires: perl(Net::SSLeay) >= 1.59
 Requires: perl(Scalar::Util)
 # /end runtime
@@ -106,5 +106,9 @@ EOF
 
 
 %changelog
+* Sat May 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.081-0.rc2
+- Require Mozilla::CA --- while technically not strictly required,
+- it allows perl scripts that use TLS to know a cert bundle is available.
+
 * Fri May 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.081-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
