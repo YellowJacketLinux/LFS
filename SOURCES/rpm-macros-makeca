@@ -1,0 +1,6 @@
+# Macros related to make-ca certificates
+%_ssldir /etc/ssl
+%_pkitls /etc/pki/tls
+%cabundle %{_pkitls}/certs/ca-bundle.crt
+%email_cabundle %{_pkitls}/certs/email-ca-bundle.crt
+%objsign_cabundle %{_pkitls}/certs/objsign-ca-bundle.crt

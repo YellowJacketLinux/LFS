@@ -1,8 +1,12 @@
 %global githubv 20230430
 
+%if 0%{!?__curl:1} == 1
+%global __curl %{_bindir}/curl
+%endif
+
 Name:     make-ca
 Version:  %{githubv}
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Manage PKI configuration
 BuildArch:  noarch
 
@@ -10,9 +14,10 @@ Group:		System Environment/Utilities
 License:  MIT and GPL-3.0-only
 URL:      https://github.com/YellowJacketLinux/make-ca
 Source0:  https://github.com/YellowJacketLinux/make-ca/archive/refs/tags/%{githubv}.tar.gz
+Source1:  rpm-macros-makeca
 
 Requires: libressl
-Requires: curl
+Requires: %{__curl}
 Requires: nss
 Requires: p11-kit
 Requires(post): libressl
@@ -42,6 +47,9 @@ modified for YellowJacket GNU/Linux (YJL).
 %install
 make install DESTDIR=%{buildroot}
 
+mkdir -p %{buildroot}/usr/lib/rpm/macros.d
+install -m644 %{SOURCE1} %{buildroot}%{_prefix}/lib/rpm/macros.d/macros.makeca
+
 %post
 if [ $1 == 1 ]; then
 %{_sbindir}/make-ca -f -C %{_sysconfdir}/make-ca/certdata-dist.txt \
@@ -59,6 +67,7 @@ fi
 %dir %{_libexecdir}/make-ca
 %attr(0700,root,root) %{_libexecdir}/make-ca/copy-trust-modifications
 %attr(0755,root,root) %{_sbindir}/make-ca
+%attr(0644,root,root) %{_prefix}/lib/rpm/macros.d/macros.makeca
 %attr(0644,root,root) %{_mandir}/man8/make-ca.8*
 %license LICENSE LICENSE.GPLv3 LICENSE.MIT LICENSE.MPLv2
 %doc CHANGELOG* README.md LICENSE LICENSE.GPLv3 LICENSE.MIT LICENSE.MPLv2
@@ -66,5 +75,8 @@ fi
 
 
 %changelog
+* Sat May 06 2023 Michael A. Peters <anymouseprophet@gmail.com> - 20230430-0.rc2
+- Add RPM macro file
+
 * Sun Apr 30 2023 Michael A. Peters <anymouseprophet@gmail.com> - 20230430-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
