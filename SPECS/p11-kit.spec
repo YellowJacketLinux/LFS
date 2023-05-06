@@ -1,8 +1,8 @@
-# FIXME - bash-completion missing
+%global bcompdir %{_datadir}/bash-completion
 
 Name:     p11-kit
 Version:  0.24.1
-Release:	1%{?dist}
+Release:	%{?repo}0.rc2%{?dist}
 Summary:  load and enumerate PKCS#11 modules
 
 Group:    System Environment/Utilities
@@ -16,6 +16,7 @@ BuildRequires:  libtasn1-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  meson
 BuildRequires:  ninja
+BuildRequires:  bash-completion-devel
 Requires: nss
 Requires: make-ca
 Requires: %{name}-libs = %{version}-%{release}
@@ -101,6 +102,8 @@ ln -sf ./pkcs11/p11-kit-trust.so %{buildroot}%{_libdir}/libnssckbi.so
 %dir %{_libdir}/pkcs11
 %attr(0755,root,root) %{_libdir}/pkcs11/p11-kit-client.so
 %attr(0755,root,root) %{_libdir}/pkcs11/p11-kit-trust.so
+%attr(0644,root,root) %{bcompdir}/completions/p11-kit
+%attr(0644,root,root) %{bcompdir}/completions/trust
 %license COPYING
 %doc AUTHORS ChangeLog COPYING NEWS README
 
@@ -115,5 +118,8 @@ ln -sf ./pkcs11/p11-kit-trust.so %{buildroot}%{_libdir}/libnssckbi.so
 %doc AUTHORS ChangeLog COPYING NEWS README
 
 %changelog
-* Mon May 1 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.24.1-0.rc1
+* Fri May 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.24.1-0.rc2
+- Add bash completion
+
+* Mon May 01 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.24.1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
