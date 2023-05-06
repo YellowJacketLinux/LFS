@@ -1,0 +1,146 @@
+PERL_DL_NONLAZY=1 "/usr/bin/perl" "-MExtUtils::Command::MM" "-MTest::Harness" "-e" "undef *Test::Harness::Switches; test_harness(0, 'blib/lib', 'blib/arch')" t/*.t t/external/*.t
+# openssl version compiled=0x20000000 linked=0x20000000 -- LibreSSL 3.6.2
+# Net::SSLeay version=1.93_01
+# parent IO::Socket::IP version=0.41
+t/01loadmodule.t .................. ok
+t/acceptSSL-timeout.t ............. ok
+t/alpn.t .......................... ok
+t/auto_verify_hostname.t .......... ok
+t/cert_formats.t .................. ok
+t/cert_no_file.t .................. ok
+t/compatibility.t ................. ok
+t/connectSSL-timeout.t ............ ok
+t/core.t .......................... ok
+t/dhe.t ........................... ok
+t/ecdhe.t ......................... ok
+# tcp connect to www.chksum.de:443 ok
+# fingerprint matches
+# validation with default CA w/o OCSP ok
+# got stapled response as expected
+# validation with default CA with OCSP defaults ok
+# validation with default CA with OCSP full chain ok
+# tcp connect to www.bild.de:443 ok
+# tcp connect to revoked.grc.com:443 ok
+t/external/ocsp.t ................. ok
+# found 133 CA certs
+# have root CA for www.bild.de in store
+# 5 connections to www.bild.de ok
+# have root CA for www.yahoo.com in store
+# 5 connections to www.yahoo.com ok
+# have root CA for www.comdirect.de in store
+# 5 connections to www.comdirect.de ok
+# have root CA for meine.deutsche-bank.de in store
+# 5 connections to meine.deutsche-bank.de ok
+# fingerprint meine.deutsche-bank.de matches
+# have root CA for www.twitter.com in store
+# 5 connections to www.twitter.com ok
+# have root CA for www.facebook.com in store
+# 5 connections to www.facebook.com ok
+# have root CA for www.live.com in store
+# 5 connections to www.live.com ok
+# fingerprint www.live.com matches
+t/external/usable_ca.t ............ ok
+t/io-socket-inet6.t ............... skipped: no IO::Socket::INET6 available
+t/io-socket-ip.t .................. ok
+t/memleak_bad_handshake.t ......... ok
+t/mitm.t .......................... ok
+t/multiple-cert-rsa-ecc.t ......... ok
+t/nonblock.t ...................... ok
+t/npn.t ........................... skipped: NPN not available in Net::SSLeay
+# -- test: newINET start_SSL stop_SSL start_SSL
+# server accepted new client
+# wait for initial data from client
+# got 0x666f6f from client
+# server: got plain data at start of connection
+# server: TLS upgrade
+# server: TLS downgrade
+# server: TLS upgrade#2
+# -- test: newSSL stop_SSL connect_SSL
+# server accepted new client
+# wait for initial data from client
+# got 0x160301 from client
+# server: TLS upgrade
+# server: TLS downgrade
+# server: TLS upgrade#2
+# -- test: newSSL:0 connect_SSL stop_SSL connect_SSL
+# server accepted new client
+# wait for initial data from client
+# got 0x666f6f from client
+# server: got plain data at start of connection
+# server: TLS upgrade
+# server: TLS downgrade
+# server: TLS upgrade#2
+# -- test: newSSL:0 start_SSL stop_SSL connect_SSL
+# server accepted new client
+# wait for initial data from client
+# got 0x666f6f from client
+# server: got plain data at start of connection
+# server: TLS upgrade
+# server: TLS downgrade
+# server: TLS upgrade#2
+# server accepted new client
+# wait for initial data from client
+# got 0x656e64 from client
+# client requested end of tests
+t/plain_upgrade_downgrade.t ....... ok
+# looks like OpenSSL was compiled without SSLv3 support
+t/protocol_version.t .............. ok
+t/public_suffix_lib_encode_idn.t .. ok
+t/public_suffix_lib_libidn.t ...... ok
+t/public_suffix_lib_uri.t ......... ok
+t/public_suffix_ssl.t ............. ok
+t/readline.t ...................... ok
+t/session_cache.t ................. ok
+# listen at 127.0.0.1:45567
+# listen at 127.0.0.1:59683
+# connect to 0: success reuse=0 version=TLSv1_2
+# connect to 0: success reuse=1 version=TLSv1_2
+# connect to 1: success reuse=1 version=TLSv1_2
+# connect to 1: success reuse=0 version=TLSv1_2
+# connect to 0: success reuse=0 version=TLSv1_2
+# connect to 0: success reuse=1 version=TLSv1_2
+t/session_ticket.t ................ ok
+t/sessions.t ...................... ok
+t/set_curves.t .................... ok
+t/signal-readline.t ............... ok
+t/sni.t ........................... ok
+t/sni_verify.t .................... ok
+t/start-stopssl.t ................. ok
+t/startssl-failed.t ............... ok
+t/startssl.t ...................... ok
+t/sysread_write.t ................. ok
+t/verify_fingerprint.t ............ ok
+t/verify_hostname.t ............... ok
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='*.*'
+
+#   Failed test '0 != 1 |wwW.tESt.fr: cn=common.name san=DNS:*.*,DNS:*.test.de,DNS:*.test.FR,DNS:www'
+#   at t/verify_hostname_standalone.t line 55.
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='*..bar.foo.com'
+
+#   Failed test '1 != 0 |www.bar.foo.com: cn=www.bar.foo.com san=DNS:*.foo.com,DNS:*.*.foo.com,DNS:*.*.bar.foo.com,DNS:*..bar.foo.com'
+#   at t/verify_hostname_standalone.t line 55.
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='xn--*-9qae5a.com.br'
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='::6.7.8.9'
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='1*1.2.3.512'
+failure during X509V3_EXT_conf_nid() for nid=85
+140487475166272:error:22FFF077:X509 V3 routines:func(4095):reason(119):x509/x509_alt.c:675:name=DNS value='nocolonallowed:example'
+# Looks like you failed 2 tests of 78.
+t/verify_hostname_standalone.t .... 
+Dubious, test returned 2 (wstat 512, 0x200)
+Failed 2/78 subtests 
+t/verify_partial_chain.t .......... ok
+
+Test Summary Report
+-------------------
+t/verify_hostname_standalone.t  (Wstat: 512 (exited 2) Tests: 78 Failed: 2)
+  Failed tests:  6, 21
+  Non-zero exit status: 2
+Files=42, Tests=810, 51 wallclock secs ( 0.12 usr  0.02 sys +  5.13 cusr  0.35 csys =  5.62 CPU)
+Result: FAIL
+Failed 1/42 test programs. 2/810 subtests failed.
+make: *** [Makefile:855: test_dynamic] Error 255
