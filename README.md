@@ -184,7 +184,17 @@ for both GPLv2 and GPLv3.
 ### OpenSSL
 
 [OpenSSL](https://www.openssl.org/) will be provided for software that
-needs the OpenSSL API for which LibreSSL is not sufficient.
+needs the OpenSSL API for which LibreSSL is not sufficient. An example
+is Python3 (specifically the OpenSSL package, see
+[PEP 644](https://peps.python.org/pep-0644/).
+
+On most YJL systems, only the shared libraries from OpenSSL will be
+installed but it is possible to install the utility as well in parallel
+with the LibreSSL utility.
+
+The `openssl-devel` and `libressl-devel` packages conflict with each
+other, only one of them can be installed at a time. As they are not
+runtime packages, that should not be an issue.
 
 OpenSSL is now licensed under the Apache 2.0 license rather than the
 OpenSSL/SSLeay license it formerly used.
