@@ -1,0 +1,165 @@
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_mandir}/man7/EVP_ASYM_CIPHER-RSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_ASYM_CIPHER-SM2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-AES.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-ARIA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-BLOWFISH.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-CAMELLIA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-CAST.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-CHACHA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-DES.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-IDEA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-NULL.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-RC2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-RC4.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-RC5.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-SEED.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_CIPHER-SM4.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-HKDF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-KB.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-KRB5KDF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-PBKDF1.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-PBKDF2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-PKCS12KDF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-SCRYPT.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-SS.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-SSHKDF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-TLS13_KDF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-TLS1_PRF.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-X942-ASN1.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-X942-CONCAT.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KDF-X963.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KEM-RSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KEYEXCH-DH.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KEYEXCH-ECDH.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_KEYEXCH-X25519.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-BLAKE2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-CMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-GMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-HMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-KMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-Poly1305.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MAC-Siphash.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-BLAKE2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-MD2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-MD4.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-MD5-SHA1.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-MD5.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-MDC2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-NULL.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-RIPEMD160.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-SHA1.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-SHA2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-SHA3.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-SHAKE.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-SM3.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-WHIRLPOOL.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_MD-common.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-DH.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-DSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-EC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-FFC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-HMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-RSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-SM2.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_PKEY-X25519.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND-CTR-DRBG.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND-HASH-DRBG.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND-HMAC-DRBG.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND-SEED-SRC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND-TEST-RAND.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_RAND.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_SIGNATURE-DSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_SIGNATURE-ECDSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_SIGNATURE-ED25519.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_SIGNATURE-HMAC.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/EVP_SIGNATURE-RSA.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/OSSL_PROVIDER-FIPS.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/OSSL_PROVIDER-base.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/OSSL_PROVIDER-default.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/OSSL_PROVIDER-legacy.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/OSSL_PROVIDER-null.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/RAND.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/RSA-PSS.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/X25519.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/bio.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/crypto.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/ct.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/des_modes.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/evp.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/fips_module.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-cipher.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-digest.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-kdf.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-mac.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-pkey.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/life_cycle-rand.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/migration_guide.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-core.h.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-core_dispatch.h.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-core_names.h.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-env.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-glossary.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl-threads.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/openssl_user_macros.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/ossl_store-file.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/ossl_store.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/passphrase-encoding.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/property.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-asym_cipher.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-base.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-cipher.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-decoder.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-digest.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-encoder.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-kdf.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-kem.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-keyexch.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-keymgmt.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-mac.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-object.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-rand.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-signature.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider-storemgmt.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/provider.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/proxy-certificates.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/ssl.7ossl*
+%attr(0644,root,root) %{_mandir}/man7/x509.7ossl*
+%{_mandir}/man7/EVP_KEYEXCH-X448.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-CMAC.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-DH.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-DHX.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-DSA.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-EC.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-ED25519.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-ED448.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-HMAC.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-Poly1305.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-RSA.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-SM2.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-Siphash.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-X25519.7ossl*
+%{_mandir}/man7/EVP_KEYMGMT-X448.7ossl*
+%{_mandir}/man7/EVP_MAC-BLAKE2BMAC.7ossl*
+%{_mandir}/man7/EVP_MAC-BLAKE2SMAC.7ossl*
+%{_mandir}/man7/EVP_MAC-KMAC128.7ossl*
+%{_mandir}/man7/EVP_MAC-KMAC256.7ossl*
+%{_mandir}/man7/EVP_MD-KECCAK-KMAC.7ossl*
+%{_mandir}/man7/EVP_PKEY-CMAC.7ossl*
+%{_mandir}/man7/EVP_PKEY-DHX.7ossl*
+%{_mandir}/man7/EVP_PKEY-ED25519.7ossl*
+%{_mandir}/man7/EVP_PKEY-ED448.7ossl*
+%{_mandir}/man7/EVP_PKEY-Poly1305.7ossl*
+%{_mandir}/man7/EVP_PKEY-Siphash.7ossl*
+%{_mandir}/man7/EVP_PKEY-X448.7ossl*
+%{_mandir}/man7/EVP_SIGNATURE-CMAC.7ossl*
+%{_mandir}/man7/EVP_SIGNATURE-ED448.7ossl*
+%{_mandir}/man7/EVP_SIGNATURE-Poly1305.7ossl*
+%{_mandir}/man7/EVP_SIGNATURE-Siphash.7ossl*
+%{_mandir}/man7/Ed25519.7ossl*
+%{_mandir}/man7/Ed448.7ossl*
+%{_mandir}/man7/OPENSSL_API_COMPAT.7ossl*
+%{_mandir}/man7/OPENSSL_NO_DEPRECATED.7ossl*
+%{_mandir}/man7/RSA.7ossl*
+%{_mandir}/man7/SM2.7ossl*
+%{_mandir}/man7/X448.7ossl*

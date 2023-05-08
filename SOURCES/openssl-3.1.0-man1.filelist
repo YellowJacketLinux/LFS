@@ -1,0 +1,112 @@
+%defattr(-,root,root,-)
+%attr(0644,root,root) %{_mandir}/man1/CA.pl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-asn1parse.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ca.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ciphers.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-cmds.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-cmp.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-cms.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-crl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-crl2pkcs7.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-dgst.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-dhparam.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-dsa.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-dsaparam.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ec.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ecparam.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-enc.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-engine.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-errstr.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-fipsinstall.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-format-options.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-gendsa.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-genpkey.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-genrsa.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-info.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-kdf.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-list.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-mac.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-namedisplay-options.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-nseq.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ocsp.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-passphrase-options.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-passwd.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkcs12.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkcs7.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkcs8.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkey.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkeyparam.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-pkeyutl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-prime.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-rand.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-rehash.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-req.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-rsa.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-rsautl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-s_client.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-s_server.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-s_time.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-sess_id.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-smime.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-speed.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-spkac.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-srp.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-storeutl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-ts.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-verification-options.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-verify.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-version.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl-x509.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/openssl.1ossl*
+%attr(0644,root,root) %{_mandir}/man1/tsget.1ossl*
+%{_mandir}/man1/asn1parse.1ossl*
+%{_mandir}/man1/c_rehash.1ossl*
+%{_mandir}/man1/ca.1ossl*
+%{_mandir}/man1/ciphers.1ossl*
+%{_mandir}/man1/cmp.1ossl*
+%{_mandir}/man1/cms.1ossl*
+%{_mandir}/man1/crl.1ossl*
+%{_mandir}/man1/crl2pkcs7.1ossl*
+%{_mandir}/man1/dgst.1ossl*
+%{_mandir}/man1/dhparam.1ossl*
+%{_mandir}/man1/dsa.1ossl*
+%{_mandir}/man1/dsaparam.1ossl*
+%{_mandir}/man1/ec.1ossl*
+%{_mandir}/man1/ecparam.1ossl*
+%{_mandir}/man1/enc.1ossl*
+%{_mandir}/man1/engine.1ossl*
+%{_mandir}/man1/errstr.1ossl*
+%{_mandir}/man1/gendsa.1ossl*
+%{_mandir}/man1/genpkey.1ossl*
+%{_mandir}/man1/genrsa.1ossl*
+%{_mandir}/man1/info.1ossl*
+%{_mandir}/man1/kdf.1ossl*
+%{_mandir}/man1/mac.1ossl*
+%{_mandir}/man1/nseq.1ossl*
+%{_mandir}/man1/ocsp.1ossl*
+%{_mandir}/man1/passwd.1ossl*
+%{_mandir}/man1/pkcs12.1ossl*
+%{_mandir}/man1/pkcs7.1ossl*
+%{_mandir}/man1/pkcs8.1ossl*
+%{_mandir}/man1/pkey.1ossl*
+%{_mandir}/man1/pkeyparam.1ossl*
+%{_mandir}/man1/pkeyutl.1ossl*
+%{_mandir}/man1/prime.1ossl*
+%{_mandir}/man1/rand.1ossl*
+%{_mandir}/man1/rehash.1ossl*
+%{_mandir}/man1/req.1ossl*
+%{_mandir}/man1/rsa.1ossl*
+%{_mandir}/man1/rsautl.1ossl*
+%{_mandir}/man1/s_client.1ossl*
+%{_mandir}/man1/s_server.1ossl*
+%{_mandir}/man1/s_time.1ossl*
+%{_mandir}/man1/sess_id.1ossl*
+%{_mandir}/man1/smime.1ossl*
+%{_mandir}/man1/speed.1ossl*
+%{_mandir}/man1/spkac.1ossl*
+%{_mandir}/man1/srp.1ossl*
+%{_mandir}/man1/storeutl.1ossl*
+%{_mandir}/man1/ts.1ossl*
+%{_mandir}/man1/verify.1ossl*
+%{_mandir}/man1/version.1ossl*
+%{_mandir}/man1/x509.1ossl*
