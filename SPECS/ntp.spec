@@ -79,7 +79,7 @@ make %{?_smp_mflags}
 make install DESTDIR=%{buildroot}
 [ ! -d %{buildroot}%{_sysconfdir} ] && mkdir -p %{buildroot}%{_sysconfdir}
 install -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/ntp.conf
-install -d %{buildroot}%{_localstatedir}/lib/ntp
+install -d %{buildroot}%{_sharedstatedir}/ntp
 
 install -d %{buildroot}%{perl5_vendorlib}/NTP
 mv %{buildroot}%{_datadir}/ntp/lib/NTP/Util.pm %{buildroot}%{perl5_vendorlib}/NTP/
@@ -106,7 +106,7 @@ mv %{buildroot}%{_datadir}/doc/sntp pkgdoc/
 %attr(0755,root,root) %{_sbindir}/tickadj
 %attr(0755,root,root) %{_sbindir}/update-leap
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/ntp.conf
-%attr(0755,ntp,ntp) %dir %{_localstatedir}/lib/ntp
+%attr(0755,ntp,ntp) %dir %{_sharedstatedir}/ntp
 %attr(0644,root,root) %{_mandir}/man1/*.1*
 %attr(0644,root,root) %{_mandir}/man5/*.5*
 %license COPYRIGHT
