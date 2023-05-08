@@ -1,0 +1,1165 @@
+diff -ur libressl-3.7.2.orig/apps/openssl/CMakeLists.txt libressl-3.7.2/apps/openssl/CMakeLists.txt
+--- libressl-3.7.2.orig/apps/openssl/CMakeLists.txt	2022-05-15 19:39:46.000000000 -0700
++++ libressl-3.7.2/apps/openssl/CMakeLists.txt	2023-05-07 22:46:31.152841800 -0700
+@@ -75,5 +75,5 @@
+ 
+ if(ENABLE_LIBRESSL_INSTALL)
+ 	install(TARGETS openssl DESTINATION ${CMAKE_INSTALL_BINDIR})
+-	install(FILES openssl.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
++	install(FILES libressl.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
+ endif(ENABLE_LIBRESSL_INSTALL)
+diff -ur libressl-3.7.2.orig/apps/openssl/Makefile.am libressl-3.7.2/apps/openssl/Makefile.am
+--- libressl-3.7.2.orig/apps/openssl/Makefile.am	2022-05-15 19:39:46.000000000 -0700
++++ libressl-3.7.2/apps/openssl/Makefile.am	2023-05-07 22:47:04.615844228 -0700
+@@ -2,7 +2,7 @@
+ 
+ if !ENABLE_LIBTLS_ONLY
+ bin_PROGRAMS = openssl
+-dist_man_MANS = openssl.1
++dist_man_MANS = libressl.1
+ else
+ noinst_PROGRAMS = openssl
+ endif
+diff -ur libressl-3.7.2.orig/apps/openssl/Makefile.in libressl-3.7.2/apps/openssl/Makefile.in
+--- libressl-3.7.2.orig/apps/openssl/Makefile.in	2023-04-06 19:01:16.000000000 -0700
++++ libressl-3.7.2/apps/openssl/Makefile.in	2023-05-07 22:47:31.959031333 -0700
+@@ -407,7 +407,7 @@
+ AM_CPPFLAGS = -I$(top_srcdir)/include -I$(abs_top_builddir)/include \
+ 	-I$(top_srcdir)/include/compat -DLIBRESSL_INTERNAL \
+ 	-D__BEGIN_HIDDEN_DECLS= -D__END_HIDDEN_DECLS=
+-@ENABLE_LIBTLS_ONLY_FALSE@dist_man_MANS = openssl.1
++@ENABLE_LIBTLS_ONLY_FALSE@dist_man_MANS = libressl.1
+ openssl_LDADD = $(abs_top_builddir)/ssl/libssl.la \
+ 	$(abs_top_builddir)/crypto/libcrypto.la $(PLATFORM_LDADD) \
+ 	$(PROG_LDADD)
+diff -ur libressl-3.7.2.orig/apps/openssl/openssl.1 libressl-3.7.2/apps/openssl/openssl.1
+--- libressl-3.7.2.orig/apps/openssl/openssl.1	2023-03-26 18:58:30.000000000 -0700
++++ libressl-3.7.2/apps/openssl/openssl.1	2023-05-07 22:45:08.514318400 -0700
+@@ -1,4 +1,4 @@
+-.\" $OpenBSD: openssl.1,v 1.140 2022/12/22 19:53:23 kn Exp $
++.\" $OpenBSD: libressl.1,v 1.140 2022/12/22 19:53:23 kn Exp $
+ .\" ====================================================================
+ .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
+ .\"
+@@ -111,11 +111,11 @@
+ .\" [including the GNU Public Licence.]
+ .\"
+ .Dd $Mdocdate: December 22 2022 $
+-.Dt OPENSSL 1
++.Dt LIBRESSL 1
+ .Os
+ .Sh NAME
+-.Nm openssl
+-.Nd OpenSSL command line tool
++.Nm libressl
++.Nd LibreSSL command line tool
+ .Sh SYNOPSIS
+ .Nm
+ .Ar command
+@@ -133,7 +133,7 @@
+ .Nm
+ .Cm no- Ns Ar command
+ .Sh DESCRIPTION
+-.Nm OpenSSL
++.Nm LibreSSL
+ is a cryptography toolkit implementing the
+ Transport Layer Security
+ .Pq TLS v1
+@@ -144,7 +144,7 @@
+ .Nm
+ program is a command line tool for using the various
+ cryptography functions of
+-.Nm openssl Ns 's
++.Nm libressl Ns 's
+ crypto library from the shell.
+ .Pp
+ The pseudo-commands
+@@ -202,8 +202,8 @@
+ itself.
+ .Tg asn1parse
+ .Sh ASN1PARSE
+-.Bl -hang -width "openssl asn1parse"
+-.It Nm openssl asn1parse
++.Bl -hang -width "libressl asn1parse"
++.It Nm libressl asn1parse
+ .Bk -words
+ .Op Fl i
+ .Op Fl dlimit Ar number
+@@ -271,7 +271,7 @@
+ If an OID
+ .Pq object identifier
+ is not part of
+-.Nm openssl Ns 's
++.Nm libressl Ns 's
+ internal table, it will be represented in
+ numerical form
+ .Pq for example 1.2.3.4 .
+@@ -299,8 +299,8 @@
+ .El
+ .Tg ca
+ .Sh CA
+-.Bl -hang -width "openssl ca"
+-.It Nm openssl ca
++.Bl -hang -width "libressl ca"
++.It Nm libressl ca
+ .Bk -words
+ .Op Fl batch
+ .Op Fl cert Ar file
+@@ -789,7 +789,7 @@
+ is accepted by both to produce a reasonable output.
+ .Pp
+ If neither option is present, the format used in earlier versions of
+-.Nm openssl
++.Nm libressl
+ is used.
+ Use of the old format is strongly discouraged
+ because it only displays fields mentioned in the
+@@ -854,8 +854,8 @@
+ .El
+ .Tg certhash
+ .Sh CERTHASH
+-.Bl -hang -width "openssl certhash"
+-.It Nm openssl certhash
++.Bl -hang -width "libressl certhash"
++.It Nm libressl certhash
+ .Bk -words
+ .Op Fl nv
+ .Ar dir ...
+@@ -909,7 +909,7 @@
+ .El
+ .Tg ciphers
+ .Sh CIPHERS
+-.Nm openssl ciphers
++.Nm libressl ciphers
+ .Op Fl hsVv
+ .Op Fl tls1
+ .Op Fl tls1_1
+@@ -953,8 +953,8 @@
+ .El
+ .Tg cms
+ .Sh CMS
+-.Bl -hang -width "openssl cms"
+-.It Nm openssl cms
++.Bl -hang -width "libressl cms"
++.It Nm libressl cms
+ .Bk -words
+ .Oo
+ .Fl aes128 | aes192 | aes256 | camellia128 |
+@@ -1470,8 +1470,8 @@
+ .El
+ .Tg crl
+ .Sh CRL
+-.Bl -hang -width "openssl crl"
+-.It Nm openssl crl
++.Bl -hang -width "libressl crl"
++.It Nm libressl crl
+ .Bk -words
+ .Op Fl CAfile Ar file
+ .Op Fl CApath Ar dir
+@@ -1547,8 +1547,8 @@
+ .El
+ .Tg crl2pkcs7
+ .Sh CRL2PKCS7
+-.Bl -hang -width "openssl crl2pkcs7"
+-.It Nm openssl crl2pkcs7
++.Bl -hang -width "libressl crl2pkcs7"
++.It Nm libressl crl2pkcs7
+ .Bk -words
+ .Op Fl certfile Ar file
+ .Op Fl in Ar file
+@@ -1593,8 +1593,8 @@
+ .El
+ .Tg dgst
+ .Sh DGST
+-.Bl -hang -width "openssl dgst"
+-.It Nm openssl dgst
++.Bl -hang -width "libressl dgst"
++.It Nm libressl dgst
+ .Bk -words
+ .Op Fl cdr
+ .Op Fl binary
+@@ -1635,13 +1635,13 @@
+ .Ar digest .
+ The default is SHA256.
+ The available digests can be displayed using
+-.Nm openssl
++.Nm libressl
+ .Cm list-message-digest-commands .
+ The following are equivalent:
+-.Nm openssl dgst
++.Nm libressl dgst
+ .Fl sha256
+ and
+-.Nm openssl
++.Nm libressl
+ .Cm sha256 .
+ .It Fl hex
+ Digest is to be output as a hex dump.
+@@ -1708,8 +1708,8 @@
+ .El
+ .Tg dhparam
+ .Sh DHPARAM
+-.Bl -hang -width "openssl dhparam"
+-.It Nm openssl dhparam
++.Bl -hang -width "libressl dhparam"
++.It Nm libressl dhparam
+ .Bk -words
+ .Op Fl 2 | 5
+ .Op Fl C
+@@ -1785,8 +1785,8 @@
+ .El
+ .Tg dsa
+ .Sh DSA
+-.Bl -hang -width "openssl dsa"
+-.It Nm openssl dsa
++.Bl -hang -width "libressl dsa"
++.It Nm libressl dsa
+ .Bk -words
+ .Oo
+ .Fl aes128 | aes192 | aes256 |
+@@ -1874,8 +1874,8 @@
+ .El
+ .Tg dsaparam
+ .Sh DSAPARAM
+-.Bl -hang -width "openssl dsaparam"
+-.It Nm openssl dsaparam
++.Bl -hang -width "libressl dsaparam"
++.It Nm libressl dsaparam
+ .Bk -words
+ .Op Fl C
+ .Op Fl genkey
+@@ -1927,8 +1927,8 @@
+ .El
+ .Tg ec
+ .Sh EC
+-.Bl -hang -width "openssl ec"
+-.It Nm openssl ec
++.Bl -hang -width "libressl ec"
++.It Nm libressl ec
+ .Bk -words
+ .Op Fl conv_form Ar arg
+ .Op Fl des
+@@ -1953,7 +1953,7 @@
+ command processes EC keys.
+ They can be converted between various
+ forms and their components printed out.
+-.Nm openssl
++.Nm libressl
+ uses the private key format specified in
+ .Dq SEC 1: Elliptic Curve Cryptography
+ .Pq Lk https://www.secg.org/ .
+@@ -1985,7 +1985,7 @@
+ .It Fl des | des3
+ Encrypt the private key with DES, triple DES, or
+ any other cipher supported by
+-.Nm openssl .
++.Nm libressl .
+ A pass phrase is prompted for.
+ If none of these options are specified, the key is written in plain text.
+ This means that using the
+@@ -2040,8 +2040,8 @@
+ .El
+ .Tg ecparam
+ .Sh ECPARAM
+-.Bl -hang -width "openssl ecparam"
+-.It Nm openssl ecparam
++.Bl -hang -width "libressl ecparam"
++.It Nm libressl ecparam
+ .Bk -words
+ .Op Fl C
+ .Op Fl check
+@@ -2063,7 +2063,7 @@
+ The
+ .Nm ecparam
+ command is used to manipulate or generate EC parameter files.
+-.Nm openssl
++.Nm libressl
+ is not able to generate new groups so
+ .Nm ecparam
+ can only create EC parameters from known (named) curves.
+@@ -2136,8 +2136,8 @@
+ .El
+ .Tg enc
+ .Sh ENC
+-.Bl -hang -width "openssl enc"
+-.It Nm openssl enc
++.Bl -hang -width "libressl enc"
++.It Nm libressl enc
+ .Bk -words
+ .Fl ciphername
+ .Op Fl AadePpv
+@@ -2168,9 +2168,9 @@
+ Base64 encoding or decoding can also be performed either by itself
+ or in addition to the encryption or decryption.
+ The program can be called either as
+-.Nm openssl Ar ciphername
++.Nm libressl Ar ciphername
+ or
+-.Nm openssl enc - Ns Ar ciphername .
++.Nm libressl enc - Ns Ar ciphername .
+ .Pp
+ Some of the ciphers do not have large keys and others have security
+ implications if not used correctly.
+@@ -2300,7 +2300,7 @@
+ .El
+ .Tg errstr
+ .Sh ERRSTR
+-.Nm openssl errstr
++.Nm libressl errstr
+ .Op Fl stats
+ .Ar errno ...
+ .Pp
+@@ -2331,8 +2331,8 @@
+ .El
+ .Tg gendsa
+ .Sh GENDSA
+-.Bl -hang -width "openssl gendsa"
+-.It Nm openssl gendsa
++.Bl -hang -width "libressl gendsa"
++.It Nm libressl gendsa
+ .Bk -words
+ .Oo
+ .Fl aes128 | aes192 | aes256 | camellia128 |
+@@ -2348,7 +2348,7 @@
+ .Nm gendsa
+ command generates a DSA private key from a DSA parameter file
+ (typically generated by the
+-.Nm openssl dsaparam
++.Nm libressl dsaparam
+ command).
+ DSA key generation is little more than random number generation so it is
+ much quicker than,
+@@ -2378,8 +2378,8 @@
+ .El
+ .Tg genpkey
+ .Sh GENPKEY
+-.Bl -hang -width "openssl genpkey"
+-.It Nm openssl genpkey
++.Bl -hang -width "libressl genpkey"
++.It Nm libressl genpkey
+ .Bk -words
+ .Op Fl algorithm Ar alg
+ .Op Ar cipher
+@@ -2483,8 +2483,8 @@
+ .El
+ .Tg genrsa
+ .Sh GENRSA
+-.Bl -hang -width "openssl genrsa"
+-.It Nm openssl genrsa
++.Bl -hang -width "libressl genrsa"
++.It Nm libressl genrsa
+ .Bk -words
+ .Op Fl 3 | f4
+ .Oo
+@@ -2544,7 +2544,7 @@
+ .El
+ .Tg nseq
+ .Sh NSEQ
+-.Nm openssl nseq
++.Nm libressl nseq
+ .Op Fl in Ar file
+ .Op Fl out Ar file
+ .Op Fl toseq
+@@ -2575,8 +2575,8 @@
+ .El
+ .Tg ocsp
+ .Sh OCSP
+-.Bl -hang -width "openssl ocsp"
+-.It Nm openssl ocsp
++.Bl -hang -width "libressl ocsp"
++.It Nm libressl ocsp
+ .Bk -words
+ .Op Fl CA Ar file
+ .Op Fl CAfile Ar file
+@@ -2896,7 +2896,7 @@
+ and
+ .Fl CApath
+ options or they will be looked for in the standard
+-.Nm openssl
++.Nm libressl
+ certificates directory.
+ .Pp
+ If the initial verify fails, the OCSP verify process halts with an error.
+@@ -2928,8 +2928,8 @@
+ option.
+ .Tg passwd
+ .Sh PASSWD
+-.Bl -hang -width "openssl passwd"
+-.It Nm openssl passwd
++.Bl -hang -width "libressl passwd"
++.It Nm libressl passwd
+ .Bk -words
+ .Op Fl 1 | apr1 | crypt
+ .Op Fl in Ar file
+@@ -2992,8 +2992,8 @@
+ .El
+ .Tg pkcs7
+ .Sh PKCS7
+-.Bl -hang -width "openssl pkcs7"
+-.It Nm openssl pkcs7
++.Bl -hang -width "libressl pkcs7"
++.It Nm libressl pkcs7
+ .Bk -words
+ .Op Fl in Ar file
+ .Op Fl inform Cm der | pem
+@@ -3038,8 +3038,8 @@
+ .El
+ .Tg pkcs8
+ .Sh PKCS8
+-.Bl -hang -width "openssl pkcs8"
+-.It Nm openssl pkcs8
++.Bl -hang -width "libressl pkcs8"
++.It Nm libressl pkcs8
+ .Bk -words
+ .Op Fl in Ar file
+ .Op Fl inform Cm der | pem
+@@ -3112,7 +3112,7 @@
+ Supports algorithms such as 168-bit triple DES or 128-bit RC2,
+ however not many implementations support PKCS#5 v2.0 yet
+ (if using private keys with
+-.Nm openssl
++.Nm libressl
+ this doesn't matter).
+ .Pp
+ .Ar alg
+@@ -3122,8 +3122,8 @@
+ .El
+ .Tg pkcs12
+ .Sh PKCS12
+-.Bl -hang -width "openssl pkcs12"
+-.It Nm openssl pkcs12
++.Bl -hang -width "libressl pkcs12"
++.It Nm libressl pkcs12
+ .Bk -words
+ .Oo
+ .Fl aes128 | aes192 | aes256 | camellia128 |
+@@ -3340,8 +3340,8 @@
+ .El
+ .Tg pkey
+ .Sh PKEY
+-.Bl -hang -width "openssl pkey"
+-.It Nm openssl pkey
++.Bl -hang -width "libressl pkey"
++.It Nm libressl pkey
+ .Bk -words
+ .Op Fl check
+ .Op Ar cipher
+@@ -3411,7 +3411,7 @@
+ .El
+ .Tg pkeyparam
+ .Sh PKEYPARAM
+-.Cm openssl pkeyparam
++.Cm libressl pkeyparam
+ .Op Fl check
+ .Op Fl in Ar file
+ .Op Fl noout
+@@ -3440,8 +3440,8 @@
+ .El
+ .Tg pkeyutl
+ .Sh PKEYUTL
+-.Bl -hang -width "openssl pkeyutl"
+-.It Nm openssl pkeyutl
++.Bl -hang -width "libressl pkeyutl"
++.It Nm libressl pkeyutl
+ .Bk -words
+ .Op Fl asn1parse
+ .Op Fl certin
+@@ -3593,7 +3593,7 @@
+ .El
+ .Tg prime
+ .Sh PRIME
+-.Cm openssl prime
++.Cm libressl prime
+ .Op Fl bits Ar n
+ .Op Fl checks Ar n
+ .Op Fl generate
+@@ -3638,8 +3638,8 @@
+ .El
+ .Tg rand
+ .Sh RAND
+-.Bl -hang -width "openssl rand"
+-.It Nm openssl rand
++.Bl -hang -width "libressl rand"
++.It Nm libressl rand
+ .Bk -words
+ .Op Fl base64
+ .Op Fl hex
+@@ -3666,8 +3666,8 @@
+ .El
+ .Tg req
+ .Sh REQ
+-.Bl -hang -width "openssl req"
+-.It Nm openssl req
++.Bl -hang -width "libressl req"
++.It Nm libressl req
+ .Bk -words
+ .Op Fl addext Ar ext
+ .Op Fl batch
+@@ -3916,7 +3916,7 @@
+ .Cm distinguished_name .
+ Typically these may contain the challengePassword or unstructuredName types.
+ They are currently ignored by the
+-.Nm openssl
++.Nm libressl
+ request signing utilities, but some CAs might want them.
+ .It Cm default_bits
+ The default key size, in bits.
+@@ -4088,7 +4088,7 @@
+ The actual permitted field names are any object identifier short or
+ long names.
+ These are compiled into
+-.Nm openssl
++.Nm libressl
+ and include the usual values such as
+ .Cm commonName , countryName , localityName , organizationName ,
+ .Cm organizationalUnitName , stateOrProvinceName .
+@@ -4108,8 +4108,8 @@
+ .Cm DirectoryString .
+ .Tg rsa
+ .Sh RSA
+-.Bl -hang -width "openssl rsa"
+-.It Nm openssl rsa
++.Bl -hang -width "libressl rsa"
++.It Nm libressl rsa
+ .Bk -words
+ .Op Fl aes128 | aes192 | aes256 | des | des3
+ .Op Fl check
+@@ -4202,8 +4202,8 @@
+ .El
+ .Tg rsautl
+ .Sh RSAUTL
+-.Bl -hang -width "openssl rsautl"
+-.It Nm openssl rsautl
++.Bl -hang -width "libressl rsautl"
++.It Nm libressl rsautl
+ .Bk -words
+ .Op Fl asn1parse
+ .Op Fl certin
+@@ -4277,8 +4277,8 @@
+ .El
+ .Tg s_client
+ .Sh S_CLIENT
+-.Bl -hang -width "openssl s_client"
+-.It Nm openssl s_client
++.Bl -hang -width "libressl s_client"
++.It Nm libressl s_client
+ .Bk -words
+ .Op Fl 4 | 6
+ .Op Fl alpn Ar protocols
+@@ -4585,8 +4585,8 @@
+ .El
+ .Tg s_server
+ .Sh S_SERVER
+-.Bl -hang -width "openssl s_server"
+-.It Nm openssl s_server
++.Bl -hang -width "libressl s_server"
++.It Nm libressl s_server
+ .Bk -words
+ .Op Fl accept Ar port
+ .Op Fl alpn Ar protocols
+@@ -4913,8 +4913,8 @@
+ .El
+ .Tg s_time
+ .Sh S_TIME
+-.Bl -hang -width "openssl s_time"
+-.It Nm openssl s_time
++.Bl -hang -width "libressl s_time"
++.It Nm libressl s_time
+ .Bk -words
+ .Op Fl bugs
+ .Op Fl CAfile Ar file
+@@ -5024,8 +5024,8 @@
+ .El
+ .Tg sess_id
+ .Sh SESS_ID
+-.Bl -hang -width "openssl sess_id"
+-.It Nm openssl sess_id
++.Bl -hang -width "libressl sess_id"
++.It Nm libressl sess_id
+ .Bk -words
+ .Op Fl cert
+ .Op Fl context Ar ID
+@@ -5117,8 +5117,8 @@
+ debugging purposes.
+ .Tg smime
+ .Sh SMIME
+-.Bl -hang -width "openssl smime"
+-.It Nm openssl smime
++.Bl -hang -width "libressl smime"
++.It Nm libressl smime
+ .Bk -words
+ .Oo
+ .Fl aes128 | aes192 | aes256 | des |
+@@ -5414,8 +5414,8 @@
+ .El
+ .Tg speed
+ .Sh SPEED
+-.Bl -hang -width "openssl speed"
+-.It Nm openssl speed
++.Bl -hang -width "libressl speed"
++.It Nm libressl speed
+ .Bk -words
+ .Op Ar algorithm
+ .Op Fl decrypt
+@@ -5452,8 +5452,8 @@
+ .El
+ .Tg spkac
+ .Sh SPKAC
+-.Bl -hang -width "openssl spkac"
+-.It Nm openssl spkac
++.Bl -hang -width "libressl spkac"
++.It Nm libressl spkac
+ .Bk -words
+ .Op Fl challenge Ar string
+ .Op Fl in Ar file
+@@ -5515,8 +5515,8 @@
+ .Tg ts
+ .Sh TS
+ .Bk -words
+-.Bl -hang -width "openssl ts"
+-.It Nm openssl ts
++.Bl -hang -width "libressl ts"
++.It Nm libressl ts
+ .Fl query
+ .Op Fl md4 | md5 | ripemd160 | sha1
+ .Op Fl cert
+@@ -5528,7 +5528,7 @@
+ .Op Fl out Ar request.tsq
+ .Op Fl policy Ar object_id
+ .Op Fl text
+-.It Nm openssl ts
++.It Nm libressl ts
+ .Fl reply
+ .Op Fl chain Ar certs_file.pem
+ .Op Fl config Ar configfile
+@@ -5543,7 +5543,7 @@
+ .Op Fl text
+ .Op Fl token_in
+ .Op Fl token_out
+-.It Nm openssl ts
++.It Nm libressl ts
+ .Fl verify
+ .Op Fl CAfile Ar trusted_certs.pem
+ .Op Fl CApath Ar trusted_cert_path
+@@ -5877,8 +5877,8 @@
+ .El
+ .Tg verify
+ .Sh VERIFY
+-.Bl -hang -width "openssl verify"
+-.It Nm openssl verify
++.Bl -hang -width "libressl verify"
++.It Nm libressl verify
+ .Bk -words
+ .Op Fl CAfile Ar file
+ .Op Fl CApath Ar directory
+@@ -6208,13 +6208,13 @@
+ .El
+ .Tg version
+ .Sh VERSION
+-.Nm openssl version
++.Nm libressl version
+ .Op Fl abdfopv
+ .Pp
+ The
+ .Nm version
+ command is used to print out version information about
+-.Nm openssl .
++.Nm libressl .
+ .Pp
+ The options are as follows:
+ .Bl -tag -width Ds
+@@ -6222,7 +6222,7 @@
+ All information: this is the same as setting all the other flags.
+ .It Fl b
+ The date the current version of
+-.Nm openssl
++.Nm libressl
+ was built.
+ .It Fl d
+ .Ev OPENSSLDIR
+@@ -6235,13 +6235,13 @@
+ Platform setting.
+ .It Fl v
+ The current
+-.Nm openssl
++.Nm libressl
+ version.
+ .El
+ .Tg x509
+ .Sh X509
+-.Bl -hang -width "openssl x509"
+-.It Nm openssl x509
++.Bl -hang -width "libressl x509"
++.It Nm libressl x509
+ .Bk -words
+ .Op Fl C
+ .Op Fl addreject Ar arg
+@@ -6458,7 +6458,7 @@
+ as though each content octet represents a single character.
+ .It Cm dump_unknown
+ Dump any field whose OID is not recognised by
+-.Nm openssl .
++.Nm libressl .
+ .It Cm esc_2253
+ Escape the
+ .Qq special
+@@ -6582,7 +6582,7 @@
+ .It Fl subject_hash
+ Print the hash of the certificate subject name.
+ This is used in
+-.Nm openssl
++.Nm libressl
+ to form an index to allow certificates in a directory to be looked up
+ by subject name.
+ .It Fl subject_hash_old
+@@ -6972,23 +6972,23 @@
+ .El
+ .Sh ENVIRONMENT
+ The following environment variables affect the execution of
+-.Nm openssl :
+-.Bl -tag -width "/etc/ssl/openssl.cnf"
++.Nm libressl :
++.Bl -tag -width "/etc/ssl/libressl.cnf"
+ .It Ev OPENSSL_CONF
+ The location of the master configuration file.
+ .El
+ .Sh FILES
+-.Bl -tag -width "/etc/ssl/openssl.cnf" -compact
++.Bl -tag -width "/etc/ssl/libressl.cnf" -compact
+ .It Pa /etc/ssl/
+ Default config directory for
+-.Nm openssl .
++.Nm libressl .
+ .It Pa /etc/ssl/lib/
+ Unused.
+ .It Pa /etc/ssl/private/
+ Default private key directory.
+-.It Pa /etc/ssl/openssl.cnf
++.It Pa /etc/ssl/libressl.cnf
+ Default configuration file for
+-.Nm openssl .
++.Nm libressl .
+ .It Pa /etc/ssl/x509v3.cnf
+ Default configuration file for
+ .Nm x509
+@@ -6997,7 +6997,7 @@
+ .Sh SEE ALSO
+ .Xr acme-client 1 ,
+ .Xr nc 1 ,
+-.Xr openssl.cnf 5 ,
++.Xr libressl.cnf 5 ,
+ .Xr x509v3.cnf 5 ,
+ .Xr ssl 8 ,
+ .Xr starttls 8
+diff -ur libressl-3.7.2.orig/man/CONF_modules_load_file.3 libressl-3.7.2/man/CONF_modules_load_file.3
+--- libressl-3.7.2.orig/man/CONF_modules_load_file.3	2022-03-15 09:34:47.000000000 -0700
++++ libressl-3.7.2/man/CONF_modules_load_file.3	2023-05-07 22:22:28.284734091 -0700
+@@ -97,7 +97,7 @@
+ configures OpenSSL using the file
+ .Fa filename
+ in
+-.Xr openssl.cnf 5
++.Xr libressl.cnf 5
+ format and the application name
+ .Fa appname .
+ If
+@@ -105,7 +105,7 @@
+ is
+ .Dv NULL ,
+ the standard OpenSSL configuration file
+-.Pa /etc/ssl/openssl.cnf
++.Pa /etc/ssl/libressl.cnf
+ is used.
+ If
+ .Fa appname
+@@ -189,10 +189,10 @@
+ returns a pointer to the constant string
+ .Qq "/etc/ssl" .
+ .Sh FILES
+-.Bl -tag -width /etc/ssl/openssl.cnf -compact
++.Bl -tag -width /etc/ssl/libressl.cnf -compact
+ .It Pa /etc/ssl
+ standard configuration directory
+-.It Pa /etc/ssl/openssl.cnf
++.It Pa /etc/ssl/libressl.cnf
+ standard configuration file
+ .El
+ .Sh EXAMPLES
+diff -ur libressl-3.7.2.orig/man/EVP_EncryptInit.3 libressl-3.7.2/man/EVP_EncryptInit.3
+--- libressl-3.7.2.orig/man/EVP_EncryptInit.3	2023-03-15 10:17:47.000000000 -0700
++++ libressl-3.7.2/man/EVP_EncryptInit.3	2023-05-07 22:34:45.670759105 -0700
+@@ -1182,7 +1182,7 @@
+ .Ed
+ .Pp
+ The ciphertext from the above example can be decrypted using the
+-.Xr openssl 1
++.Xr libressl 1
+ utility with the command line:
+ .Bd -literal -offset indent
+ openssl bf -in cipher.bin -K 000102030405060708090A0B0C0D0E0F \e
+diff -ur libressl-3.7.2.orig/man/EVP_PKEY_CTX_ctrl.3 libressl-3.7.2/man/EVP_PKEY_CTX_ctrl.3
+--- libressl-3.7.2.orig/man/EVP_PKEY_CTX_ctrl.3	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/man/EVP_PKEY_CTX_ctrl.3	2023-05-07 22:34:14.335455994 -0700
+@@ -232,7 +232,7 @@
+ This is intended to be used for options specified on the command line or
+ in text files.
+ The commands supported are documented in the
+-.Xr openssl 1
++.Xr libressl 1
+ utility command line pages for the option
+ .Fl pkeyopt
+ which is supported by the
+diff -ur libressl-3.7.2.orig/man/Makefile.am libressl-3.7.2/man/Makefile.am
+--- libressl-3.7.2.orig/man/Makefile.am	2023-04-06 19:01:04.000000000 -0700
++++ libressl-3.7.2/man/Makefile.am	2023-05-07 22:25:35.256408874 -0700
+@@ -574,7 +574,7 @@
+ dist_man3_MANS += tls_load_file.3
+ dist_man3_MANS += tls_ocsp_process_response.3
+ dist_man3_MANS += tls_read.3
+-dist_man5_MANS += openssl.cnf.5
++dist_man5_MANS += libressl.cnf.5
+ dist_man5_MANS += x509v3.cnf.5
+ install-data-hook:
+ 	ln -sf "ACCESS_DESCRIPTION_new.3" "$(DESTDIR)$(mandir)/man3/ACCESS_DESCRIPTION_free.3"
+diff -ur libressl-3.7.2.orig/man/Makefile.in libressl-3.7.2/man/Makefile.in
+--- libressl-3.7.2.orig/man/Makefile.in	2023-04-06 19:01:19.000000000 -0700
++++ libressl-3.7.2/man/Makefile.in	2023-05-07 22:26:00.104705715 -0700
+@@ -698,7 +698,7 @@
+ @ENABLE_LIBTLS_ONLY_FALSE@	tls_init.3 tls_load_file.3 \
+ @ENABLE_LIBTLS_ONLY_FALSE@	tls_ocsp_process_response.3 \
+ @ENABLE_LIBTLS_ONLY_FALSE@	tls_read.3
+-@ENABLE_LIBTLS_ONLY_FALSE@dist_man5_MANS = openssl.cnf.5 x509v3.cnf.5
++@ENABLE_LIBTLS_ONLY_FALSE@dist_man5_MANS = libressl.cnf.5 x509v3.cnf.5
+ all: all-am
+ 
+ .SUFFIXES:
+diff -ur libressl-3.7.2.orig/man/OPENSSL_config.3 libressl-3.7.2/man/OPENSSL_config.3
+--- libressl-3.7.2.orig/man/OPENSSL_config.3	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/man/OPENSSL_config.3	2023-05-07 22:23:33.658864615 -0700
+@@ -133,8 +133,8 @@
+ calling
+ .Xr CONF_modules_free 3 .
+ .Sh FILES
+-.Bl -tag -width /etc/ssl/openssl.cnf -compact
+-.It Pa /etc/ssl/openssl.cnf
++.Bl -tag -width /etc/ssl/libressl.cnf -compact
++.It Pa /etc/ssl/libressl.cnf
+ standard configuration file
+ .El
+ .Sh SEE ALSO
+@@ -143,7 +143,7 @@
+ .Xr crypto 3 ,
+ .Xr OPENSSL_load_builtin_modules 3 ,
+ .Xr OPENSSL_VERSION_NUMBER 3 ,
+-.Xr openssl.cnf 5 ,
++.Xr libressl.cnf 5 ,
+ .Xr x509v3.cnf 5
+ .Sh HISTORY
+ .Fn OPENSSL_config
+diff -ur libressl-3.7.2.orig/man/OPENSSL_init_crypto.3 libressl-3.7.2/man/OPENSSL_init_crypto.3
+--- libressl-3.7.2.orig/man/OPENSSL_init_crypto.3	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/man/OPENSSL_init_crypto.3	2023-05-07 22:24:17.201624136 -0700
+@@ -93,7 +93,7 @@
+ .Xr CONF_modules_load_file 3 ,
+ .Xr OPENSSL_config 3 ,
+ .Xr OPENSSL_load_builtin_modules 3 ,
+-.Xr openssl.cnf 5
++.Xr libressl.cnf 5
+ .Sh HISTORY
+ .Fn OPENSSL_init
+ first appeared in OpenSSL 1.0.0e and has been available since
+diff -ur libressl-3.7.2.orig/man/SSL_CIPHER_get_name.3 libressl-3.7.2/man/SSL_CIPHER_get_name.3
+--- libressl-3.7.2.orig/man/SSL_CIPHER_get_name.3	2023-03-15 10:17:47.000000000 -0700
++++ libressl-3.7.2/man/SSL_CIPHER_get_name.3	2023-05-07 22:33:12.415805278 -0700
+@@ -339,7 +339,7 @@
+ .Pp
+ .Dl $ openssl ciphers -v ALL:COMPLEMENTOFALL
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3 ,
+ .Xr SSL_get_ciphers 3 ,
+ .Xr SSL_get_current_cipher 3
+diff -ur libressl-3.7.2.orig/man/SSL_CTX_set_cipher_list.3 libressl-3.7.2/man/SSL_CTX_set_cipher_list.3
+--- libressl-3.7.2.orig/man/SSL_CTX_set_cipher_list.3	2023-03-26 18:58:30.000000000 -0700
++++ libressl-3.7.2/man/SSL_CTX_set_cipher_list.3	2023-05-07 22:35:27.445816533 -0700
+@@ -137,7 +137,7 @@
+ The
+ .Cm DEFAULT
+ cipher list can be displayed with the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm ciphers
+ command.
+ .It Cm @SECLEVEL=n
+@@ -307,7 +307,7 @@
+ .El
+ .Pp
+ The full words returned by the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm ciphers
+ command can be used to select individual cipher suites.
+ .Pp
+diff -ur libressl-3.7.2.orig/man/SSL_CTX_set_options.3 libressl-3.7.2/man/SSL_CTX_set_options.3
+--- libressl-3.7.2.orig/man/SSL_CTX_set_options.3	2022-04-03 22:32:16.000000000 -0700
++++ libressl-3.7.2/man/SSL_CTX_set_options.3	2023-05-07 22:36:14.716732793 -0700
+@@ -347,7 +347,7 @@
+ .Fn SSL_get_secure_renegotiation_support
+ returns 1 is the peer supports secure renegotiation and 0 if it does not.
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3 ,
+ .Xr SSL_clear 3 ,
+ .Xr SSL_CTX_ctrl 3 ,
+diff -ur libressl-3.7.2.orig/man/SSL_CTX_set_tmp_dh_callback.3 libressl-3.7.2/man/SSL_CTX_set_tmp_dh_callback.3
+--- libressl-3.7.2.orig/man/SSL_CTX_set_tmp_dh_callback.3	2022-04-03 22:32:16.000000000 -0700
++++ libressl-3.7.2/man/SSL_CTX_set_tmp_dh_callback.3	2023-05-07 22:37:30.203968223 -0700
+@@ -129,7 +129,7 @@
+ often used DH group.
+ Applications should therefore generate their own DH parameters during the
+ installation process using the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm dhparam
+ application.
+ This application guarantees that "strong" primes are used.
+@@ -147,7 +147,7 @@
+ These files can be converted into C code using the
+ .Fl C
+ option of the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm dhparam
+ application.
+ Generation of custom DH parameters during installation should still
+@@ -211,7 +211,7 @@
+ }
+ .Ed
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3 ,
+ .Xr SSL_CTX_set_cipher_list 3 ,
+ .Xr SSL_CTX_set_options 3 ,
+diff -ur libressl-3.7.2.orig/man/SSL_get_verify_result.3 libressl-3.7.2/man/SSL_get_verify_result.3
+--- libressl-3.7.2.orig/man/SSL_get_verify_result.3	2022-03-15 09:34:47.000000000 -0700
++++ libressl-3.7.2/man/SSL_get_verify_result.3	2023-05-07 22:38:12.354966571 -0700
+@@ -79,10 +79,10 @@
+ The verification succeeded or no peer certificate was presented.
+ .It Any other value
+ Documented in
+-.Xr openssl 1 .
++.Xr libressl 1 .
+ .El
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3 ,
+ .Xr SSL_CTX_set_verify 3 ,
+ .Xr SSL_get0_peername 3 ,
+diff -ur libressl-3.7.2.orig/man/SSL_set_verify_result.3 libressl-3.7.2/man/SSL_set_verify_result.3
+--- libressl-3.7.2.orig/man/SSL_set_verify_result.3	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/man/SSL_set_verify_result.3	2023-05-07 22:38:47.106132859 -0700
+@@ -78,9 +78,9 @@
+ The valid codes for
+ .Fa verify_result
+ are documented in
+-.Xr openssl 1 .
++.Xr libressl 1 .
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3 ,
+ .Xr SSL_get_peer_certificate 3 ,
+ .Xr SSL_get_verify_result 3
+diff -ur libressl-3.7.2.orig/man/X509_LOOKUP_hash_dir.3 libressl-3.7.2/man/X509_LOOKUP_hash_dir.3
+--- libressl-3.7.2.orig/man/X509_LOOKUP_hash_dir.3	2022-03-15 09:37:03.000000000 -0700
++++ libressl-3.7.2/man/X509_LOOKUP_hash_dir.3	2023-05-07 22:39:16.113431740 -0700
+@@ -132,7 +132,7 @@
+ The hash can also be obtained via the
+ .Fl hash
+ option of the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm x509
+ or
+ .Cm crl
+diff -ur libressl-3.7.2.orig/man/X509_VERIFY_PARAM_set_flags.3 libressl-3.7.2/man/X509_VERIFY_PARAM_set_flags.3
+--- libressl-3.7.2.orig/man/X509_VERIFY_PARAM_set_flags.3	2023-03-26 18:58:30.000000000 -0700
++++ libressl-3.7.2/man/X509_VERIFY_PARAM_set_flags.3	2023-05-07 22:39:47.369671389 -0700
+@@ -607,7 +607,7 @@
+ have explicit trust settings; see the trust settings options of the
+ .Cm x509
+ command in
+-.Xr openssl 1 .
++.Xr libressl 1 .
+ .Pp
+ The
+ .Dv X509_V_FLAG_NO_ALT_CHAINS
+diff -ur libressl-3.7.2.orig/man/X509_ocspid_print.3 libressl-3.7.2/man/X509_ocspid_print.3
+--- libressl-3.7.2.orig/man/X509_ocspid_print.3	2022-03-15 09:34:47.000000000 -0700
++++ libressl-3.7.2/man/X509_ocspid_print.3	2023-05-07 22:40:17.752927645 -0700
+@@ -42,7 +42,7 @@
+ This function is used by the
+ .Fl ocspid
+ flag of the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm x509
+ command.
+ .Sh SEE ALSO
+diff -ur libressl-3.7.2.orig/man/X509_verify_cert.3 libressl-3.7.2/man/X509_verify_cert.3
+--- libressl-3.7.2.orig/man/X509_verify_cert.3	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/man/X509_verify_cert.3	2023-05-07 22:40:51.952085391 -0700
+@@ -79,7 +79,7 @@
+ using
+ .Xr X509_STORE_CTX_get_error 3 .
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr X509_STORE_CTX_get_error 3 ,
+ .Xr X509_STORE_CTX_new 3
+ .Sh HISTORY
+diff -ur libressl-3.7.2.orig/man/crypto.3 libressl-3.7.2/man/crypto.3
+--- libressl-3.7.2.orig/man/crypto.3	2022-03-15 09:37:03.000000000 -0700
++++ libressl-3.7.2/man/crypto.3	2023-05-07 22:41:15.527501799 -0700
+@@ -426,5 +426,5 @@
+ function rather than freeing the object.
+ .El
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ssl 3
+diff -ur libressl-3.7.2.orig/man/openssl.cnf.5 libressl-3.7.2/man/openssl.cnf.5
+--- libressl-3.7.2.orig/man/openssl.cnf.5	2022-04-03 22:32:16.000000000 -0700
++++ libressl-3.7.2/man/openssl.cnf.5	2023-05-07 22:42:24.789774372 -0700
+@@ -1,4 +1,4 @@
+-.\" $OpenBSD: openssl.cnf.5,v 1.8 2022/03/31 17:27:17 naddy Exp $
++.\" $OpenBSD: libressl.cnf.5,v 1.8 2022/03/31 17:27:17 naddy Exp $
+ .\" full merge up to: OpenSSL man5/config b53338cb Feb 28 12:30:28 2017 +0100
+ .\" selective merge up to: OpenSSL a8c5ed81 Jul 18 13:57:25 2017 -0400
+ .\"
+@@ -54,17 +54,17 @@
+ .Dt OPENSSL.CNF 5
+ .Os
+ .Sh NAME
+-.Nm openssl.cnf
++.Nm libressl.cnf
+ .Nd OpenSSL configuration files
+ .Sh DESCRIPTION
+ The OpenSSL CONF library can be used to read configuration files; see
+ .Xr CONF_modules_load_file 3 .
+ It is used for the OpenSSL master configuration file
+-.Pa /etc/ssl/openssl.cnf
++.Pa /etc/ssl/libressl.cnf
+ and in a few other places like
+ .Sy SPKAC
+ files and certificate extension files for the
+-.Xr openssl 1
++.Xr libressl 1
+ .Cm x509
+ utility.
+ OpenSSL applications can also use the CONF library for their own
+@@ -158,7 +158,7 @@
+ using the master OpenSSL configuration file, or optionally an
+ alternative configuration file.
+ The
+-.Xr openssl 1
++.Xr libressl 1
+ utility includes this functionality: any sub command uses the master
+ OpenSSL configuration file unless an option is used in the sub command
+ to use an alternative configuration file.
+@@ -168,7 +168,7 @@
+ The default name is
+ .Ic openssl_conf ,
+ which is used by the
+-.Xr openssl 1
++.Xr libressl 1
+ utility.
+ Other applications may use an alternative name such as
+ .Sy myapplication_conf .
+@@ -209,11 +209,11 @@
+ pairs of OIDs: the name is the OID short and long name, and the value is the
+ numerical form of the OID.
+ Although some of the
+-.Xr openssl 1
++.Xr libressl 1
+ utility subcommands already have their own ASN1 OBJECT section
+ functionality, not all do.
+ By using the ASN1 OBJECT configuration module, all the
+-.Xr openssl 1
++.Xr libressl 1
+ utility subcommands can see the new objects as well as any compliant
+ applications.
+ For example:
+@@ -329,8 +329,8 @@
+ default_algorithms = ALL
+ .Ed
+ .Sh FILES
+-.Bl -tag -width /etc/ssl/openssl.cnf -compact
+-.It Pa /etc/ssl/openssl.cnf
++.Bl -tag -width /etc/ssl/libressl.cnf -compact
++.It Pa /etc/ssl/libressl.cnf
+ standard configuration file
+ .El
+ .Sh EXAMPLES
+@@ -417,7 +417,7 @@
+ .Pp
+ showing that the OID "newoid1" has been added as "1.2.3.4.1".
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr CONF_modules_load_file 3 ,
+ .Xr OPENSSL_config 3 ,
+ .Xr x509v3.cnf 5
+diff -ur libressl-3.7.2.orig/man/ssl.3 libressl-3.7.2/man/ssl.3
+--- libressl-3.7.2.orig/man/ssl.3	2023-03-15 10:17:47.000000000 -0700
++++ libressl-3.7.2/man/ssl.3	2023-05-07 22:42:47.038215665 -0700
+@@ -358,7 +358,7 @@
+ .Xr SSL_library_init 3 ,
+ .Xr SSL_set_tmp_ecdh 3
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr crypto 3 ,
+ .Xr tls_init 3
+ .Sh HISTORY
+diff -ur libressl-3.7.2.orig/man/tls_config_set_protocols.3 libressl-3.7.2/man/tls_config_set_protocols.3
+--- libressl-3.7.2.orig/man/tls_config_set_protocols.3	2022-02-18 14:30:40.000000000 -0800
++++ libressl-3.7.2/man/tls_config_set_protocols.3	2023-05-07 22:43:30.253125698 -0700
+@@ -146,7 +146,7 @@
+ .Pp
+ Alternatively, libssl cipher strings can be specified.
+ See the CIPHERS section of
+-.Xr openssl 1
++.Xr libressl 1
+ for further information.
+ .Pp
+ .Fn tls_config_set_dheparams
+diff -ur libressl-3.7.2.orig/man/x509v3.cnf.5 libressl-3.7.2/man/x509v3.cnf.5
+--- libressl-3.7.2.orig/man/x509v3.cnf.5	2022-04-03 22:32:16.000000000 -0700
++++ libressl-3.7.2/man/x509v3.cnf.5	2023-05-07 22:44:07.684154053 -0700
+@@ -61,7 +61,7 @@
+ Several of the OpenSSL utilities can add extensions to a certificate or
+ certificate request based on the contents of a configuration file.
+ The file format is based on the
+-.Xr openssl.cnf 5
++.Xr libressl.cnf 5
+ format.
+ .Pp
+ Typically the application will contain an option to point to an
+@@ -682,10 +682,10 @@
+ standard configuration file
+ .El
+ .Sh SEE ALSO
+-.Xr openssl 1 ,
++.Xr libressl 1 ,
+ .Xr ASN1_generate_nconf 3 ,
+ .Xr OPENSSL_config 3 ,
+-.Xr openssl.cnf 5
++.Xr libressl.cnf 5
+ .Sh HISTORY
+ X509v3 extension code was first added to OpenSSL 0.9.2.
+ .Sh CAVEATS

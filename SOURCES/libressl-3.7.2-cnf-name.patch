@@ -1,0 +1,96 @@
+diff -ur libressl-3.7.2.orig/CMakeLists.txt libressl-3.7.2/CMakeLists.txt
+--- libressl-3.7.2.orig/CMakeLists.txt	2023-03-28 04:55:36.000000000 -0700
++++ libressl-3.7.2/CMakeLists.txt	2023-05-07 22:13:47.896252860 -0700
+@@ -445,7 +445,7 @@
+ endif()
+ 
+ if(ENABLE_LIBRESSL_INSTALL)
+-	install(FILES cert.pem openssl.cnf x509v3.cnf DESTINATION ${CONF_DIR})
++	install(FILES cert.pem libressl.cnf x509v3.cnf DESTINATION ${CONF_DIR})
+ 	install(DIRECTORY DESTINATION ${CONF_DIR}/certs)
+ endif(ENABLE_LIBRESSL_INSTALL)
+ 
+diff -ur libressl-3.7.2.orig/Makefile.am libressl-3.7.2/Makefile.am
+--- libressl-3.7.2.orig/Makefile.am	2023-03-28 04:55:36.000000000 -0700
++++ libressl-3.7.2/Makefile.am	2023-05-07 22:14:46.126652600 -0700
+@@ -12,7 +12,7 @@
+ 
+ EXTRA_DIST = README.md README.windows VERSION config scripts
+ EXTRA_DIST += CMakeLists.txt cmake_export_symbol.cmake cmake_uninstall.cmake.in FindLibreSSL.cmake
+-EXTRA_DIST += cert.pem openssl.cnf x509v3.cnf
++EXTRA_DIST += cert.pem libressl.cnf x509v3.cnf
+ 
+ .PHONY: install_sw
+ install_sw: install
+@@ -24,7 +24,7 @@
+ 		OPENSSLDIR="$(DESTDIR)$(sysconfdir)/ssl"; \
+ 	fi; \
+ 	mkdir -p "$$OPENSSLDIR/certs"; \
+-	for i in cert.pem openssl.cnf x509v3.cnf; do \
++	for i in cert.pem libressl.cnf x509v3.cnf; do \
+ 		if [ ! -f "$$OPENSSLDIR/$i" ]; then \
+ 			$(INSTALL) -m 644 "$(srcdir)/$$i" "$$OPENSSLDIR/$$i"; \
+ 		else \
+@@ -38,7 +38,7 @@
+ 	else \
+ 		OPENSSLDIR="$(DESTDIR)$(sysconfdir)/ssl"; \
+ 	fi; \
+-	for i in cert.pem openssl.cnf x509v3.cnf; do \
++	for i in cert.pem libressl.cnf x509v3.cnf; do \
+ 		if cmp -s "$$OPENSSLDIR/$$i" "$(srcdir)/$$i"; then \
+ 			rm -f "$$OPENSSLDIR/$$i"; \
+ 		fi \
+diff -ur libressl-3.7.2.orig/Makefile.in libressl-3.7.2/Makefile.in
+--- libressl-3.7.2.orig/Makefile.in	2023-04-06 19:01:15.000000000 -0700
++++ libressl-3.7.2/Makefile.in	2023-05-07 22:15:24.941586209 -0700
+@@ -375,7 +375,7 @@
+ EXTRA_DIST = README.md README.windows VERSION config scripts \
+ 	CMakeLists.txt cmake_export_symbol.cmake \
+ 	cmake_uninstall.cmake.in FindLibreSSL.cmake cert.pem \
+-	openssl.cnf x509v3.cnf
++	libressl.cnf x509v3.cnf
+ all: all-recursive
+ 
+ .SUFFIXES:
+@@ -896,7 +896,7 @@
+ 		OPENSSLDIR="$(DESTDIR)$(sysconfdir)/ssl"; \
+ 	fi; \
+ 	mkdir -p "$$OPENSSLDIR/certs"; \
+-	for i in cert.pem openssl.cnf x509v3.cnf; do \
++	for i in cert.pem libressl.cnf x509v3.cnf; do \
+ 		if [ ! -f "$$OPENSSLDIR/$i" ]; then \
+ 			$(INSTALL) -m 644 "$(srcdir)/$$i" "$$OPENSSLDIR/$$i"; \
+ 		else \
+@@ -910,7 +910,7 @@
+ 	else \
+ 		OPENSSLDIR="$(DESTDIR)$(sysconfdir)/ssl"; \
+ 	fi; \
+-	for i in cert.pem openssl.cnf x509v3.cnf; do \
++	for i in cert.pem libressl.cnf x509v3.cnf; do \
+ 		if cmp -s "$$OPENSSLDIR/$$i" "$(srcdir)/$$i"; then \
+ 			rm -f "$$OPENSSLDIR/$$i"; \
+ 		fi \
+diff -ur libressl-3.7.2.orig/apps/openssl/apps.c libressl-3.7.2/apps/openssl/apps.c
+--- libressl-3.7.2.orig/apps/openssl/apps.c	2022-03-15 09:37:03.000000000 -0700
++++ libressl-3.7.2/apps/openssl/apps.c	2023-05-07 22:16:40.972497926 -0700
+@@ -1134,7 +1134,7 @@
+ 	const char *t = X509_get_default_cert_area();
+ 	char *p;
+ 
+-	if (asprintf(&p, "%s/openssl.cnf", t) == -1)
++	if (asprintf(&p, "%s/libressl.cnf", t) == -1)
+ 		return NULL;
+ 	return p;
+ }
+diff -ur libressl-3.7.2.orig/crypto/conf/conf_mod.c libressl-3.7.2/crypto/conf/conf_mod.c
+--- libressl-3.7.2.orig/crypto/conf/conf_mod.c	2022-02-18 14:30:39.000000000 -0800
++++ libressl-3.7.2/crypto/conf/conf_mod.c	2023-05-07 22:15:56.781711569 -0700
+@@ -545,7 +545,7 @@
+ {
+ 	char *file = NULL;
+ 
+-	if (asprintf(&file, "%s/openssl.cnf",
++	if (asprintf(&file, "%s/libressl.cnf",
+ 	    X509_get_default_cert_area()) == -1)
+ 		return (NULL);
+ 	return file;
