@@ -168,7 +168,9 @@ API provided by LibreSSL is sufficient.
 
 LibreSSL will be installed in such a way as to allow a parallel install
 of OpenSSL for cases where the OpenSSL API is needed but newer than
-the OpenSSL API provided by LibreSSL.
+the OpenSSL API provided by LibreSSL. This has been accomplished by
+renaming the LibreSSL fork of the `openssl` utility to `libressl` and
+by renaming the associated `openssl.cnf` file to `libressl.cnf`.
 
 LibreSSL is licensed under the OpenSSL license which is not considered
 to be compatible with the GPL licenses however there is a system library
@@ -177,9 +179,10 @@ exception.
 #### LibreSSL as a System Library
 
 The kernel module loader (kmod) links against LibreSSL, which to me
-clearly qualifies LibreSSL as a ‘System Library’ with respect the
+clearly qualifies LibreSSL as a ‘System Library’ with respect to the
 [GPL System Library Exception](https://www.gnu.org/licenses/gpl-faq.en.html#SystemLibraryException)
-for both GPLv2 and GPLv3.
+for both GPLv2 and GPLv3 as the kernel itself in YJL does not properly
+function without the LibreSSL libraries.
 
 ### OpenSSL
 
@@ -188,9 +191,14 @@ needs the OpenSSL API for which LibreSSL is not sufficient. An example
 is Python3 (specifically the OpenSSL package, see
 [PEP 644](https://peps.python.org/pep-0644/).
 
+Unfortunately YJL does not have (and almost certainly never will have)
+the budget to sponsor GnuTLS/LibreSSL support in other projects that
+are too resource-strapped (people and money) to support those alternatives
+to OpenSSL.
+
 On most YJL systems, only the shared libraries from OpenSSL will be
 installed but it is possible to install the utility as well in parallel
-with the LibreSSL utility.
+with the LibreSSL fork of the `openssl` utility.
 
 The `openssl-devel` and `libressl-devel` packages conflict with each
 other, only one of them can be installed at a time. As they are not
