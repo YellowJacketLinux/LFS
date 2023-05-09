@@ -1,0 +1,2063 @@
+make[1]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests'
+Making all in certs
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs'
+Making all in scripts
+make[3]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs/scripts'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs/scripts'
+make[3]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs'
+make[3]: Nothing to be done for 'all-am'.
+make[3]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs'
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/certs'
+Making all in data
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/data'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/data'
+Making all in server
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/server'
+  CC       ../../lib/getpart-mprintf.o
+  CC       ../../lib/getpart-nonblock.o
+  CC       ../../lib/getpart-strtoofft.o
+  CC       ../../lib/getpart-warnless.o
+  CC       ../../lib/getpart-timediff.o
+  CC       ../../lib/getpart-dynbuf.o
+  CC       ../../lib/getpart-strdup.o
+  CC       ../../lib/getpart-strcase.o
+  CC       ../../lib/getpart-curl_multibyte.o
+  CC       getpart-getpart.o
+  CC       ../../lib/getpart-base64.o
+  CC       ../../lib/getpart-memdebug.o
+  CC       getpart-testpart.o
+  CCLD     getpart
+  CC       ../../lib/resolve-mprintf.o
+  CC       ../../lib/resolve-nonblock.o
+  CC       ../../lib/resolve-strtoofft.o
+  CC       ../../lib/resolve-warnless.o
+  CC       ../../lib/resolve-timediff.o
+  CC       ../../lib/resolve-dynbuf.o
+  CC       ../../lib/resolve-strdup.o
+  CC       ../../lib/resolve-strcase.o
+  CC       ../../lib/resolve-curl_multibyte.o
+  CC       resolve-getpart.o
+  CC       ../../lib/resolve-base64.o
+  CC       ../../lib/resolve-memdebug.o
+  CC       resolve-util.o
+  CC       resolve-resolve.o
+  CCLD     resolve
+  CC       ../../lib/rtspd-mprintf.o
+  CC       ../../lib/rtspd-nonblock.o
+  CC       ../../lib/rtspd-strtoofft.o
+  CC       ../../lib/rtspd-warnless.o
+  CC       ../../lib/rtspd-timediff.o
+  CC       ../../lib/rtspd-dynbuf.o
+  CC       ../../lib/rtspd-strdup.o
+  CC       ../../lib/rtspd-strcase.o
+  CC       ../../lib/rtspd-curl_multibyte.o
+  CC       rtspd-getpart.o
+  CC       ../../lib/rtspd-base64.o
+  CC       ../../lib/rtspd-memdebug.o
+  CC       rtspd-util.o
+  CC       rtspd-rtspd.o
+  CCLD     rtspd
+  CC       ../../lib/sockfilt-mprintf.o
+  CC       ../../lib/sockfilt-nonblock.o
+  CC       ../../lib/sockfilt-strtoofft.o
+  CC       ../../lib/sockfilt-warnless.o
+  CC       ../../lib/sockfilt-timediff.o
+  CC       ../../lib/sockfilt-dynbuf.o
+  CC       ../../lib/sockfilt-strdup.o
+  CC       ../../lib/sockfilt-strcase.o
+  CC       ../../lib/sockfilt-curl_multibyte.o
+  CC       sockfilt-getpart.o
+  CC       ../../lib/sockfilt-base64.o
+  CC       ../../lib/sockfilt-memdebug.o
+  CC       sockfilt-util.o
+  CC       sockfilt-sockfilt.o
+  CC       ../../lib/sockfilt-inet_pton.o
+  CCLD     sockfilt
+  CC       ../../lib/sws-mprintf.o
+  CC       ../../lib/sws-nonblock.o
+  CC       ../../lib/sws-strtoofft.o
+  CC       ../../lib/sws-warnless.o
+  CC       ../../lib/sws-timediff.o
+  CC       ../../lib/sws-dynbuf.o
+  CC       ../../lib/sws-strdup.o
+  CC       ../../lib/sws-strcase.o
+  CC       ../../lib/sws-curl_multibyte.o
+  CC       sws-getpart.o
+  CC       ../../lib/sws-base64.o
+  CC       ../../lib/sws-memdebug.o
+  CC       sws-util.o
+  CC       sws-sws.o
+  CC       ../../lib/sws-inet_pton.o
+  CCLD     sws
+  CC       ../../lib/tftpd-mprintf.o
+  CC       ../../lib/tftpd-nonblock.o
+  CC       ../../lib/tftpd-strtoofft.o
+  CC       ../../lib/tftpd-warnless.o
+  CC       ../../lib/tftpd-timediff.o
+  CC       ../../lib/tftpd-dynbuf.o
+  CC       ../../lib/tftpd-strdup.o
+  CC       ../../lib/tftpd-strcase.o
+  CC       ../../lib/tftpd-curl_multibyte.o
+  CC       tftpd-getpart.o
+  CC       ../../lib/tftpd-base64.o
+  CC       ../../lib/tftpd-memdebug.o
+  CC       tftpd-util.o
+  CC       tftpd-tftpd.o
+tftpd.c: In function 'write_behind.isra':
+tftpd.c:483:12: warning: 'write' reading between 1 and 2147483647 bytes from a region of size 0 [-Wstringop-overread]
+  483 |     return write(test->ofile, writebuf, count);
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from tftpd.c:71:
+/usr/include/arpa/tftp.h:58:30: note: source object 'tu_data' of size 0
+   58 |                         char tu_data[0];        /* data or error string */
+      |                              ^~~~~~~
+In file included from ../../lib/curl_setup_once.h:69,
+                 from ../../lib/curl_setup.h:707,
+                 from server_setup.h:29,
+                 from tftpd.c:53:
+/usr/include/unistd.h:378:16: note: in a call to function 'write' declared with attribute 'access (read_only, 2, 3)'
+  378 | extern ssize_t write (int __fd, const void *__buf, size_t __n) __wur
+      |                ^~~~~
+  CCLD     tftpd
+  CC       ../../lib/fake_ntlm-mprintf.o
+  CC       ../../lib/fake_ntlm-nonblock.o
+  CC       ../../lib/fake_ntlm-strtoofft.o
+  CC       ../../lib/fake_ntlm-warnless.o
+  CC       ../../lib/fake_ntlm-timediff.o
+  CC       ../../lib/fake_ntlm-dynbuf.o
+  CC       ../../lib/fake_ntlm-strdup.o
+  CC       ../../lib/fake_ntlm-strcase.o
+  CC       ../../lib/fake_ntlm-curl_multibyte.o
+  CC       fake_ntlm-getpart.o
+  CC       ../../lib/fake_ntlm-base64.o
+  CC       ../../lib/fake_ntlm-memdebug.o
+  CC       fake_ntlm-util.o
+  CC       fake_ntlm-fake_ntlm.o
+  CCLD     fake_ntlm
+  CC       ../../lib/socksd-mprintf.o
+  CC       ../../lib/socksd-nonblock.o
+  CC       ../../lib/socksd-strtoofft.o
+  CC       ../../lib/socksd-warnless.o
+  CC       ../../lib/socksd-timediff.o
+  CC       ../../lib/socksd-dynbuf.o
+  CC       ../../lib/socksd-strdup.o
+  CC       ../../lib/socksd-strcase.o
+  CC       ../../lib/socksd-curl_multibyte.o
+  CC       socksd-getpart.o
+  CC       ../../lib/socksd-base64.o
+  CC       ../../lib/socksd-memdebug.o
+  CC       socksd-util.o
+  CC       socksd-socksd.o
+  CC       ../../lib/socksd-inet_pton.o
+  CCLD     socksd
+  CC       disabled-disabled.o
+  CCLD     disabled
+  CC       ../../lib/mqttd-mprintf.o
+  CC       ../../lib/mqttd-nonblock.o
+  CC       ../../lib/mqttd-strtoofft.o
+  CC       ../../lib/mqttd-warnless.o
+  CC       ../../lib/mqttd-timediff.o
+  CC       ../../lib/mqttd-dynbuf.o
+  CC       ../../lib/mqttd-strdup.o
+  CC       ../../lib/mqttd-strcase.o
+  CC       ../../lib/mqttd-curl_multibyte.o
+  CC       mqttd-getpart.o
+  CC       ../../lib/mqttd-base64.o
+  CC       ../../lib/mqttd-memdebug.o
+  CC       mqttd-util.o
+  CC       mqttd-mqttd.o
+  CC       ../../lib/mqttd-inet_pton.o
+  CCLD     mqttd
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/server'
+Making all in libtest
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/libtest'
+  CC       chkhostname.o
+  CC       ../../lib/curl_gethostname.o
+  CCLD     chkhostname
+  CC       libauthretry.o
+  CC       first.o
+  CCLD     libauthretry
+  CC       libntlmconnect.o
+  CC       testutil.o
+  CCLD     libntlmconnect
+  CC       chkdecimalpoint-chkdecimalpoint.o
+  CC       ../../lib/chkdecimalpoint-mprintf.o
+  CC       ../../lib/chkdecimalpoint-dynbuf.o
+  CC       ../../lib/chkdecimalpoint-strdup.o
+  CCLD     chkdecimalpoint
+  CC       libprereq.o
+  CCLD     libprereq
+  CC       lib500.o
+  CC       testtrace.o
+  CCLD     lib500
+  CC       lib501.o
+  CCLD     lib501
+  CC       lib502.o
+  CCLD     lib502
+  CC       lib503.o
+  CCLD     lib503
+  CC       lib504.o
+  CCLD     lib504
+  CC       lib505.o
+  CCLD     lib505
+  CC       lib506.o
+  CCLD     lib506
+  CC       lib507.o
+  CCLD     lib507
+  CC       lib508.o
+  CCLD     lib508
+  CC       lib509.o
+  CCLD     lib509
+  CC       lib510.o
+  CCLD     lib510
+  CC       lib511.o
+  CCLD     lib511
+  CC       lib512.o
+  CCLD     lib512
+  CC       lib513.o
+  CCLD     lib513
+  CC       lib514.o
+  CCLD     lib514
+  CC       lib515.o
+  CCLD     lib515
+  CC       lib516.o
+  CCLD     lib516
+  CC       lib517.o
+  CCLD     lib517
+  CC       lib518.o
+  CCLD     lib518
+  CC       lib519.o
+  CCLD     lib519
+  CC       lib520.o
+  CCLD     lib520
+  CC       lib521.o
+  CCLD     lib521
+  CC       lib523.o
+  CCLD     lib523
+  CC       lib524.o
+  CCLD     lib524
+  CC       lib525.o
+  CCLD     lib525
+  CC       lib526-lib526.o
+  CC       ../../lib/lib526-timediff.o
+  CC       lib526-first.o
+  CC       lib526-testutil.o
+  CC       ../../lib/lib526-warnless.o
+  CCLD     lib526
+  CC       lib527-lib526.o
+  CC       ../../lib/lib527-timediff.o
+  CC       lib527-first.o
+  CC       lib527-testutil.o
+  CC       ../../lib/lib527-warnless.o
+  CCLD     lib527
+  CC       lib529-lib525.o
+  CC       ../../lib/lib529-timediff.o
+  CC       lib529-first.o
+  CC       lib529-testutil.o
+  CC       ../../lib/lib529-warnless.o
+  CC       ../../lib/lib529-curl_multibyte.o
+  CCLD     lib529
+  CC       lib530.o
+  CCLD     lib530
+  CC       lib532-lib526.o
+  CC       ../../lib/lib532-timediff.o
+  CC       lib532-first.o
+  CC       lib532-testutil.o
+  CC       ../../lib/lib532-warnless.o
+  CCLD     lib532
+  CC       lib533.o
+  CCLD     lib533
+  CC       lib537.o
+  CCLD     lib537
+  CC       lib539.o
+  CCLD     lib539
+  CC       lib540.o
+  CCLD     lib540
+  CC       lib541.o
+  CCLD     lib541
+  CC       lib542.o
+  CCLD     lib542
+  CC       lib543.o
+  CCLD     lib543
+  CC       lib544.o
+  CCLD     lib544
+  CC       lib545-lib544.o
+  CC       ../../lib/lib545-timediff.o
+  CC       lib545-first.o
+  CCLD     lib545
+  CC       lib547.o
+  CCLD     lib547
+  CC       lib548-lib547.o
+  CC       ../../lib/lib548-timediff.o
+  CC       lib548-first.o
+  CCLD     lib548
+  CC       lib549.o
+  CCLD     lib549
+  CC       lib552.o
+  CCLD     lib552
+  CC       lib553.o
+  CCLD     lib553
+  CC       lib554.o
+  CCLD     lib554
+  CC       lib555.o
+  CCLD     lib555
+  CC       lib556.o
+  CCLD     lib556
+  CC       lib557.o
+  CCLD     lib557
+  CC       lib558.o
+  CCLD     lib558
+  CC       lib559.o
+  CCLD     lib559
+  CC       lib560.o
+  CCLD     lib560
+  CC       lib562.o
+  CCLD     lib562
+  CC       lib564.o
+  CCLD     lib564
+  CC       lib565-lib510.o
+  CC       ../../lib/lib565-timediff.o
+  CC       lib565-first.o
+  CCLD     lib565
+  CC       lib566.o
+  CCLD     lib566
+  CC       lib567.o
+  CCLD     lib567
+  CC       lib568.o
+  CCLD     lib568
+  CC       lib569.o
+  CCLD     lib569
+  CC       lib570.o
+  CCLD     lib570
+  CC       lib571.o
+  CCLD     lib571
+  CC       lib572.o
+  CCLD     lib572
+  CC       lib573.o
+  CCLD     lib573
+  CC       lib574.o
+  CCLD     lib574
+  CC       lib575.o
+  CCLD     lib575
+  CC       lib576.o
+  CCLD     lib576
+  CC       lib578.o
+  CCLD     lib578
+  CC       lib579.o
+  CCLD     lib579
+  CC       lib582.o
+  CCLD     lib582
+  CC       lib583.o
+  CCLD     lib583
+  CC       lib584-lib589.o
+  CC       ../../lib/lib584-timediff.o
+  CC       lib584-first.o
+  CCLD     lib584
+  CC       lib585-lib500.o
+  CC       ../../lib/lib585-timediff.o
+  CC       lib585-first.o
+  CC       lib585-testutil.o
+  CC       lib585-testtrace.o
+  CC       ../../lib/lib585-curl_multibyte.o
+  CCLD     lib585
+  CC       lib586.o
+  CCLD     lib586
+  CC       lib587-lib554.o
+  CC       ../../lib/lib587-timediff.o
+  CC       lib587-first.o
+  CCLD     lib587
+  CC       lib589.o
+  CCLD     lib589
+  CC       lib590.o
+  CCLD     lib590
+  CC       lib591.o
+  CCLD     lib591
+  CC       lib597.o
+  CCLD     lib597
+  CC       lib598.o
+  CCLD     lib598
+  CC       lib599.o
+  CCLD     lib599
+  CC       lib643.o
+  CCLD     lib643
+  CC       lib645-lib643.o
+  CC       ../../lib/lib645-timediff.o
+  CC       lib645-first.o
+  CCLD     lib645
+  CC       lib650.o
+  CCLD     lib650
+  CC       lib651.o
+  CCLD     lib651
+  CC       lib652.o
+  CCLD     lib652
+  CC       lib653.o
+  CCLD     lib653
+  CC       lib654.o
+  CCLD     lib654
+  CC       lib655.o
+  CCLD     lib655
+  CC       lib658.o
+  CCLD     lib658
+  CC       lib659.o
+  CCLD     lib659
+  CC       lib661.o
+  CCLD     lib661
+  CC       lib666.o
+  CCLD     lib666
+  CC       lib667.o
+  CCLD     lib667
+  CC       lib668.o
+  CCLD     lib668
+  CC       lib670-lib670.o
+  CC       ../../lib/lib670-timediff.o
+  CC       lib670-first.o
+  CC       lib670-testutil.o
+  CC       ../../lib/lib670-warnless.o
+  CCLD     lib670
+  CC       lib671-lib670.o
+  CC       ../../lib/lib671-timediff.o
+  CC       lib671-first.o
+  CC       lib671-testutil.o
+  CC       ../../lib/lib671-warnless.o
+  CCLD     lib671
+  CC       lib672-lib670.o
+  CC       ../../lib/lib672-timediff.o
+  CC       lib672-first.o
+  CC       lib672-testutil.o
+  CC       ../../lib/lib672-warnless.o
+  CCLD     lib672
+  CC       lib670.o
+  CCLD     lib673
+  CC       lib674.o
+  CCLD     lib674
+  CC       lib676.o
+  CCLD     lib676
+  CC       lib677.o
+  CCLD     lib677
+  CC       lib678.o
+  CCLD     lib678
+  CC       lib1156.o
+  CCLD     lib1156
+  CC       lib1301.o
+  CCLD     lib1301
+  CC       lib1500.o
+  CCLD     lib1500
+  CC       lib1501.o
+  CCLD     lib1501
+  CC       lib1502-lib1502.o
+  CC       ../../lib/lib1502-timediff.o
+  CC       lib1502-first.o
+  CC       lib1502-testutil.o
+  CC       ../../lib/lib1502-warnless.o
+  CCLD     lib1502
+  CC       lib1503-lib1502.o
+  CC       ../../lib/lib1503-timediff.o
+  CC       lib1503-first.o
+  CC       lib1503-testutil.o
+  CC       ../../lib/lib1503-warnless.o
+  CCLD     lib1503
+  CC       lib1504-lib1502.o
+  CC       ../../lib/lib1504-timediff.o
+  CC       lib1504-first.o
+  CC       lib1504-testutil.o
+  CC       ../../lib/lib1504-warnless.o
+  CCLD     lib1504
+  CC       lib1505-lib1502.o
+  CC       ../../lib/lib1505-timediff.o
+  CC       lib1505-first.o
+  CC       lib1505-testutil.o
+  CC       ../../lib/lib1505-warnless.o
+  CCLD     lib1505
+  CC       lib1506.o
+  CCLD     lib1506
+  CC       lib1507.o
+  CCLD     lib1507
+  CC       lib1508.o
+  CCLD     lib1508
+  CC       lib1509.o
+  CCLD     lib1509
+  CC       lib1510.o
+  CCLD     lib1510
+  CC       lib1511.o
+  CCLD     lib1511
+  CC       lib1512.o
+  CCLD     lib1512
+  CC       lib1513.o
+  CCLD     lib1513
+  CC       lib1514.o
+  CCLD     lib1514
+  CC       lib1515.o
+  CCLD     lib1515
+  CC       lib1517.o
+  CCLD     lib1517
+  CC       lib1518.o
+  CCLD     lib1518
+  CC       lib1520.o
+  CCLD     lib1520
+/usr/bin/perl ../../tests/libtest/mk-lib1521.pl < ../../include/curl/curl.h > lib1521.c
+  CC       lib1521-lib1521.o
+  CC       ../../lib/lib1521-timediff.o
+  CC       lib1521-first.o
+  CCLD     lib1521
+  CC       lib1522.o
+  CCLD     lib1522
+  CC       lib1523.o
+  CCLD     lib1523
+  CC       lib1525.o
+  CCLD     lib1525
+  CC       lib1526.o
+  CCLD     lib1526
+  CC       lib1527.o
+  CCLD     lib1527
+  CC       lib1528.o
+  CCLD     lib1528
+  CC       lib1529.o
+  CCLD     lib1529
+  CC       lib1530.o
+  CCLD     lib1530
+  CC       lib1531.o
+  CCLD     lib1531
+  CC       lib1532.o
+  CCLD     lib1532
+  CC       lib1533.o
+  CCLD     lib1533
+  CC       lib1534.o
+  CCLD     lib1534
+  CC       lib1535.o
+  CCLD     lib1535
+  CC       lib1536.o
+  CCLD     lib1536
+  CC       lib1537.o
+  CCLD     lib1537
+  CC       lib1538.o
+  CCLD     lib1538
+  CC       lib1539-lib1514.o
+  CC       ../../lib/lib1539-timediff.o
+  CC       lib1539-first.o
+  CC       lib1539-testutil.o
+  CC       ../../lib/lib1539-warnless.o
+  CCLD     lib1539
+  CC       lib1540.o
+  CCLD     lib1540
+  CC       lib1542.o
+  CCLD     lib1542
+  CC       lib1543-lib1518.o
+  CC       ../../lib/lib1543-timediff.o
+  CC       lib1543-first.o
+  CCLD     lib1543
+  CC       lib1550.o
+  CCLD     lib1550
+  CC       lib1551.o
+  CCLD     lib1551
+  CC       lib1552.o
+  CCLD     lib1552
+  CC       lib1553.o
+  CCLD     lib1553
+  CC       lib1554.o
+  CCLD     lib1554
+  CC       lib1555.o
+  CCLD     lib1555
+  CC       lib1556.o
+  CCLD     lib1556
+  CC       lib1557.o
+  CCLD     lib1557
+  CC       lib1558.o
+  CCLD     lib1558
+  CC       lib1559.o
+  CCLD     lib1559
+  CC       lib1560.o
+  CCLD     lib1560
+  CC       lib1564.o
+  CCLD     lib1564
+  CC       lib1565.o
+  CCLD     lib1565
+  CC       lib1567.o
+  CCLD     lib1567
+  CC       lib1568.o
+  CCLD     lib1568
+  CC       lib1569.o
+  CCLD     lib1569
+  CC       lib1591.o
+  CCLD     lib1591
+  CC       lib1592.o
+  CCLD     lib1592
+  CC       lib1593.o
+  CCLD     lib1593
+  CC       lib1594.o
+  CCLD     lib1594
+  CC       lib1596-lib1594.o
+  CC       ../../lib/lib1596-timediff.o
+  CC       lib1596-first.o
+  CC       lib1596-testutil.o
+  CC       ../../lib/lib1596-warnless.o
+  CCLD     lib1596
+  CC       lib1597.o
+  CCLD     lib1597
+  CC       lib1662.o
+  CCLD     lib1662
+  CC       lib1903.o
+  CCLD     lib1903
+  CC       lib1905.o
+  CCLD     lib1905
+  CC       lib1906.o
+  CCLD     lib1906
+  CC       lib1907.o
+  CCLD     lib1907
+  CC       lib1908.o
+  CCLD     lib1908
+  CC       lib1910.o
+  CCLD     lib1910
+  CC       lib1911.o
+  CCLD     lib1911
+  CC       lib1912.o
+  CCLD     lib1912
+  CC       lib1913.o
+  CCLD     lib1913
+  CC       lib1915.o
+  CCLD     lib1915
+  CC       lib1916.o
+  CCLD     lib1916
+  CC       lib1917-lib1916.o
+  CC       ../../lib/lib1917-timediff.o
+  CC       lib1917-first.o
+  CC       ../../lib/lib1917-warnless.o
+  CCLD     lib1917
+  CC       lib1918.o
+  CCLD     lib1918
+  CC       lib1919.o
+  CCLD     lib1919
+  CC       lib1933.o
+  CCLD     lib1933
+  CC       lib1934.o
+  CCLD     lib1934
+  CC       lib1935.o
+  CCLD     lib1935
+  CC       lib1936.o
+  CCLD     lib1936
+  CC       lib1937.o
+  CCLD     lib1937
+  CC       lib1938.o
+  CCLD     lib1938
+  CC       lib1939.o
+  CCLD     lib1939
+  CC       lib1940.o
+  CCLD     lib1940
+  CC       lib1945.o
+  CCLD     lib1945
+  CC       lib1946-lib1940.o
+  CC       ../../lib/lib1946-timediff.o
+  CC       lib1946-first.o
+  CCLD     lib1946
+  CC       lib1947.o
+  CCLD     lib1947
+  CC       lib1948.o
+  CCLD     lib1948
+  CC       lib1955.o
+  CCLD     lib1955
+  CC       lib1956.o
+  CCLD     lib1956
+  CC       lib1957.o
+  CCLD     lib1957
+  CC       lib1958.o
+  CCLD     lib1958
+  CC       lib1959.o
+  CCLD     lib1959
+  CC       lib1960.o
+  CCLD     lib1960
+  CC       lib1970.o
+  CCLD     lib1970
+  CC       lib1971.o
+  CCLD     lib1971
+  CC       lib1972.o
+  CCLD     lib1972
+  CC       lib1973.o
+  CCLD     lib1973
+  CC       lib1974.o
+  CCLD     lib1974
+  CC       lib1975.o
+  CCLD     lib1975
+  CC       lib2301.o
+  CCLD     lib2301
+  CC       lib2302.o
+  CCLD     lib2302
+  CC       lib2304.o
+  CCLD     lib2304
+  CC       lib2305.o
+  CCLD     lib2305
+  CC       lib2402.o
+  CCLD     lib2402
+  CC       lib2502.o
+  CCLD     lib2502
+  CC       lib3010.o
+  CCLD     lib3010
+  CC       lib3025.o
+  CCLD     lib3025
+  CC       lib3026.o
+  CCLD     lib3026
+  CC       lib3027.o
+  CCLD     lib3027
+  CC       lib3100.o
+  CCLD     lib3100
+  CC       lib3101.o
+  CCLD     lib3101
+  CC       libhostname_la-sethostname.lo
+  CCLD     libhostname.la
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/libtest'
+Making all in http
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/http'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests/http'
+make[2]: Entering directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests'
+srcdir=. /usr/bin/perl -I. ./runtests.pl -a -s 
+********* System characteristics ******** 
+* curl 8.0.1 (x86_64-pc-linux-gnu) 
+* libcurl/8.0.1 GnuTLS/3.8.0 zlib/1.2.13 brotli/1.0.9 zstd/1.5.4 nghttp2/1.52.0
+* Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTPS-proxy IPv6 Largefile libz NTLM NTLM_WB SSL threadsafe TLS-SRP UnixSockets zstd
+* Disabled: 
+* Host: localhost
+* System: Linux localhost 6.1.27-genesis.1 #1 SMP PREEMPT_DYNAMIC Mon May  1 04:29:27 PDT 2023 x86_64 GNU/Linux
+* OS: linux
+* Servers: HTTP-IPv6 HTTP-unix FTP-IPv6 
+* Env: 
+* Seed: 226497
+***************************************** 
+test 0001...OK (1   out of 1577, remaining: 26:57, took 1.026s, duration: 00:01)
+test 0002...OK (2   out of 1577, remaining: 14:20, took 0.066s, duration: 00:01)
+test 0003...OK (3   out of 1577, remaining: 09:41, took 0.017s, duration: 00:01)
+test 0004...OK (4   out of 1577, remaining: 08:02, took 0.119s, duration: 00:01)
+test 0005...OK (5   out of 1577, remaining: 06:47, took 0.067s, duration: 00:01)
+test 0006...OK (6   out of 1577, remaining: 05:56, took 0.067s, duration: 00:01)
+test 0007...OK (7   out of 1577, remaining: 05:20, took 0.068s, duration: 00:01)
+test 0008...OK (8   out of 1577, remaining: 04:55, took 0.075s, duration: 00:01)
+test 0009...OK (9   out of 1577, remaining: 04:34, took 0.070s, duration: 00:01)
+test 0010...OK (10  out of 1577, remaining: 04:17, took 0.068s, duration: 00:01)
+test 0011...OK (11  out of 1577, remaining: 04:11, took 0.120s, duration: 00:01)
+test 0012...OK (12  out of 1577, remaining: 03:52, took 0.017s, duration: 00:01)
+test 0013...OK (13  out of 1577, remaining: 03:36, took 0.015s, duration: 00:01)
+test 0014...OK (14  out of 1577, remaining: 03:22, took 0.015s, duration: 00:01)
+test 0015...OK (15  out of 1577, remaining: 03:10, took 0.016s, duration: 00:01)
+test 0016...OK (16  out of 1577, remaining: 02:59, took 0.016s, duration: 00:01)
+test 0017...OK (17  out of 1577, remaining: 02:50, took 0.016s, duration: 00:01)
+test 0018...OK (18  out of 1577, remaining: 02:42, took 0.021s, duration: 00:01)
+test 0019...OK (19  out of 1577, remaining: 02:35, took 0.014s, duration: 00:01)
+test 0020...OK (20  out of 1577, remaining: 02:29, took 0.023s, duration: 00:01)
+test 0021...OK (21  out of 1577, remaining: 02:23, took 0.014s, duration: 00:01)
+test 0022...OK (22  out of 1577, remaining: 02:17, took 0.016s, duration: 00:01)
+test 0023...OK (23  out of 1577, remaining: 02:12, took 0.013s, duration: 00:01)
+test 0024...OK (24  out of 1577, remaining: 02:07, took 0.015s, duration: 00:01)
+test 0025...OK (25  out of 1577, remaining: 02:04, took 0.025s, duration: 00:02)
+test 0026...OK (26  out of 1577, remaining: 02:03, took 0.065s, duration: 00:02)
+test 0027...OK (27  out of 1577, remaining: 02:08, took 0.169s, duration: 00:02)
+test 0028...OK (28  out of 1577, remaining: 02:10, took 0.120s, duration: 00:02)
+test 0029...Warning: server logs lock timeout (2 seconds) expired
+OK (29  out of 1577, remaining: 05:40, took 4.022s, duration: 00:06)
+test 0030...OK (30  out of 1577, remaining: 10:43, took 6.107s, duration: 00:12)
+test 0031...OK (31  out of 1577, remaining: 10:24, took 0.028s, duration: 00:12)
+test 0032...OK (32  out of 1577, remaining: 10:04, took 0.016s, duration: 00:12)
+test 0033...OK (33  out of 1577, remaining: 09:49, took 0.068s, duration: 00:12)
+test 0034...OK (34  out of 1577, remaining: 09:32, took 0.017s, duration: 00:12)
+test 0035...OK (35  out of 1577, remaining: 09:18, took 0.066s, duration: 00:12)
+test 0036...OK (36  out of 1577, remaining: 09:03, took 0.018s, duration: 00:12)
+test 0037...OK (37  out of 1577, remaining: 08:51, took 0.066s, duration: 00:12)
+test 0038...OK (38  out of 1577, remaining: 08:37, took 0.017s, duration: 00:12)
+test 0039...OK (39  out of 1577, remaining: 08:25, took 0.023s, duration: 00:12)
+test 0040...OK (40  out of 1577, remaining: 08:16, took 0.119s, duration: 00:12)
+test 0041...OK (41  out of 1577, remaining: 08:04, took 0.013s, duration: 00:12)
+test 0042...OK (42  out of 1577, remaining: 07:57, took 0.119s, duration: 00:13)
+test 0043...OK (43  out of 1577, remaining: 07:48, took 0.070s, duration: 00:13)
+test 0044...OK (44  out of 1577, remaining: 07:39, took 0.070s, duration: 00:13)
+test 0045...OK (45  out of 1577, remaining: 07:33, took 0.120s, duration: 00:13)
+test 0046...OK (46  out of 1577, remaining: 07:24, took 0.022s, duration: 00:13)
+test 0047...OK (47  out of 1577, remaining: 07:16, took 0.066s, duration: 00:13)
+test 0048...OK (48  out of 1577, remaining: 07:07, took 0.017s, duration: 00:13)
+test 0049...OK (49  out of 1577, remaining: 07:02, took 0.120s, duration: 00:13)
+test 0050...OK (50  out of 1577, remaining: 06:57, took 0.120s, duration: 00:13)
+test 0051...OK (51  out of 1577, remaining: 06:52, took 0.120s, duration: 00:13)
+test 0052...OK (52  out of 1577, remaining: 06:47, took 0.120s, duration: 00:13)
+test 0053...OK (53  out of 1577, remaining: 06:40, took 0.017s, duration: 00:13)
+test 0054...OK (54  out of 1577, remaining: 06:34, took 0.065s, duration: 00:13)
+test 0055...OK (55  out of 1577, remaining: 06:30, took 0.119s, duration: 00:14)
+test 0056...OK (56  out of 1577, remaining: 06:25, took 0.071s, duration: 00:14)
+test 0057...OK (57  out of 1577, remaining: 06:19, took 0.066s, duration: 00:14)
+test 0058...OK (58  out of 1577, remaining: 06:14, took 0.067s, duration: 00:14)
+test 0059...OK (59  out of 1577, remaining: 06:09, took 0.066s, duration: 00:14)
+test 0060...OK (60  out of 1577, remaining: 06:30, took 1.069s, duration: 00:15)
+test 0061...OK (61  out of 1577, remaining: 06:24, took 0.019s, duration: 00:15)
+test 0062...OK (62  out of 1577, remaining: 06:20, took 0.119s, duration: 00:15)
+test 0063...OK (63  out of 1577, remaining: 06:16, took 0.067s, duration: 00:15)
+test 0064...OK (64  out of 1577, remaining: 06:12, took 0.121s, duration: 00:15)
+test 0065...OK (65  out of 1577, remaining: 06:07, took 0.020s, duration: 00:15)
+test 0066...OK (66  out of 1577, remaining: 06:03, took 0.065s, duration: 00:15)
+test 0067...OK (67  out of 1577, remaining: 05:59, took 0.071s, duration: 00:15)
+test 0068...OK (68  out of 1577, remaining: 05:53, took 0.021s, duration: 00:15)
+test 0069...OK (69  out of 1577, remaining: 05:51, took 0.124s, duration: 00:16)
+test 0070...OK (70  out of 1577, remaining: 05:46, took 0.020s, duration: 00:16)
+test 0071...OK (71  out of 1577, remaining: 05:42, took 0.070s, duration: 00:16)
+test 0072...OK (72  out of 1577, remaining: 05:38, took 0.021s, duration: 00:16)
+test 0073...OK (73  out of 1577, remaining: 05:34, took 0.067s, duration: 00:16)
+test 0074...OK (74  out of 1577, remaining: 05:31, took 0.070s, duration: 00:16)
+test 0075...OK (75  out of 1577, remaining: 05:27, took 0.015s, duration: 00:16)
+test 0076...OK (76  out of 1577, remaining: 05:22, took 0.013s, duration: 00:16)
+test 0077...OK (77  out of 1577, remaining: 05:18, took 0.016s, duration: 00:16)
+test 0078...OK (78  out of 1577, remaining: 05:14, took 0.018s, duration: 00:16)
+test 0079...OK (79  out of 1577, remaining: 05:11, took 0.067s, duration: 00:16)
+test 0080...OK (80  out of 1577, remaining: 05:37, took 1.581s, duration: 00:18)
+test 0081...OK (81  out of 1577, remaining: 05:34, took 0.072s, duration: 00:18)
+test 0082...OK (82  out of 1577, remaining: 05:30, took 0.017s, duration: 00:18)
+test 0083...OK (83  out of 1577, remaining: 05:42, took 0.913s, duration: 00:19)
+test 0084...OK (84  out of 1577, remaining: 05:39, took 0.067s, duration: 00:19)
+test 0085...OK (85  out of 1577, remaining: 05:36, took 0.067s, duration: 00:19)
+test 0086...OK (86  out of 1577, remaining: 05:35, took 0.173s, duration: 00:19)
+test 0087...OK (87  out of 1577, remaining: 05:31, took 0.018s, duration: 00:19)
+test 0088...OK (88  out of 1577, remaining: 05:29, took 0.122s, duration: 00:19)
+test 0089...OK (89  out of 1577, remaining: 05:27, took 0.128s, duration: 00:19)
+test 0090...OK (90  out of 1577, remaining: 05:27, took 0.235s, duration: 00:19)
+test 0091...OK (91  out of 1577, remaining: 05:26, took 0.125s, duration: 00:19)
+test 0092...OK (92  out of 1577, remaining: 05:22, took 0.018s, duration: 00:19)
+test 0093...OK (93  out of 1577, remaining: 05:20, took 0.067s, duration: 00:20)
+test 0094...OK (94  out of 1577, remaining: 05:17, took 0.067s, duration: 00:20)
+test 0095...OK (95  out of 1577, remaining: 05:22, took 0.572s, duration: 00:20)
+test 0097...OK (97  out of 1577, remaining: 05:16, took 0.016s, duration: 00:20)
+test 0098...OK (98  out of 1577, remaining: 05:28, took 1.018s, duration: 00:21)
+test 0099...OK (99  out of 1577, remaining: 05:24, took 0.018s, duration: 00:21)
+test 0100...OK (100 out of 1577, remaining: 05:37, took 1.116s, duration: 00:22)
+test 0101...OK (101 out of 1577, remaining: 05:35, took 0.062s, duration: 00:22)
+test 0102...OK (102 out of 1577, remaining: 05:32, took 0.061s, duration: 00:22)
+test 0103...OK (103 out of 1577, remaining: 05:29, took 0.061s, duration: 00:23)
+test 0104...OK (104 out of 1577, remaining: 05:26, took 0.017s, duration: 00:23)
+test 0105...OK (105 out of 1577, remaining: 05:24, took 0.061s, duration: 00:23)
+test 0106...OK (106 out of 1577, remaining: 05:21, took 0.061s, duration: 00:23)
+test 0107...OK (107 out of 1577, remaining: 05:19, took 0.061s, duration: 00:23)
+test 0108...OK (108 out of 1577, remaining: 05:17, took 0.062s, duration: 00:23)
+test 0109...OK (109 out of 1577, remaining: 05:14, took 0.061s, duration: 00:23)
+test 0110...OK (110 out of 1577, remaining: 05:12, took 0.061s, duration: 00:23)
+test 0111...OK (111 out of 1577, remaining: 05:09, took 0.019s, duration: 00:23)
+test 0112...OK (112 out of 1577, remaining: 05:07, took 0.061s, duration: 00:23)
+test 0113...OK (113 out of 1577, remaining: 05:04, took 0.015s, duration: 00:23)
+test 0114...OK (114 out of 1577, remaining: 05:02, took 0.015s, duration: 00:23)
+test 0115...OK (115 out of 1577, remaining: 04:59, took 0.016s, duration: 00:23)
+test 0116...OK (116 out of 1577, remaining: 04:57, took 0.019s, duration: 00:23)
+test 0117...OK (117 out of 1577, remaining: 04:54, took 0.018s, duration: 00:23)
+test 0118...OK (118 out of 1577, remaining: 04:52, took 0.019s, duration: 00:23)
+test 0119...OK (119 out of 1577, remaining: 04:49, took 0.019s, duration: 00:23)
+test 0120...OK (120 out of 1577, remaining: 04:47, took 0.061s, duration: 00:23)
+test 0121...OK (121 out of 1577, remaining: 04:45, took 0.061s, duration: 00:23)
+test 0122...OK (122 out of 1577, remaining: 04:43, took 0.019s, duration: 00:23)
+test 0123...OK (123 out of 1577, remaining: 04:41, took 0.018s, duration: 00:23)
+test 0124...OK (124 out of 1577, remaining: 04:39, took 0.060s, duration: 00:23)
+test 0125...OK (125 out of 1577, remaining: 04:37, took 0.016s, duration: 00:23)
+test 0126...OK (126 out of 1577, remaining: 04:35, took 0.060s, duration: 00:23)
+test 0127...OK (127 out of 1577, remaining: 04:33, took 0.060s, duration: 00:23)
+test 0128...OK (128 out of 1577, remaining: 04:32, took 0.061s, duration: 00:24)
+test 0129...OK (129 out of 1577, remaining: 04:30, took 0.017s, duration: 00:24)
+test 0130...OK (130 out of 1577, remaining: 04:28, took 0.062s, duration: 00:24)
+test 0131...OK (131 out of 1577, remaining: 04:27, took 0.062s, duration: 00:24)
+test 0132...OK (132 out of 1577, remaining: 04:25, took 0.062s, duration: 00:24)
+test 0133...OK (133 out of 1577, remaining: 04:24, took 0.062s, duration: 00:24)
+test 0134...OK (134 out of 1577, remaining: 04:22, took 0.062s, duration: 00:24)
+test 0135...OK (135 out of 1577, remaining: 04:20, took 0.020s, duration: 00:24)
+test 0136...OK (136 out of 1577, remaining: 04:19, took 0.059s, duration: 00:24)
+test 0137...OK (137 out of 1577, remaining: 04:17, took 0.061s, duration: 00:24)
+test 0138...OK (138 out of 1577, remaining: 04:16, took 0.061s, duration: 00:24)
+test 0139...OK (139 out of 1577, remaining: 04:14, took 0.061s, duration: 00:24)
+test 0140...OK (140 out of 1577, remaining: 04:13, took 0.016s, duration: 00:24)
+test 0141...OK (141 out of 1577, remaining: 04:11, took 0.018s, duration: 00:24)
+test 0142...OK (142 out of 1577, remaining: 04:10, took 0.093s, duration: 00:24)
+test 0143...OK (143 out of 1577, remaining: 04:09, took 0.060s, duration: 00:24)
+test 0144...OK (144 out of 1577, remaining: 04:07, took 0.019s, duration: 00:24)
+test 0145...OK (145 out of 1577, remaining: 04:05, took 0.019s, duration: 00:24)
+test 0146...OK (146 out of 1577, remaining: 04:04, took 0.105s, duration: 00:24)
+test 0147...OK (147 out of 1577, remaining: 04:03, took 0.062s, duration: 00:25)
+test 0148...OK (148 out of 1577, remaining: 04:01, took 0.017s, duration: 00:25)
+test 0149...OK (149 out of 1577, remaining: 04:01, took 0.104s, duration: 00:25)
+test 0150...OK (150 out of 1577, remaining: 04:00, took 0.072s, duration: 00:25)
+test 0151...OK (151 out of 1577, remaining: 03:58, took 0.066s, duration: 00:25)
+test 0152...OK (152 out of 1577, remaining: 03:57, took 0.066s, duration: 00:25)
+test 0153...OK (153 out of 1577, remaining: 03:57, took 0.131s, duration: 00:25)
+test 0154...OK (154 out of 1577, remaining: 03:56, took 0.124s, duration: 00:25)
+test 0155...OK (155 out of 1577, remaining: 03:56, took 0.127s, duration: 00:25)
+test 0156...OK (156 out of 1577, remaining: 03:55, took 0.068s, duration: 00:25)
+test 0157...OK (157 out of 1577, remaining: 03:54, took 0.066s, duration: 00:25)
+test 0158...OK (158 out of 1577, remaining: 03:53, took 0.068s, duration: 00:25)
+test 0160...OK (160 out of 1577, remaining: 04:08, took 2.123s, duration: 00:28)
+test 0161...OK (161 out of 1577, remaining: 04:07, took 0.020s, duration: 00:28)
+test 0162...OK (162 out of 1577, remaining: 04:06, took 0.067s, duration: 00:28)
+test 0163...OK (163 out of 1577, remaining: 04:04, took 0.070s, duration: 00:28)
+test 0164...OK (164 out of 1577, remaining: 04:03, took 0.068s, duration: 00:28)
+test 0166...OK (166 out of 1577, remaining: 04:01, took 0.068s, duration: 00:28)
+test 0167...OK (167 out of 1577, remaining: 04:00, took 0.120s, duration: 00:28)
+test 0168...OK (168 out of 1577, remaining: 04:00, took 0.173s, duration: 00:28)
+test 0169...OK (169 out of 1577, remaining: 03:59, took 0.025s, duration: 00:28)
+test 0170...OK (170 out of 1577, remaining: 03:58, took 0.067s, duration: 00:28)
+test 0171...OK (171 out of 1577, remaining: 03:56, took 0.017s, duration: 00:28)
+test 0172...OK (172 out of 1577, remaining: 03:55, took 0.017s, duration: 00:28)
+test 0173...OK (173 out of 1577, remaining: 03:54, took 0.070s, duration: 00:28)
+test 0174...OK (174 out of 1577, remaining: 03:53, took 0.066s, duration: 00:28)
+test 0175...OK (175 out of 1577, remaining: 03:52, took 0.121s, duration: 00:29)
+test 0176...OK (176 out of 1577, remaining: 03:52, took 0.121s, duration: 00:29)
+test 0177...OK (177 out of 1577, remaining: 03:51, took 0.067s, duration: 00:29)
+test 0178...OK (178 out of 1577, remaining: 03:50, took 0.067s, duration: 00:29)
+test 0179...OK (179 out of 1577, remaining: 03:49, took 0.018s, duration: 00:29)
+test 0180...OK (180 out of 1577, remaining: 03:48, took 0.068s, duration: 00:29)
+test 0181...OK (181 out of 1577, remaining: 03:47, took 0.068s, duration: 00:29)
+test 0182...OK (182 out of 1577, remaining: 03:46, took 0.060s, duration: 00:29)
+test 0183...OK (183 out of 1577, remaining: 03:45, took 0.017s, duration: 00:29)
+test 0184...OK (184 out of 1577, remaining: 03:43, took 0.019s, duration: 00:29)
+test 0185...OK (185 out of 1577, remaining: 03:42, took 0.019s, duration: 00:29)
+test 0186...OK (186 out of 1577, remaining: 03:41, took 0.068s, duration: 00:29)
+test 0187...OK (187 out of 1577, remaining: 03:40, took 0.070s, duration: 00:29)
+test 0188...OK (188 out of 1577, remaining: 03:39, took 0.019s, duration: 00:29)
+test 0189...OK (189 out of 1577, remaining: 03:38, took 0.019s, duration: 00:29)
+test 0190...OK (190 out of 1577, remaining: 04:35, took 8.032s, duration: 00:37)
+test 0191...OK (191 out of 1577, remaining: 04:42, took 1.113s, duration: 00:38)
+test 0192...OK (192 out of 1577, remaining: 04:40, took 0.017s, duration: 00:38)
+test 0193...OK (193 out of 1577, remaining: 04:39, took 0.070s, duration: 00:38)
+test 0194...OK (194 out of 1577, remaining: 04:38, took 0.069s, duration: 00:39)
+test 0195...OK (195 out of 1577, remaining: 04:36, took 0.015s, duration: 00:39)
+test 0196...OK (196 out of 1577, remaining: 04:42, took 1.018s, duration: 00:40)
+test 0197...OK (197 out of 1577, remaining: 04:48, took 1.021s, duration: 00:41)
+test 0198...OK (198 out of 1577, remaining: 04:53, took 1.020s, duration: 00:42)
+test 0199...OK (199 out of 1577, remaining: 04:51, took 0.018s, duration: 00:42)
+test 0200...OK (200 out of 1577, remaining: 04:50, took 0.014s, duration: 00:42)
+test 0201...OK (201 out of 1577, remaining: 04:48, took 0.013s, duration: 00:42)
+test 0202...OK (202 out of 1577, remaining: 04:47, took 0.014s, duration: 00:42)
+test 0203...OK (203 out of 1577, remaining: 04:45, took 0.015s, duration: 00:42)
+test 0204...OK (204 out of 1577, remaining: 04:44, took 0.014s, duration: 00:42)
+test 0205...OK (205 out of 1577, remaining: 04:42, took 0.014s, duration: 00:42)
+test 0206...OK (206 out of 1577, remaining: 04:41, took 0.023s, duration: 00:42)
+test 0207...OK (207 out of 1577, remaining: 04:40, took 0.068s, duration: 00:42)
+test 0208...OK (208 out of 1577, remaining: 04:39, took 0.069s, duration: 00:42)
+test 0209...OK (209 out of 1577, remaining: 04:37, took 0.025s, duration: 00:42)
+test 0210...OK (210 out of 1577, remaining: 04:36, took 0.105s, duration: 00:42)
+test 0211...OK (211 out of 1577, remaining: 04:36, took 0.106s, duration: 00:42)
+test 0212...OK (212 out of 1577, remaining: 04:35, took 0.108s, duration: 00:42)
+test 0213...OK (213 out of 1577, remaining: 04:33, took 0.025s, duration: 00:42)
+test 0214...OK (214 out of 1577, remaining: 04:32, took 0.016s, duration: 00:42)
+test 0215...OK (215 out of 1577, remaining: 04:31, took 0.106s, duration: 00:42)
+test 0216...OK (216 out of 1577, remaining: 04:30, took 0.104s, duration: 00:43)
+test 0217...OK (217 out of 1577, remaining: 04:29, took 0.068s, duration: 00:43)
+test 0218...OK (218 out of 1577, remaining: 04:28, took 0.017s, duration: 00:43)
+test 0219...OK (219 out of 1577, remaining: 04:27, took 0.014s, duration: 00:43)
+test 0220...OK (220 out of 1577, remaining: 04:25, took 0.018s, duration: 00:43)
+test 0221...OK (221 out of 1577, remaining: 04:24, took 0.019s, duration: 00:43)
+test 0222...OK (222 out of 1577, remaining: 04:23, took 0.034s, duration: 00:43)
+test 0223...OK (223 out of 1577, remaining: 04:22, took 0.021s, duration: 00:43)
+test 0224...OK (224 out of 1577, remaining: 04:21, took 0.023s, duration: 00:43)
+test 0225...OK (225 out of 1577, remaining: 04:19, took 0.012s, duration: 00:43)
+test 0226...OK (226 out of 1577, remaining: 04:18, took 0.014s, duration: 00:43)
+test 0227...OK (227 out of 1577, remaining: 04:17, took 0.062s, duration: 00:43)
+test 0228...OK (228 out of 1577, remaining: 04:16, took 0.061s, duration: 00:43)
+test 0229...OK (229 out of 1577, remaining: 04:15, took 0.016s, duration: 00:43)
+test 0230...OK (230 out of 1577, remaining: 04:14, took 0.034s, duration: 00:43)
+test 0231...OK (231 out of 1577, remaining: 04:13, took 0.014s, duration: 00:43)
+test 0232...OK (232 out of 1577, remaining: 04:12, took 0.034s, duration: 00:43)
+test 0233...OK (233 out of 1577, remaining: 04:11, took 0.122s, duration: 00:43)
+test 0234...OK (234 out of 1577, remaining: 04:10, took 0.123s, duration: 00:43)
+test 0235...OK (235 out of 1577, remaining: 04:09, took 0.061s, duration: 00:43)
+test 0236...OK (236 out of 1577, remaining: 04:08, took 0.020s, duration: 00:43)
+test 0237...OK (237 out of 1577, remaining: 04:07, took 0.016s, duration: 00:43)
+test 0238...OK (238 out of 1577, remaining: 04:06, took 0.016s, duration: 00:43)
+test 0239...OK (239 out of 1577, remaining: 04:05, took 0.071s, duration: 00:43)
+test 0240...OK (240 out of 1577, remaining: 04:10, took 1.027s, duration: 00:44)
+test 0241...OK (241 out of 1577, remaining: 04:09, took 0.018s, duration: 00:44)
+test 0242...OK (242 out of 1577, remaining: 04:08, took 0.016s, duration: 00:44)
+test 0243...OK (243 out of 1577, remaining: 04:07, took 0.126s, duration: 00:45)
+test 0244...OK (244 out of 1577, remaining: 04:06, took 0.061s, duration: 00:45)
+test 0245...OK (245 out of 1577, remaining: 04:05, took 0.021s, duration: 00:45)
+test 0246...OK (246 out of 1577, remaining: 04:04, took 0.022s, duration: 00:45)
+test 0247...OK (247 out of 1577, remaining: 04:03, took 0.017s, duration: 00:45)
+test 0248...OK (248 out of 1577, remaining: 04:02, took 0.061s, duration: 00:45)
+test 0249...OK (249 out of 1577, remaining: 04:01, took 0.067s, duration: 00:45)
+test 0250...OK (250 out of 1577, remaining: 04:56, took 10.437s, duration: 00:55)
+test 0251...OK (251 out of 1577, remaining: 05:50, took 10.540s, duration: 01:06)
+test 0252...OK (252 out of 1577, remaining: 05:54, took 1.114s, duration: 01:07)
+test 0253...OK (253 out of 1577, remaining: 05:53, took 0.061s, duration: 01:07)
+test 0254...OK (254 out of 1577, remaining: 05:51, took 0.061s, duration: 01:07)
+test 0255...OK (255 out of 1577, remaining: 05:50, took 0.062s, duration: 01:07)
+test 0256...OK (256 out of 1577, remaining: 05:48, took 0.018s, duration: 01:07)
+test 0257...OK (257 out of 1577, remaining: 05:48, took 0.174s, duration: 01:07)
+test 0258...OK (258 out of 1577, remaining: 05:47, took 0.078s, duration: 01:07)
+test 0259...OK (259 out of 1577, remaining: 05:55, took 2.030s, duration: 01:09)
+test 0260...OK (260 out of 1577, remaining: 05:54, took 0.017s, duration: 01:09)
+test 0261...OK (261 out of 1577, remaining: 05:52, took 0.060s, duration: 01:09)
+test 0262...OK (262 out of 1577, remaining: 05:51, took 0.018s, duration: 01:10)
+test 0263...OK (263 out of 1577, remaining: 05:49, took 0.016s, duration: 01:10)
+test 0264...OK (264 out of 1577, remaining: 05:48, took 0.066s, duration: 01:10)
+test 0265...OK (265 out of 1577, remaining: 05:47, took 0.026s, duration: 01:10)
+test 0266...OK (266 out of 1577, remaining: 05:46, took 0.243s, duration: 01:10)
+test 0267...OK (267 out of 1577, remaining: 05:45, took 0.072s, duration: 01:10)
+test 0268...OK (268 out of 1577, remaining: 05:44, took 0.017s, duration: 01:10)
+test 0269...OK (269 out of 1577, remaining: 05:42, took 0.067s, duration: 01:10)
+test 0270...OK (270 out of 1577, remaining: 05:41, took 0.061s, duration: 01:10)
+test 0271...OK (271 out of 1577, remaining: 05:45, took 1.026s, duration: 01:11)
+test 0272...OK (272 out of 1577, remaining: 05:43, took 0.016s, duration: 01:11)
+test 0273...OK (273 out of 1577, remaining: 05:42, took 0.121s, duration: 01:11)
+test 0274...OK (274 out of 1577, remaining: 05:41, took 0.067s, duration: 01:11)
+test 0275...OK (275 out of 1577, remaining: 05:42, took 0.523s, duration: 01:12)
+test 0276...OK (276 out of 1577, remaining: 05:41, took 0.120s, duration: 01:12)
+test 0277...OK (277 out of 1577, remaining: 05:40, took 0.068s, duration: 01:12)
+test 0278...OK (278 out of 1577, remaining: 05:39, took 0.066s, duration: 01:12)
+test 0279...OK (279 out of 1577, remaining: 05:37, took 0.067s, duration: 01:12)
+test 0280...OK (280 out of 1577, remaining: 05:36, took 0.062s, duration: 01:12)
+test 0281...OK (281 out of 1577, remaining: 05:35, took 0.067s, duration: 01:12)
+test 0282...OK (282 out of 1577, remaining: 05:34, took 0.066s, duration: 01:12)
+test 0283...OK (283 out of 1577, remaining: 05:33, took 0.015s, duration: 01:12)
+test 0284...OK (284 out of 1577, remaining: 05:31, took 0.018s, duration: 01:12)
+test 0285...Warning: server logs lock timeout (2 seconds) expired
+OK (285 out of 1577, remaining: 05:39, took 2.021s, duration: 01:14)
+test 0286...Warning: server logs lock timeout (2 seconds) expired
+OK (286 out of 1577, remaining: 06:00, took 5.000s, duration: 01:19)
+test 0287...OK (287 out of 1577, remaining: 05:59, took 0.067s, duration: 01:19)
+test 0288...OK (288 out of 1577, remaining: 05:57, took 0.016s, duration: 01:19)
+test 0289...OK (289 out of 1577, remaining: 05:56, took 0.013s, duration: 01:19)
+test 0290...OK (290 out of 1577, remaining: 05:55, took 0.019s, duration: 01:20)
+test 0291...OK (291 out of 1577, remaining: 05:53, took 0.060s, duration: 01:20)
+test 0292...OK (292 out of 1577, remaining: 05:52, took 0.016s, duration: 01:20)
+test 0293...OK (293 out of 1577, remaining: 05:51, took 0.016s, duration: 01:20)
+test 0294...OK (294 out of 1577, remaining: 05:49, took 0.062s, duration: 01:20)
+test 0295...OK (295 out of 1577, remaining: 05:48, took 0.016s, duration: 01:20)
+test 0296...OK (296 out of 1577, remaining: 05:47, took 0.060s, duration: 01:20)
+test 0297...OK (297 out of 1577, remaining: 05:46, took 0.061s, duration: 01:20)
+test 0298...OK (298 out of 1577, remaining: 05:44, took 0.060s, duration: 01:20)
+test 0299...OK (299 out of 1577, remaining: 05:43, took 0.067s, duration: 01:20)
+test 0314...OK (314 out of 1577, remaining: 05:23, took 0.033s, duration: 01:20)
+test 0315...OK (315 out of 1577, remaining: 05:22, took 0.021s, duration: 01:20)
+test 0316...OK (316 out of 1577, remaining: 05:21, took 0.033s, duration: 01:20)
+test 0317...OK (317 out of 1577, remaining: 05:20, took 0.122s, duration: 01:20)
+test 0318...OK (318 out of 1577, remaining: 05:20, took 0.123s, duration: 01:20)
+test 0319...OK (319 out of 1577, remaining: 05:19, took 0.068s, duration: 01:20)
+test 0326...OK (325 out of 1577, remaining: 05:11, took 0.018s, duration: 01:20)
+test 0327...OK (326 out of 1577, remaining: 05:11, took 0.120s, duration: 01:21)
+test 0328...OK (327 out of 1577, remaining: 05:09, took 0.017s, duration: 01:21)
+test 0329...OK (328 out of 1577, remaining: 05:08, took 0.019s, duration: 01:21)
+test 0330...OK (329 out of 1577, remaining: 05:08, took 0.122s, duration: 01:21)
+test 0331...OK (330 out of 1577, remaining: 05:07, took 0.069s, duration: 01:21)
+test 0332...OK (331 out of 1577, remaining: 05:12, took 1.594s, duration: 01:22)
+test 0333...OK (332 out of 1577, remaining: 05:10, took 0.014s, duration: 01:22)
+test 0334...OK (333 out of 1577, remaining: 05:09, took 0.015s, duration: 01:22)
+test 0335...OK (334 out of 1577, remaining: 05:09, took 0.173s, duration: 01:23)
+test 0336...OK (335 out of 1577, remaining: 05:08, took 0.021s, duration: 01:23)
+test 0337...OK (336 out of 1577, remaining: 05:07, took 0.021s, duration: 01:23)
+test 0338...OK (337 out of 1577, remaining: 05:05, took 0.018s, duration: 01:23)
+test 0339...OK (338 out of 1577, remaining: 05:04, took 0.017s, duration: 01:23)
+test 0340...OK (339 out of 1577, remaining: 05:03, took 0.016s, duration: 01:23)
+test 0341...OK (340 out of 1577, remaining: 05:02, took 0.015s, duration: 01:23)
+test 0342...OK (341 out of 1577, remaining: 05:01, took 0.016s, duration: 01:23)
+test 0343...OK (342 out of 1577, remaining: 05:00, took 0.017s, duration: 01:23)
+test 0344...OK (343 out of 1577, remaining: 04:59, took 0.017s, duration: 01:23)
+test 0345...OK (344 out of 1577, remaining: 04:58, took 0.017s, duration: 01:23)
+test 0346...OK (345 out of 1577, remaining: 04:57, took 0.017s, duration: 01:23)
+test 0347...OK (346 out of 1577, remaining: 04:56, took 0.017s, duration: 01:23)
+test 0348...OK (347 out of 1577, remaining: 04:55, took 0.062s, duration: 01:23)
+test 0349...OK (348 out of 1577, remaining: 04:54, took 0.066s, duration: 01:23)
+test 0350...OK (349 out of 1577, remaining: 04:53, took 0.061s, duration: 01:23)
+test 0351...OK (350 out of 1577, remaining: 04:52, took 0.061s, duration: 01:23)
+test 0352...OK (351 out of 1577, remaining: 04:52, took 0.061s, duration: 01:23)
+test 0353...OK (352 out of 1577, remaining: 04:51, took 0.061s, duration: 01:23)
+test 0354...OK (353 out of 1577, remaining: 04:50, took 0.061s, duration: 01:23)
+test 0355...OK (354 out of 1577, remaining: 04:49, took 0.017s, duration: 01:23)
+test 0357...OK (356 out of 1577, remaining: 04:47, took 0.062s, duration: 01:23)
+test 0360...OK (359 out of 1577, remaining: 04:44, took 0.013s, duration: 01:23)
+test 0361...OK (360 out of 1577, remaining: 04:43, took 0.118s, duration: 01:23)
+test 0362...OK (361 out of 1577, remaining: 04:43, took 0.062s, duration: 01:24)
+test 0365...OK (364 out of 1577, remaining: 04:40, took 0.018s, duration: 01:24)
+test 0366...OK (365 out of 1577, remaining: 04:39, took 0.016s, duration: 01:24)
+test 0367...OK (366 out of 1577, remaining: 04:38, took 0.016s, duration: 01:24)
+test 0368...OK (367 out of 1577, remaining: 04:37, took 0.016s, duration: 01:24)
+test 0369...OK (368 out of 1577, remaining: 04:36, took 0.016s, duration: 01:24)
+test 0370...OK (369 out of 1577, remaining: 04:35, took 0.014s, duration: 01:24)
+test 0371...OK (370 out of 1577, remaining: 04:34, took 0.017s, duration: 01:24)
+test 0372...OK (371 out of 1577, remaining: 04:33, took 0.066s, duration: 01:24)
+test 0373...OK (372 out of 1577, remaining: 04:33, took 0.070s, duration: 01:24)
+test 0374...OK (373 out of 1577, remaining: 04:32, took 0.067s, duration: 01:24)
+test 0376...OK (375 out of 1577, remaining: 04:30, took 0.068s, duration: 01:24)
+test 0378...OK (376 out of 1577, remaining: 04:29, took 0.014s, duration: 01:24)
+test 0379...OK (377 out of 1577, remaining: 04:29, took 0.069s, duration: 01:24)
+test 0380...OK (378 out of 1577, remaining: 04:28, took 0.062s, duration: 01:24)
+test 0381...OK (379 out of 1577, remaining: 04:27, took 0.063s, duration: 01:24)
+test 0383...OK (380 out of 1577, remaining: 04:26, took 0.017s, duration: 01:24)
+test 0384...OK (381 out of 1577, remaining: 04:25, took 0.017s, duration: 01:24)
+test 0385...OK (382 out of 1577, remaining: 04:24, took 0.017s, duration: 01:24)
+test 0386...OK (383 out of 1577, remaining: 04:24, took 0.019s, duration: 01:24)
+test 0387...OK (384 out of 1577, remaining: 04:23, took 0.016s, duration: 01:24)
+test 0388...OK (385 out of 1577, remaining: 04:22, took 0.131s, duration: 01:24)
+test 0389...OK (386 out of 1577, remaining: 04:21, took 0.020s, duration: 01:24)
+test 0390...OK (387 out of 1577, remaining: 04:21, took 0.061s, duration: 01:24)
+test 0391...OK (388 out of 1577, remaining: 04:20, took 0.019s, duration: 01:24)
+test 0392...OK (389 out of 1577, remaining: 04:19, took 0.021s, duration: 01:24)
+test 0393...OK (390 out of 1577, remaining: 04:18, took 0.067s, duration: 01:25)
+test 0394...OK (391 out of 1577, remaining: 04:18, took 0.067s, duration: 01:25)
+test 0395...OK (392 out of 1577, remaining: 04:17, took 0.068s, duration: 01:25)
+test 0396...OK (393 out of 1577, remaining: 04:16, took 0.035s, duration: 01:25)
+test 0397...OK (394 out of 1577, remaining: 04:16, took 0.033s, duration: 01:25)
+test 0398...OK (395 out of 1577, remaining: 04:15, took 0.017s, duration: 01:25)
+test 0399...OK (396 out of 1577, remaining: 04:14, took 0.015s, duration: 01:25)
+test 0402...OK (399 out of 1577, remaining: 04:11, took 0.015s, duration: 01:25)
+test 0405...OK (402 out of 1577, remaining: 04:09, took 0.022s, duration: 01:25)
+test 0411...OK (408 out of 1577, remaining: 04:04, took 0.014s, duration: 01:25)
+test 0415...OK (412 out of 1577, remaining: 04:01, took 0.067s, duration: 01:25)
+test 0416...OK (413 out of 1577, remaining: 04:01, took 0.061s, duration: 01:25)
+test 0418...OK (415 out of 1577, remaining: 03:59, took 0.028s, duration: 01:25)
+test 0419...OK (416 out of 1577, remaining: 03:58, took 0.013s, duration: 01:25)
+test 0420...OK (417 out of 1577, remaining: 03:58, took 0.019s, duration: 01:25)
+test 0421...OK (418 out of 1577, remaining: 03:57, took 0.021s, duration: 01:25)
+test 0422...OK (419 out of 1577, remaining: 03:56, took 0.014s, duration: 01:25)
+test 0430...OK (420 out of 1577, remaining: 03:56, took 0.023s, duration: 01:25)
+test 0431...OK (421 out of 1577, remaining: 03:55, took 0.022s, duration: 01:25)
+test 0432...OK (422 out of 1577, remaining: 03:54, took 0.023s, duration: 01:25)
+test 0433...OK (423 out of 1577, remaining: 03:53, took 0.017s, duration: 01:25)
+test 0434...OK (424 out of 1577, remaining: 03:53, took 0.015s, duration: 01:25)
+test 0435...OK (425 out of 1577, remaining: 03:52, took 0.019s, duration: 01:25)
+test 0436...OK (426 out of 1577, remaining: 03:51, took 0.017s, duration: 01:25)
+test 0440...OK (427 out of 1577, remaining: 03:51, took 0.019s, duration: 01:25)
+test 0441...OK (428 out of 1577, remaining: 03:50, took 0.019s, duration: 01:25)
+test 0442...OK (429 out of 1577, remaining: 03:49, took 0.036s, duration: 01:25)
+test 0443...OK (430 out of 1577, remaining: 03:49, took 0.020s, duration: 01:25)
+test 0444...OK (431 out of 1577, remaining: 03:48, took 0.033s, duration: 01:25)
+test 0490...OK (434 out of 1577, remaining: 03:46, took 0.018s, duration: 01:25)
+test 0491...OK (435 out of 1577, remaining: 03:45, took 0.017s, duration: 01:25)
+test 0492...OK (436 out of 1577, remaining: 03:45, took 0.022s, duration: 01:25)
+test 0493...OK (437 out of 1577, remaining: 03:44, took 0.019s, duration: 01:26)
+test 0494...OK (438 out of 1577, remaining: 03:43, took 0.062s, duration: 01:26)
+test 0495...OK (439 out of 1577, remaining: 03:43, took 0.017s, duration: 01:26)
+test 0496...OK (440 out of 1577, remaining: 03:42, took 0.014s, duration: 01:26)
+test 0500...OK (441 out of 1577, remaining: 03:41, took 0.044s, duration: 01:26)
+test 0501...OK (442 out of 1577, remaining: 03:41, took 0.040s, duration: 01:26)
+test 0502...OK (443 out of 1577, remaining: 03:40, took 0.041s, duration: 01:26)
+test 0503...OK (444 out of 1577, remaining: 03:41, took 0.598s, duration: 01:26)
+test 0504...OK (445 out of 1577, remaining: 03:40, took 0.041s, duration: 01:26)
+test 0505...OK (446 out of 1577, remaining: 03:40, took 0.087s, duration: 01:26)
+test 0507...OK (448 out of 1577, remaining: 03:39, took 0.057s, duration: 01:27)
+test 0508...OK (449 out of 1577, remaining: 03:38, took 0.093s, duration: 01:27)
+test 0509...OK (450 out of 1577, remaining: 03:38, took 0.040s, duration: 01:27)
+test 0510...OK (451 out of 1577, remaining: 03:40, took 1.096s, duration: 01:28)
+test 0511...OK (452 out of 1577, remaining: 03:39, took 0.043s, duration: 01:28)
+test 0512...OK (453 out of 1577, remaining: 03:39, took 0.091s, duration: 01:28)
+test 0513...OK (454 out of 1577, remaining: 03:41, took 1.042s, duration: 01:29)
+test 0514...OK (455 out of 1577, remaining: 03:43, took 1.042s, duration: 01:30)
+test 0515...OK (456 out of 1577, remaining: 03:42, took 0.092s, duration: 01:30)
+test 0516...OK (457 out of 1577, remaining: 03:42, took 0.092s, duration: 01:30)
+test 0517...OK (458 out of 1577, remaining: 03:41, took 0.040s, duration: 01:30)
+test 0518...OK (459 out of 1577, remaining: 03:41, took 0.055s, duration: 01:30)
+test 0519...OK (460 out of 1577, remaining: 03:40, took 0.095s, duration: 01:30)
+test 0520...OK (461 out of 1577, remaining: 03:40, took 0.087s, duration: 01:30)
+test 0521...OK (462 out of 1577, remaining: 03:39, took 0.087s, duration: 01:31)
+test 0522...OK (463 out of 1577, remaining: 03:39, took 0.016s, duration: 01:31)
+test 0523...OK (464 out of 1577, remaining: 03:38, took 0.093s, duration: 01:31)
+test 0524...OK (465 out of 1577, remaining: 03:38, took 0.045s, duration: 01:31)
+test 0525...OK (466 out of 1577, remaining: 03:37, took 0.087s, duration: 01:31)
+test 0526...OK (467 out of 1577, remaining: 03:44, took 3.224s, duration: 01:34)
+test 0527...OK (468 out of 1577, remaining: 03:51, took 3.223s, duration: 01:37)
+test 0528...OK (469 out of 1577, remaining: 03:58, took 3.022s, duration: 01:40)
+test 0529...OK (470 out of 1577, remaining: 03:57, took 0.088s, duration: 01:40)
+test 0530...OK (471 out of 1577, remaining: 03:57, took 0.095s, duration: 01:40)
+test 0531...OK (472 out of 1577, remaining: 03:56, took 0.020s, duration: 01:40)
+test 0532...OK (473 out of 1577, remaining: 04:03, took 3.222s, duration: 01:44)
+test 0533...OK (474 out of 1577, remaining: 04:04, took 1.051s, duration: 01:45)
+test 0534...OK (475 out of 1577, remaining: 04:06, took 1.038s, duration: 01:46)
+test 0535...OK (476 out of 1577, remaining: 04:08, took 1.020s, duration: 01:47)
+test 0537...OK (477 out of 1577, remaining: 04:07, took 0.060s, duration: 01:47)
+test 0538...OK (478 out of 1577, remaining: 04:06, took 0.016s, duration: 01:47)
+test 0539...OK (479 out of 1577, remaining: 04:06, took 0.132s, duration: 01:47)
+test 0540...OK (480 out of 1577, remaining: 04:05, took 0.049s, duration: 01:47)
+test 0541...OK (481 out of 1577, remaining: 04:05, took 0.130s, duration: 01:47)
+test 0542...OK (482 out of 1577, remaining: 04:04, took 0.044s, duration: 01:47)
+test 0543...OK (483 out of 1577, remaining: 04:04, took 0.040s, duration: 01:47)
+test 0544...OK (484 out of 1577, remaining: 04:03, took 0.092s, duration: 01:47)
+test 0545...OK (485 out of 1577, remaining: 04:03, took 0.093s, duration: 01:47)
+test 0546...OK (486 out of 1577, remaining: 04:04, took 1.067s, duration: 01:49)
+test 0547...OK (487 out of 1577, remaining: 04:04, took 0.152s, duration: 01:49)
+test 0548...OK (488 out of 1577, remaining: 04:03, took 0.151s, duration: 01:49)
+test 0549...OK (489 out of 1577, remaining: 04:03, took 0.094s, duration: 01:49)
+test 0550...OK (490 out of 1577, remaining: 04:02, took 0.067s, duration: 01:49)
+test 0551...OK (491 out of 1577, remaining: 04:02, took 0.122s, duration: 01:49)
+test 0552...OK (492 out of 1577, remaining: 04:02, took 0.239s, duration: 01:49)
+test 0553...OK (493 out of 1577, remaining: 04:01, took 0.044s, duration: 01:49)
+test 0554...OK (494 out of 1577, remaining: 04:01, took 0.155s, duration: 01:50)
+test 0555...OK (495 out of 1577, remaining: 04:00, took 0.152s, duration: 01:50)
+test 0556...OK (496 out of 1577, remaining: 04:00, took 0.092s, duration: 01:50)
+test 0557...OK (497 out of 1577, remaining: 03:59, took 0.041s, duration: 01:50)
+test 0559...OK (499 out of 1577, remaining: 03:58, took 0.041s, duration: 01:50)
+test 0561...OK (501 out of 1577, remaining: 03:57, took 0.067s, duration: 01:50)
+test 0562...OK (502 out of 1577, remaining: 03:56, took 0.087s, duration: 01:50)
+test 0563...OK (503 out of 1577, remaining: 03:56, took 0.067s, duration: 01:50)
+test 0564...OK (504 out of 1577, remaining: 03:57, took 1.090s, duration: 01:51)
+test 0565...OK (505 out of 1577, remaining: 03:59, took 1.050s, duration: 01:52)
+test 0566...OK (506 out of 1577, remaining: 03:58, took 0.046s, duration: 01:52)
+test 0567...OK (507 out of 1577, remaining: 04:00, took 1.052s, duration: 01:53)
+test 0568...OK (508 out of 1577, remaining: 03:59, took 0.050s, duration: 01:53)
+test 0569...OK (509 out of 1577, remaining: 03:59, took 0.049s, duration: 01:53)
+test 0570...OK (510 out of 1577, remaining: 03:58, took 0.045s, duration: 01:53)
+test 0571...OK (511 out of 1577, remaining: 03:57, took 0.049s, duration: 01:54)
+test 0572...OK (512 out of 1577, remaining: 03:57, took 0.051s, duration: 01:54)
+test 0573...OK (513 out of 1577, remaining: 03:56, took 0.044s, duration: 01:54)
+test 0574...OK (514 out of 1577, remaining: 03:57, took 0.654s, duration: 01:54)
+test 0575...OK (515 out of 1577, remaining: 03:58, took 0.964s, duration: 01:55)
+test 0576...OK (516 out of 1577, remaining: 03:58, took 0.318s, duration: 01:56)
+test 0577...OK (517 out of 1577, remaining: 03:57, took 0.016s, duration: 01:56)
+test 0578...OK (518 out of 1577, remaining: 03:57, took 0.043s, duration: 01:56)
+test 0579...OK (519 out of 1577, remaining: 03:58, took 1.048s, duration: 01:57)
+test 0580...OK (520 out of 1577, remaining: 03:58, took 0.016s, duration: 01:57)
+test 0581...OK (521 out of 1577, remaining: 03:57, took 0.016s, duration: 01:57)
+test 0584...OK (524 out of 1577, remaining: 03:55, took 0.147s, duration: 01:57)
+test 0585...OK (525 out of 1577, remaining: 03:55, took 0.045s, duration: 01:57)
+test 0586...OK (526 out of 1577, remaining: 03:54, took 0.063s, duration: 01:57)
+test 0587...OK (527 out of 1577, remaining: 03:54, took 0.043s, duration: 01:57)
+test 0588...OK (528 out of 1577, remaining: 03:53, took 0.063s, duration: 01:57)
+test 0589...OK (529 out of 1577, remaining: 03:53, took 0.093s, duration: 01:57)
+test 0590...OK (530 out of 1577, remaining: 03:52, took 0.151s, duration: 01:57)
+test 0591...OK (531 out of 1577, remaining: 03:52, took 0.091s, duration: 01:57)
+test 0592...OK (532 out of 1577, remaining: 03:51, took 0.061s, duration: 01:57)
+test 0593...OK (533 out of 1577, remaining: 03:55, took 2.022s, duration: 01:59)
+test 0595...OK (534 out of 1577, remaining: 03:54, took 0.061s, duration: 02:00)
+test 0596...OK (535 out of 1577, remaining: 03:53, took 0.063s, duration: 02:00)
+test 0597...OK (536 out of 1577, remaining: 03:53, took 0.041s, duration: 02:00)
+test 0598...OK (537 out of 1577, remaining: 03:52, took 0.045s, duration: 02:00)
+test 0599...OK (538 out of 1577, remaining: 03:52, took 0.046s, duration: 02:00)
+test 0643...OK (582 out of 1577, remaining: 03:26, took 0.153s, duration: 02:00)
+test 0645...OK (584 out of 1577, remaining: 03:28, took 2.165s, duration: 02:02)
+test 0646...OK (585 out of 1577, remaining: 03:29, took 1.035s, duration: 02:03)
+test 0647...OK (586 out of 1577, remaining: 03:31, took 1.156s, duration: 02:04)
+test 0648...OK (587 out of 1577, remaining: 03:30, took 0.022s, duration: 02:04)
+test 0649...OK (588 out of 1577, remaining: 03:30, took 0.021s, duration: 02:04)
+test 0650...OK (589 out of 1577, remaining: 03:31, took 1.104s, duration: 02:06)
+test 0651...OK (590 out of 1577, remaining: 03:31, took 0.096s, duration: 02:06)
+test 0652...OK (591 out of 1577, remaining: 03:30, took 0.089s, duration: 02:06)
+test 0653...OK (592 out of 1577, remaining: 03:30, took 0.149s, duration: 02:06)
+test 0654...OK (593 out of 1577, remaining: 03:31, took 1.154s, duration: 02:07)
+test 0655...OK (594 out of 1577, remaining: 03:31, took 0.092s, duration: 02:07)
+test 0658...OK (596 out of 1577, remaining: 03:30, took 0.041s, duration: 02:07)
+test 0659...OK (597 out of 1577, remaining: 03:29, took 0.043s, duration: 02:07)
+test 0660...OK (598 out of 1577, remaining: 03:29, took 0.014s, duration: 02:07)
+test 0661...OK (599 out of 1577, remaining: 03:28, took 0.059s, duration: 02:07)
+test 0662...OK (600 out of 1577, remaining: 03:28, took 0.020s, duration: 02:07)
+test 0663...OK (601 out of 1577, remaining: 03:27, took 0.020s, duration: 02:07)
+test 0666...OK (604 out of 1577, remaining: 03:26, took 0.130s, duration: 02:08)
+test 0667...OK (605 out of 1577, remaining: 03:27, took 1.098s, duration: 02:09)
+test 0668...OK (606 out of 1577, remaining: 03:28, took 1.102s, duration: 02:10)
+test 0669...OK (607 out of 1577, remaining: 03:28, took 0.069s, duration: 02:10)
+test 0670...OK (608 out of 1577, remaining: 03:30, took 2.099s, duration: 02:12)
+test 0671...OK (609 out of 1577, remaining: 03:34, took 2.299s, duration: 02:14)
+test 0672...OK (610 out of 1577, remaining: 03:36, took 1.699s, duration: 02:16)
+test 0673...OK (611 out of 1577, remaining: 03:39, took 2.299s, duration: 02:18)
+test 0674...OK (612 out of 1577, remaining: 03:38, took 0.043s, duration: 02:18)
+test 0675...OK (613 out of 1577, remaining: 03:38, took 0.118s, duration: 02:18)
+test 0676...OK (614 out of 1577, remaining: 03:37, took 0.046s, duration: 02:18)
+test 0677...OK (615 out of 1577, remaining: 03:44, took 4.547s, duration: 02:23)
+test 0679...OK (617 out of 1577, remaining: 03:43, took 0.017s, duration: 02:23)
+test 0680...OK (618 out of 1577, remaining: 03:42, took 0.014s, duration: 02:23)
+test 0681...OK (619 out of 1577, remaining: 03:42, took 0.016s, duration: 02:23)
+test 0682...OK (620 out of 1577, remaining: 03:41, took 0.016s, duration: 02:23)
+test 0683...OK (621 out of 1577, remaining: 03:40, took 0.016s, duration: 02:23)
+test 0684...OK (622 out of 1577, remaining: 03:40, took 0.016s, duration: 02:23)
+test 0685...OK (623 out of 1577, remaining: 03:39, took 0.016s, duration: 02:23)
+test 0686...OK (624 out of 1577, remaining: 03:39, took 0.013s, duration: 02:23)
+test 0700...OK (625 out of 1577, remaining: 03:38, took 0.058s, duration: 02:23)
+test 0701...OK (626 out of 1577, remaining: 03:38, took 0.058s, duration: 02:23)
+test 0702...OK (627 out of 1577, remaining: 03:37, took 0.016s, duration: 02:23)
+test 0703...OK (628 out of 1577, remaining: 03:37, took 0.015s, duration: 02:23)
+test 0704...OK (629 out of 1577, remaining: 03:36, took 0.014s, duration: 02:23)
+test 0705...OK (630 out of 1577, remaining: 03:36, took 0.014s, duration: 02:23)
+test 0706...OK (631 out of 1577, remaining: 03:35, took 0.063s, duration: 02:23)
+test 0707...OK (632 out of 1577, remaining: 03:35, took 0.104s, duration: 02:23)
+test 0708...OK (633 out of 1577, remaining: 03:34, took 0.058s, duration: 02:23)
+test 0709...OK (634 out of 1577, remaining: 03:34, took 0.059s, duration: 02:24)
+test 0710...OK (635 out of 1577, remaining: 03:33, took 0.059s, duration: 02:24)
+test 0711...OK (636 out of 1577, remaining: 03:33, took 0.103s, duration: 02:24)
+test 0712...OK (637 out of 1577, remaining: 03:32, took 0.103s, duration: 02:24)
+test 0713...OK (638 out of 1577, remaining: 03:32, took 0.103s, duration: 02:24)
+test 0714...OK (639 out of 1577, remaining: 03:34, took 1.528s, duration: 02:25)
+test 0715...OK (640 out of 1577, remaining: 03:36, took 2.008s, duration: 02:27)
+test 0716...OK (641 out of 1577, remaining: 03:36, took 0.016s, duration: 02:27)
+test 0717...OK (642 out of 1577, remaining: 03:35, took 0.059s, duration: 02:28)
+test 0718...OK (643 out of 1577, remaining: 03:35, took 0.068s, duration: 02:28)
+test 0719...OK (644 out of 1577, remaining: 03:34, took 0.059s, duration: 02:28)
+test 0720...OK (645 out of 1577, remaining: 03:34, took 0.059s, duration: 02:28)
+test 0721...OK (646 out of 1577, remaining: 03:33, took 0.059s, duration: 02:28)
+test 0800...OK (647 out of 1577, remaining: 03:33, took 0.139s, duration: 02:28)
+test 0801...OK (648 out of 1577, remaining: 03:32, took 0.139s, duration: 02:28)
+test 0802...OK (649 out of 1577, remaining: 03:32, took 0.139s, duration: 02:28)
+test 0803...OK (650 out of 1577, remaining: 03:32, took 0.098s, duration: 02:28)
+test 0804...OK (651 out of 1577, remaining: 03:31, took 0.181s, duration: 02:28)
+test 0805...OK (652 out of 1577, remaining: 03:31, took 0.060s, duration: 02:29)
+test 0806...OK (653 out of 1577, remaining: 03:30, took 0.098s, duration: 02:29)
+test 0807...OK (654 out of 1577, remaining: 03:30, took 0.098s, duration: 02:29)
+test 0808...OK (655 out of 1577, remaining: 03:30, took 0.099s, duration: 02:29)
+test 0809...OK (656 out of 1577, remaining: 03:29, took 0.098s, duration: 02:29)
+test 0810...OK (657 out of 1577, remaining: 03:29, took 0.139s, duration: 02:29)
+test 0811...OK (658 out of 1577, remaining: 03:28, took 0.057s, duration: 02:29)
+test 0812...OK (659 out of 1577, remaining: 03:28, took 0.057s, duration: 02:29)
+test 0813...OK (660 out of 1577, remaining: 03:28, took 0.057s, duration: 02:29)
+test 0814...OK (661 out of 1577, remaining: 03:27, took 0.098s, duration: 02:29)
+test 0815...OK (662 out of 1577, remaining: 03:27, took 0.140s, duration: 02:29)
+test 0816...OK (663 out of 1577, remaining: 03:26, took 0.181s, duration: 02:30)
+test 0817...OK (664 out of 1577, remaining: 03:26, took 0.057s, duration: 02:30)
+test 0818...OK (665 out of 1577, remaining: 03:26, took 0.098s, duration: 02:30)
+test 0819...OK (666 out of 1577, remaining: 03:25, took 0.181s, duration: 02:30)
+test 0820...OK (667 out of 1577, remaining: 03:25, took 0.182s, duration: 02:30)
+test 0821...OK (668 out of 1577, remaining: 03:25, took 0.182s, duration: 02:30)
+test 0822...OK (669 out of 1577, remaining: 03:24, took 0.182s, duration: 02:31)
+test 0824...OK (671 out of 1577, remaining: 03:24, took 0.181s, duration: 02:31)
+test 0825...OK (672 out of 1577, remaining: 03:23, took 0.181s, duration: 02:31)
+test 0826...OK (673 out of 1577, remaining: 03:23, took 0.181s, duration: 02:31)
+test 0827...OK (674 out of 1577, remaining: 03:23, took 0.182s, duration: 02:31)
+test 0828...OK (675 out of 1577, remaining: 03:23, took 0.181s, duration: 02:31)
+test 0829...OK (676 out of 1577, remaining: 03:22, took 0.056s, duration: 02:31)
+test 0830...OK (677 out of 1577, remaining: 03:22, took 0.059s, duration: 02:32)
+test 0831...OK (678 out of 1577, remaining: 03:21, took 0.063s, duration: 02:32)
+test 0833...OK (680 out of 1577, remaining: 03:20, took 0.183s, duration: 02:32)
+test 0834...OK (681 out of 1577, remaining: 03:20, took 0.187s, duration: 02:32)
+test 0837...OK (683 out of 1577, remaining: 03:19, took 0.181s, duration: 02:32)
+test 0838...OK (684 out of 1577, remaining: 03:19, took 0.181s, duration: 02:32)
+test 0839...OK (685 out of 1577, remaining: 03:19, took 0.181s, duration: 02:33)
+test 0840...OK (686 out of 1577, remaining: 03:19, took 0.181s, duration: 02:33)
+test 0841...OK (687 out of 1577, remaining: 03:18, took 0.140s, duration: 02:33)
+test 0842...OK (688 out of 1577, remaining: 03:18, took 0.182s, duration: 02:33)
+test 0843...OK (689 out of 1577, remaining: 03:18, took 0.182s, duration: 02:33)
+test 0844...OK (690 out of 1577, remaining: 03:17, took 0.058s, duration: 02:33)
+test 0845...OK (691 out of 1577, remaining: 03:17, took 0.059s, duration: 02:33)
+test 0846...OK (692 out of 1577, remaining: 03:16, took 0.139s, duration: 02:33)
+test 0847...OK (693 out of 1577, remaining: 03:16, took 0.140s, duration: 02:34)
+test 0848...OK (694 out of 1577, remaining: 03:16, took 0.181s, duration: 02:34)
+test 0849...OK (695 out of 1577, remaining: 03:15, took 0.058s, duration: 02:34)
+test 0850...OK (696 out of 1577, remaining: 03:16, took 1.109s, duration: 02:35)
+test 0851...OK (697 out of 1577, remaining: 03:16, took 0.017s, duration: 02:35)
+test 0852...OK (698 out of 1577, remaining: 03:15, took 0.017s, duration: 02:35)
+test 0853...OK (699 out of 1577, remaining: 03:19, took 3.274s, duration: 02:38)
+test 0854...OK (700 out of 1577, remaining: 03:18, took 0.017s, duration: 02:38)
+test 0855...OK (701 out of 1577, remaining: 03:18, took 0.016s, duration: 02:38)
+test 0856...OK (702 out of 1577, remaining: 03:17, took 0.017s, duration: 02:38)
+test 0857...OK (703 out of 1577, remaining: 03:17, took 0.059s, duration: 02:38)
+test 0858...OK (704 out of 1577, remaining: 03:17, took 0.016s, duration: 02:38)
+test 0859...OK (705 out of 1577, remaining: 03:16, took 0.016s, duration: 02:38)
+test 0860...OK (706 out of 1577, remaining: 03:16, took 0.015s, duration: 02:38)
+test 0861...OK (707 out of 1577, remaining: 03:15, took 0.099s, duration: 02:39)
+test 0862...OK (708 out of 1577, remaining: 03:15, took 0.099s, duration: 02:39)
+test 0863...OK (709 out of 1577, remaining: 03:14, took 0.016s, duration: 02:39)
+test 0864...OK (710 out of 1577, remaining: 03:14, took 0.058s, duration: 02:39)
+test 0865...OK (711 out of 1577, remaining: 03:14, took 0.100s, duration: 02:39)
+test 0866...OK (712 out of 1577, remaining: 03:13, took 0.100s, duration: 02:39)
+test 0867...OK (713 out of 1577, remaining: 03:13, took 0.100s, duration: 02:39)
+test 0868...OK (714 out of 1577, remaining: 03:12, took 0.102s, duration: 02:39)
+test 0870...OK (716 out of 1577, remaining: 03:12, took 0.099s, duration: 02:39)
+test 0871...OK (717 out of 1577, remaining: 03:11, took 0.100s, duration: 02:39)
+test 0872...OK (718 out of 1577, remaining: 03:11, took 0.100s, duration: 02:39)
+test 0873...OK (719 out of 1577, remaining: 03:10, took 0.100s, duration: 02:40)
+test 0874...OK (720 out of 1577, remaining: 03:10, took 0.100s, duration: 02:40)
+test 0875...OK (721 out of 1577, remaining: 03:10, took 0.014s, duration: 02:40)
+test 0876...OK (722 out of 1577, remaining: 03:09, took 0.059s, duration: 02:40)
+test 0877...OK (723 out of 1577, remaining: 03:09, took 0.063s, duration: 02:40)
+test 0879...OK (725 out of 1577, remaining: 03:08, took 0.101s, duration: 02:40)
+test 0880...OK (726 out of 1577, remaining: 03:08, took 0.105s, duration: 02:40)
+test 0883...OK (728 out of 1577, remaining: 03:07, took 0.100s, duration: 02:40)
+test 0884...OK (729 out of 1577, remaining: 03:06, took 0.100s, duration: 02:40)
+test 0885...OK (730 out of 1577, remaining: 03:06, took 0.100s, duration: 02:40)
+test 0886...OK (731 out of 1577, remaining: 03:06, took 0.100s, duration: 02:40)
+test 0887...OK (732 out of 1577, remaining: 03:05, took 0.100s, duration: 02:40)
+test 0888...OK (733 out of 1577, remaining: 03:05, took 0.100s, duration: 02:41)
+test 0889...OK (734 out of 1577, remaining: 03:05, took 0.059s, duration: 02:41)
+test 0890...OK (735 out of 1577, remaining: 03:04, took 0.059s, duration: 02:41)
+test 0891...OK (736 out of 1577, remaining: 03:04, took 0.058s, duration: 02:41)
+test 0892...OK (737 out of 1577, remaining: 03:03, took 0.100s, duration: 02:41)
+test 0893...OK (738 out of 1577, remaining: 03:03, took 0.058s, duration: 02:41)
+test 0894...OK (739 out of 1577, remaining: 03:03, took 0.014s, duration: 02:41)
+test 0895...OK (740 out of 1577, remaining: 03:02, took 0.139s, duration: 02:41)
+test 0896...OK (741 out of 1577, remaining: 03:02, took 0.015s, duration: 02:41)
+test 0897...OK (742 out of 1577, remaining: 03:01, took 0.142s, duration: 02:41)
+test 0898...OK (743 out of 1577, remaining: 03:01, took 0.022s, duration: 02:41)
+test 0900...OK (744 out of 1577, remaining: 03:01, took 0.017s, duration: 02:41)
+test 0901...OK (745 out of 1577, remaining: 03:00, took 0.018s, duration: 02:41)
+test 0902...OK (746 out of 1577, remaining: 03:00, took 0.018s, duration: 02:41)
+test 0903...OK (747 out of 1577, remaining: 02:59, took 0.060s, duration: 02:41)
+test 0904...OK (748 out of 1577, remaining: 02:59, took 0.060s, duration: 02:41)
+test 0905...OK (749 out of 1577, remaining: 02:59, took 0.060s, duration: 02:41)
+test 0906...OK (750 out of 1577, remaining: 02:58, took 0.061s, duration: 02:42)
+test 0908...OK (752 out of 1577, remaining: 02:57, took 0.060s, duration: 02:42)
+test 0909...OK (753 out of 1577, remaining: 02:57, took 0.017s, duration: 02:42)
+test 0910...OK (754 out of 1577, remaining: 02:56, took 0.018s, duration: 02:42)
+test 0911...OK (755 out of 1577, remaining: 02:56, took 0.017s, duration: 02:42)
+test 0912...OK (756 out of 1577, remaining: 02:56, took 0.059s, duration: 02:42)
+test 0913...OK (757 out of 1577, remaining: 02:55, took 0.058s, duration: 02:42)
+test 0914...OK (758 out of 1577, remaining: 02:55, took 0.017s, duration: 02:42)
+test 0915...OK (759 out of 1577, remaining: 02:54, took 0.017s, duration: 02:42)
+test 0916...OK (760 out of 1577, remaining: 02:54, took 0.016s, duration: 02:42)
+test 0917...OK (761 out of 1577, remaining: 02:54, took 0.018s, duration: 02:42)
+test 0918...OK (762 out of 1577, remaining: 02:53, took 0.017s, duration: 02:42)
+test 0919...OK (763 out of 1577, remaining: 02:53, took 0.059s, duration: 02:42)
+test 0920...OK (764 out of 1577, remaining: 02:52, took 0.060s, duration: 02:42)
+test 0921...OK (765 out of 1577, remaining: 02:52, took 0.061s, duration: 02:42)
+test 0922...OK (766 out of 1577, remaining: 02:52, took 0.060s, duration: 02:42)
+test 0923...OK (767 out of 1577, remaining: 02:51, took 0.015s, duration: 02:42)
+test 0924...OK (768 out of 1577, remaining: 02:51, took 0.057s, duration: 02:42)
+test 0925...OK (769 out of 1577, remaining: 02:50, took 0.016s, duration: 02:42)
+test 0926...OK (770 out of 1577, remaining: 02:50, took 0.016s, duration: 02:42)
+test 0927...OK (771 out of 1577, remaining: 02:50, took 0.057s, duration: 02:42)
+test 0928...OK (772 out of 1577, remaining: 02:49, took 0.057s, duration: 02:42)
+test 0929...OK (773 out of 1577, remaining: 02:49, took 0.016s, duration: 02:42)
+test 0930...OK (774 out of 1577, remaining: 02:48, took 0.015s, duration: 02:42)
+test 0931...OK (775 out of 1577, remaining: 02:48, took 0.013s, duration: 02:42)
+test 0932...OK (776 out of 1577, remaining: 02:48, took 0.059s, duration: 02:42)
+test 0933...OK (777 out of 1577, remaining: 02:47, took 0.063s, duration: 02:42)
+test 0935...OK (779 out of 1577, remaining: 02:47, took 0.061s, duration: 02:43)
+test 0936...OK (780 out of 1577, remaining: 02:46, took 0.065s, duration: 02:43)
+test 0939...OK (782 out of 1577, remaining: 02:45, took 0.017s, duration: 02:43)
+test 0940...OK (783 out of 1577, remaining: 02:45, took 0.016s, duration: 02:43)
+test 0941...OK (784 out of 1577, remaining: 02:45, took 0.019s, duration: 02:43)
+test 0942...OK (785 out of 1577, remaining: 02:44, took 0.059s, duration: 02:43)
+test 0943...OK (786 out of 1577, remaining: 02:44, took 0.060s, duration: 02:43)
+test 0944...OK (787 out of 1577, remaining: 02:43, took 0.060s, duration: 02:43)
+test 0945...OK (788 out of 1577, remaining: 02:43, took 0.060s, duration: 02:43)
+test 0946...OK (789 out of 1577, remaining: 02:43, took 0.061s, duration: 02:43)
+test 0947...OK (790 out of 1577, remaining: 02:42, took 0.060s, duration: 02:43)
+test 0948...OK (791 out of 1577, remaining: 02:42, took 0.059s, duration: 02:43)
+test 0949...OK (792 out of 1577, remaining: 02:42, took 0.060s, duration: 02:43)
+test 0950...OK (793 out of 1577, remaining: 02:41, took 0.016s, duration: 02:43)
+test 0951...OK (794 out of 1577, remaining: 02:41, took 0.017s, duration: 02:43)
+test 0952...OK (795 out of 1577, remaining: 02:41, took 0.017s, duration: 02:43)
+test 0953...OK (796 out of 1577, remaining: 02:40, took 0.060s, duration: 02:43)
+test 0954...OK (797 out of 1577, remaining: 02:40, took 0.059s, duration: 02:43)
+test 0955...OK (798 out of 1577, remaining: 02:39, took 0.034s, duration: 02:43)
+test 0956...OK (799 out of 1577, remaining: 02:39, took 0.033s, duration: 02:43)
+test 0957...OK (800 out of 1577, remaining: 02:39, took 0.033s, duration: 02:43)
+test 0958...OK (801 out of 1577, remaining: 02:38, took 0.033s, duration: 02:43)
+test 0959...OK (802 out of 1577, remaining: 02:38, took 0.034s, duration: 02:43)
+test 0960...OK (803 out of 1577, remaining: 02:38, took 0.034s, duration: 02:44)
+test 0961...OK (804 out of 1577, remaining: 02:37, took 0.033s, duration: 02:44)
+test 0971...OK (814 out of 1577, remaining: 02:33, took 0.011s, duration: 02:44)
+test 0973...OK (816 out of 1577, remaining: 02:33, took 0.066s, duration: 02:44)
+test 0974...OK (817 out of 1577, remaining: 02:32, took 0.021s, duration: 02:44)
+test 0975...OK (818 out of 1577, remaining: 02:32, took 0.065s, duration: 02:44)
+test 0976...OK (819 out of 1577, remaining: 02:32, took 0.021s, duration: 02:44)
+test 0977...OK (820 out of 1577, remaining: 02:31, took 0.017s, duration: 02:44)
+test 0978...OK (821 out of 1577, remaining: 02:31, took 0.016s, duration: 02:44)
+test 0980...OK (822 out of 1577, remaining: 02:30, took 0.058s, duration: 02:44)
+test 0981...OK (823 out of 1577, remaining: 02:30, took 0.059s, duration: 02:44)
+test 0982...OK (824 out of 1577, remaining: 02:30, took 0.059s, duration: 02:44)
+test 0983...OK (825 out of 1577, remaining: 02:29, took 0.017s, duration: 02:44)
+test 0984...OK (826 out of 1577, remaining: 02:29, took 0.017s, duration: 02:44)
+test 0985...OK (827 out of 1577, remaining: 02:29, took 0.017s, duration: 02:44)
+test 0986...OK (828 out of 1577, remaining: 02:28, took 0.017s, duration: 02:44)
+test 1000...OK (832 out of 1577, remaining: 02:27, took 0.016s, duration: 02:44)
+test 1001...OK (833 out of 1577, remaining: 02:27, took 0.023s, duration: 02:44)
+test 1002...OK (834 out of 1577, remaining: 02:26, took 0.026s, duration: 02:44)
+test 1003...OK (835 out of 1577, remaining: 02:26, took 0.063s, duration: 02:44)
+test 1004...OK (836 out of 1577, remaining: 02:26, took 0.017s, duration: 02:44)
+test 1005...OK (837 out of 1577, remaining: 02:25, took 0.064s, duration: 02:44)
+test 1006...OK (838 out of 1577, remaining: 02:25, took 0.064s, duration: 02:44)
+test 1007...OK (839 out of 1577, remaining: 02:25, took 0.015s, duration: 02:44)
+test 1008...OK (840 out of 1577, remaining: 02:24, took 0.028s, duration: 02:44)
+test 1009...OK (841 out of 1577, remaining: 02:24, took 0.015s, duration: 02:44)
+test 1010...OK (842 out of 1577, remaining: 02:24, took 0.105s, duration: 02:45)
+test 1011...OK (843 out of 1577, remaining: 02:23, took 0.070s, duration: 02:45)
+test 1012...OK (844 out of 1577, remaining: 02:23, took 0.121s, duration: 02:45)
+test 1013...OK (845 out of 1577, remaining: 02:23, took 0.017s, duration: 02:45)
+test 1014...OK (846 out of 1577, remaining: 02:22, took 0.017s, duration: 02:45)
+test 1015...OK (847 out of 1577, remaining: 02:22, took 0.066s, duration: 02:45)
+test 1016...OK (848 out of 1577, remaining: 02:22, took 0.015s, duration: 02:45)
+test 1017...OK (849 out of 1577, remaining: 02:21, took 0.015s, duration: 02:45)
+test 1018...OK (850 out of 1577, remaining: 02:21, took 0.014s, duration: 02:45)
+test 1019...OK (851 out of 1577, remaining: 02:21, took 0.015s, duration: 02:45)
+test 1020...OK (852 out of 1577, remaining: 02:20, took 0.014s, duration: 02:45)
+test 1021...OK (853 out of 1577, remaining: 02:20, took 0.078s, duration: 02:45)
+test 1022...OK (854 out of 1577, remaining: 02:20, took 0.017s, duration: 02:45)
+test 1023...OK (855 out of 1577, remaining: 02:19, took 0.017s, duration: 02:45)
+test 1024...OK (856 out of 1577, remaining: 02:19, took 0.023s, duration: 02:45)
+test 1025...OK (857 out of 1577, remaining: 02:19, took 0.023s, duration: 02:45)
+test 1026...OK (858 out of 1577, remaining: 02:18, took 0.033s, duration: 02:45)
+test 1027...OK (859 out of 1577, remaining: 02:18, took 0.016s, duration: 02:45)
+test 1028...OK (860 out of 1577, remaining: 02:18, took 0.066s, duration: 02:45)
+test 1029...OK (861 out of 1577, remaining: 02:17, took 0.067s, duration: 02:45)
+test 1030...OK (862 out of 1577, remaining: 02:17, took 0.023s, duration: 02:45)
+test 1031...OK (863 out of 1577, remaining: 02:17, took 0.120s, duration: 02:45)
+test 1032...OK (864 out of 1577, remaining: 02:16, took 0.017s, duration: 02:45)
+test 1033...OK (865 out of 1577, remaining: 02:16, took 0.017s, duration: 02:45)
+test 1036...OK (868 out of 1577, remaining: 02:15, took 0.062s, duration: 02:45)
+test 1037...OK (869 out of 1577, remaining: 02:15, took 0.062s, duration: 02:46)
+test 1038...OK (870 out of 1577, remaining: 02:14, took 0.061s, duration: 02:46)
+test 1039...OK (871 out of 1577, remaining: 02:14, took 0.061s, duration: 02:46)
+test 1040...OK (872 out of 1577, remaining: 02:14, took 0.020s, duration: 02:46)
+test 1041...OK (873 out of 1577, remaining: 02:14, took 0.069s, duration: 02:46)
+test 1042...OK (874 out of 1577, remaining: 02:13, took 0.021s, duration: 02:46)
+test 1043...OK (875 out of 1577, remaining: 02:13, took 0.020s, duration: 02:46)
+test 1044...OK (876 out of 1577, remaining: 02:13, took 0.018s, duration: 02:46)
+test 1045...OK (877 out of 1577, remaining: 02:12, took 0.016s, duration: 02:46)
+test 1046...OK (878 out of 1577, remaining: 02:12, took 0.020s, duration: 02:46)
+test 1047...OK (879 out of 1577, remaining: 02:12, took 0.062s, duration: 02:46)
+test 1048...OK (880 out of 1577, remaining: 02:11, took 0.066s, duration: 02:46)
+test 1049...OK (881 out of 1577, remaining: 02:11, took 0.016s, duration: 02:46)
+test 1050...OK (882 out of 1577, remaining: 02:11, took 0.065s, duration: 02:46)
+test 1051...OK (883 out of 1577, remaining: 02:11, took 0.125s, duration: 02:46)
+test 1052...OK (884 out of 1577, remaining: 02:10, took 0.124s, duration: 02:46)
+test 1053...OK (885 out of 1577, remaining: 02:10, took 0.127s, duration: 02:46)
+test 1054...OK (886 out of 1577, remaining: 02:10, took 0.121s, duration: 02:47)
+test 1055...OK (887 out of 1577, remaining: 02:10, took 0.066s, duration: 02:47)
+test 1056...OK (888 out of 1577, remaining: 02:09, took 0.121s, duration: 02:47)
+test 1057...OK (889 out of 1577, remaining: 02:09, took 0.020s, duration: 02:47)
+test 1058...OK (890 out of 1577, remaining: 02:09, took 0.016s, duration: 02:47)
+test 1059...OK (891 out of 1577, remaining: 02:08, took 0.067s, duration: 02:47)
+test 1060...OK (892 out of 1577, remaining: 02:08, took 0.147s, duration: 02:47)
+test 1061...OK (893 out of 1577, remaining: 02:08, took 0.145s, duration: 02:47)
+test 1062...OK (894 out of 1577, remaining: 02:08, took 0.064s, duration: 02:47)
+test 1063...OK (895 out of 1577, remaining: 02:07, took 0.015s, duration: 02:47)
+test 1064...OK (896 out of 1577, remaining: 02:07, took 0.020s, duration: 02:47)
+test 1065...OK (897 out of 1577, remaining: 02:07, took 0.019s, duration: 02:47)
+test 1066...OK (898 out of 1577, remaining: 02:06, took 0.020s, duration: 02:47)
+test 1067...OK (899 out of 1577, remaining: 02:06, took 0.120s, duration: 02:47)
+test 1068...OK (900 out of 1577, remaining: 02:07, took 1.069s, duration: 02:48)
+test 1069...OK (901 out of 1577, remaining: 02:06, took 0.014s, duration: 02:48)
+test 1070...OK (902 out of 1577, remaining: 02:07, took 1.069s, duration: 02:50)
+test 1071...OK (903 out of 1577, remaining: 02:07, took 0.125s, duration: 02:50)
+test 1072...OK (904 out of 1577, remaining: 02:07, took 1.071s, duration: 02:51)
+test 1073...OK (905 out of 1577, remaining: 02:07, took 1.071s, duration: 02:52)
+test 1074...OK (906 out of 1577, remaining: 02:09, took 2.073s, duration: 02:54)
+test 1075...OK (907 out of 1577, remaining: 02:08, took 0.022s, duration: 02:54)
+test 1076...OK (908 out of 1577, remaining: 02:08, took 0.121s, duration: 02:54)
+test 1077...OK (909 out of 1577, remaining: 02:08, took 0.020s, duration: 02:54)
+test 1078...OK (910 out of 1577, remaining: 02:08, took 0.524s, duration: 02:55)
+test 1079...OK (911 out of 1577, remaining: 02:08, took 0.120s, duration: 02:55)
+test 1080...OK (912 out of 1577, remaining: 02:07, took 0.119s, duration: 02:55)
+test 1081...OK (913 out of 1577, remaining: 02:07, took 0.120s, duration: 02:55)
+test 1082...OK (914 out of 1577, remaining: 02:07, took 0.020s, duration: 02:55)
+test 1083...OK (915 out of 1577, remaining: 02:06, took 0.021s, duration: 02:55)
+test 1084...OK (916 out of 1577, remaining: 02:06, took 0.033s, duration: 02:55)
+test 1085...OK (917 out of 1577, remaining: 02:06, took 0.196s, duration: 02:55)
+test 1086...OK (918 out of 1577, remaining: 02:15, took 13.040s, duration: 03:08)
+test 1087...OK (919 out of 1577, remaining: 02:15, took 0.125s, duration: 03:08)
+test 1088...OK (920 out of 1577, remaining: 02:14, took 0.125s, duration: 03:09)
+test 1089...OK (921 out of 1577, remaining: 02:14, took 0.072s, duration: 03:09)
+test 1090...OK (922 out of 1577, remaining: 02:14, took 0.072s, duration: 03:09)
+test 1091...OK (923 out of 1577, remaining: 02:14, took 1.116s, duration: 03:10)
+test 1092...OK (924 out of 1577, remaining: 02:14, took 0.067s, duration: 03:10)
+test 1093...OK (925 out of 1577, remaining: 02:14, took 0.016s, duration: 03:10)
+test 1094...OK (926 out of 1577, remaining: 02:13, took 0.016s, duration: 03:10)
+test 1095...OK (927 out of 1577, remaining: 02:13, took 0.121s, duration: 03:10)
+test 1096...OK (928 out of 1577, remaining: 02:13, took 0.023s, duration: 03:10)
+test 1098...OK (930 out of 1577, remaining: 02:12, took 0.019s, duration: 03:10)
+test 1099...OK (931 out of 1577, remaining: 02:12, took 0.016s, duration: 03:10)
+test 1101...OK (933 out of 1577, remaining: 02:11, took 0.016s, duration: 03:10)
+test 1102...OK (934 out of 1577, remaining: 02:11, took 0.061s, duration: 03:10)
+test 1103...OK (935 out of 1577, remaining: 02:10, took 0.061s, duration: 03:10)
+test 1104...OK (936 out of 1577, remaining: 02:10, took 0.071s, duration: 03:10)
+test 1105...OK (937 out of 1577, remaining: 02:10, took 0.072s, duration: 03:10)
+test 1106...OK (938 out of 1577, remaining: 02:10, took 0.067s, duration: 03:10)
+test 1107...OK (939 out of 1577, remaining: 02:09, took 0.061s, duration: 03:10)
+test 1108...OK (940 out of 1577, remaining: 02:09, took 0.017s, duration: 03:10)
+test 1109...OK (941 out of 1577, remaining: 02:09, took 0.015s, duration: 03:11)
+test 1110...OK (942 out of 1577, remaining: 02:08, took 0.016s, duration: 03:11)
+test 1111...OK (943 out of 1577, remaining: 02:08, took 0.015s, duration: 03:11)
+test 1113...OK (945 out of 1577, remaining: 02:08, took 0.627s, duration: 03:11)
+test 1114...OK (946 out of 1577, remaining: 02:08, took 0.285s, duration: 03:11)
+test 1115...OK (947 out of 1577, remaining: 02:07, took 0.016s, duration: 03:11)
+test 1116...OK (948 out of 1577, remaining: 02:07, took 0.243s, duration: 03:12)
+test 1117...OK (949 out of 1577, remaining: 02:22, took 23.052s, duration: 03:35)
+test 1118...OK (950 out of 1577, remaining: 02:22, took 0.017s, duration: 03:35)
+test 1119...OK (951 out of 1577, remaining: 02:21, took 0.116s, duration: 03:35)
+test 1120...OK (952 out of 1577, remaining: 02:21, took 0.017s, duration: 03:35)
+test 1121...OK (953 out of 1577, remaining: 02:21, took 0.016s, duration: 03:35)
+test 1122...OK (954 out of 1577, remaining: 02:20, took 0.069s, duration: 03:35)
+test 1123...OK (955 out of 1577, remaining: 02:20, took 0.034s, duration: 03:35)
+test 1124...OK (956 out of 1577, remaining: 02:20, took 0.018s, duration: 03:35)
+test 1125...OK (957 out of 1577, remaining: 02:19, took 0.018s, duration: 03:35)
+test 1126...OK (958 out of 1577, remaining: 02:19, took 0.016s, duration: 03:35)
+test 1127...OK (959 out of 1577, remaining: 02:18, took 0.017s, duration: 03:35)
+test 1128...OK (960 out of 1577, remaining: 02:18, took 0.021s, duration: 03:35)
+test 1129...OK (961 out of 1577, remaining: 02:18, took 0.030s, duration: 03:35)
+test 1130...OK (962 out of 1577, remaining: 02:17, took 0.022s, duration: 03:35)
+test 1131...OK (963 out of 1577, remaining: 02:17, took 0.022s, duration: 03:35)
+test 1132...OK (964 out of 1577, remaining: 02:17, took 0.022s, duration: 03:35)
+test 1133...OK (965 out of 1577, remaining: 02:16, took 0.023s, duration: 03:35)
+test 1134...OK (966 out of 1577, remaining: 02:16, took 0.018s, duration: 03:35)
+test 1135...OK (967 out of 1577, remaining: 02:16, took 0.026s, duration: 03:35)
+test 1137...OK (969 out of 1577, remaining: 02:15, took 0.061s, duration: 03:35)
+test 1138...OK (970 out of 1577, remaining: 02:15, took 0.120s, duration: 03:35)
+test 1139...FAILED
+test 1140...FAILED
+test 1141...OK (973 out of 1577, remaining: 02:14, took 0.019s, duration: 03:36)
+test 1142...OK (974 out of 1577, remaining: 02:13, took 0.018s, duration: 03:36)
+test 1143...OK (975 out of 1577, remaining: 02:13, took 0.016s, duration: 03:36)
+test 1144...OK (976 out of 1577, remaining: 02:13, took 0.069s, duration: 03:36)
+test 1145...OK (977 out of 1577, remaining: 02:12, took 0.014s, duration: 03:36)
+test 1146...OK (978 out of 1577, remaining: 02:12, took 0.015s, duration: 03:36)
+test 1147...OK (979 out of 1577, remaining: 02:12, took 0.018s, duration: 03:36)
+test 1148...OK (980 out of 1577, remaining: 02:11, took 0.018s, duration: 03:36)
+test 1149...OK (981 out of 1577, remaining: 02:11, took 0.106s, duration: 03:36)
+test 1150...OK (982 out of 1577, remaining: 02:11, took 0.018s, duration: 03:36)
+test 1151...OK (983 out of 1577, remaining: 02:10, took 0.070s, duration: 03:36)
+test 1152...OK (984 out of 1577, remaining: 02:10, took 0.062s, duration: 03:36)
+test 1153...OK (985 out of 1577, remaining: 02:10, took 0.062s, duration: 03:36)
+test 1154...OK (986 out of 1577, remaining: 02:09, took 0.028s, duration: 03:36)
+test 1155...OK (987 out of 1577, remaining: 02:09, took 0.017s, duration: 03:36)
+test 1156...OK (988 out of 1577, remaining: 02:09, took 0.047s, duration: 03:36)
+test 1157...OK (989 out of 1577, remaining: 02:08, took 0.017s, duration: 03:36)
+test 1158...OK (990 out of 1577, remaining: 02:08, took 0.025s, duration: 03:36)
+test 1159...OK (991 out of 1577, remaining: 02:08, took 0.067s, duration: 03:36)
+test 1160...OK (992 out of 1577, remaining: 02:07, took 0.018s, duration: 03:36)
+test 1161...OK (993 out of 1577, remaining: 02:07, took 0.017s, duration: 03:36)
+test 1162...OK (994 out of 1577, remaining: 02:07, took 0.061s, duration: 03:36)
+test 1163...OK (995 out of 1577, remaining: 02:06, took 0.060s, duration: 03:36)
+test 1164...OK (996 out of 1577, remaining: 02:06, took 0.068s, duration: 03:36)
+test 1165...OK (997 out of 1577, remaining: 02:06, took 0.046s, duration: 03:36)
+test 1166...OK (998 out of 1577, remaining: 02:05, took 0.017s, duration: 03:37)
+test 1167...OK (999 out of 1577, remaining: 02:05, took 0.106s, duration: 03:37)
+test 1168...OK (1000 out of 1577, remaining: 02:05, took 0.121s, duration: 03:37)
+test 1169...OK (1001 out of 1577, remaining: 02:05, took 0.054s, duration: 03:37)
+test 1170...OK (1002 out of 1577, remaining: 02:04, took 0.018s, duration: 03:37)
+test 1171...OK (1003 out of 1577, remaining: 02:04, took 0.018s, duration: 03:37)
+test 1172...OK (1004 out of 1577, remaining: 02:04, took 0.066s, duration: 03:37)
+test 1173...FAILED
+test 1174...OK (1006 out of 1577, remaining: 02:03, took 0.066s, duration: 03:37)
+test 1175...OK (1007 out of 1577, remaining: 02:03, took 0.009s, duration: 03:37)
+test 1176...OK (1008 out of 1577, remaining: 02:02, took 0.018s, duration: 03:37)
+test 1177... exit FAILED
+test 1178...OK (1010 out of 1577, remaining: 02:02, took 0.067s, duration: 03:37)
+test 1179...OK (1011 out of 1577, remaining: 02:01, took 0.015s, duration: 03:37)
+test 1180...OK (1012 out of 1577, remaining: 02:01, took 0.016s, duration: 03:37)
+test 1181...OK (1013 out of 1577, remaining: 02:01, took 0.016s, duration: 03:37)
+test 1183...OK (1014 out of 1577, remaining: 02:00, took 0.016s, duration: 03:37)
+test 1185...OK (1015 out of 1577, remaining: 02:00, took 0.030s, duration: 03:37)
+test 1186...OK (1016 out of 1577, remaining: 02:00, took 0.025s, duration: 03:37)
+test 1187...OK (1017 out of 1577, remaining: 01:59, took 0.020s, duration: 03:37)
+test 1188...OK (1018 out of 1577, remaining: 01:59, took 0.017s, duration: 03:37)
+test 1189...OK (1019 out of 1577, remaining: 01:59, took 0.023s, duration: 03:37)
+test 1190...OK (1020 out of 1577, remaining: 01:59, took 1.059s, duration: 03:38)
+test 1191...OK (1021 out of 1577, remaining: 01:59, took 0.016s, duration: 03:38)
+test 1192...OK (1022 out of 1577, remaining: 01:58, took 0.059s, duration: 03:38)
+test 1193...OK (1023 out of 1577, remaining: 01:58, took 0.019s, duration: 03:38)
+test 1194...OK (1024 out of 1577, remaining: 01:58, took 0.058s, duration: 03:38)
+test 1195...OK (1025 out of 1577, remaining: 01:57, took 0.018s, duration: 03:38)
+test 1196...OK (1026 out of 1577, remaining: 01:57, took 0.017s, duration: 03:39)
+test 1197...OK (1027 out of 1577, remaining: 01:57, took 0.071s, duration: 03:39)
+test 1198...OK (1028 out of 1577, remaining: 01:57, took 0.017s, duration: 03:39)
+test 1199...OK (1029 out of 1577, remaining: 01:56, took 0.017s, duration: 03:39)
+test 1200...OK (1030 out of 1577, remaining: 01:56, took 1.126s, duration: 03:40)
+test 1201...OK (1031 out of 1577, remaining: 01:56, took 0.065s, duration: 03:40)
+test 1202...OK (1032 out of 1577, remaining: 01:56, took 0.066s, duration: 03:40)
+test 1203...OK (1033 out of 1577, remaining: 01:56, took 1.127s, duration: 03:41)
+test 1204...OK (1034 out of 1577, remaining: 01:56, took 0.020s, duration: 03:41)
+test 1205...OK (1035 out of 1577, remaining: 01:56, took 0.018s, duration: 03:41)
+test 1206...OK (1036 out of 1577, remaining: 01:55, took 0.059s, duration: 03:41)
+test 1207...OK (1037 out of 1577, remaining: 01:55, took 0.060s, duration: 03:41)
+test 1208...OK (1038 out of 1577, remaining: 01:56, took 2.019s, duration: 03:43)
+test 1212...OK (1040 out of 1577, remaining: 01:55, took 0.017s, duration: 03:43)
+test 1213...OK (1041 out of 1577, remaining: 01:55, took 0.016s, duration: 03:43)
+test 1214...OK (1042 out of 1577, remaining: 01:54, took 0.016s, duration: 03:43)
+test 1215...OK (1043 out of 1577, remaining: 01:54, took 0.072s, duration: 03:43)
+test 1216...OK (1044 out of 1577, remaining: 01:54, took 0.019s, duration: 03:43)
+test 1217...OK (1045 out of 1577, remaining: 01:53, took 0.105s, duration: 03:43)
+test 1218...OK (1046 out of 1577, remaining: 01:53, took 0.019s, duration: 03:43)
+test 1219...OK (1047 out of 1577, remaining: 01:53, took 0.060s, duration: 03:44)
+test 1220...OK (1048 out of 1577, remaining: 01:53, took 0.014s, duration: 03:44)
+test 1221...OK (1049 out of 1577, remaining: 01:52, took 0.067s, duration: 03:44)
+test 1222...OK (1050 out of 1577, remaining: 01:52, took 0.197s, duration: 03:44)
+test 1223...OK (1051 out of 1577, remaining: 01:52, took 0.017s, duration: 03:44)
+test 1224...OK (1052 out of 1577, remaining: 01:51, took 0.060s, duration: 03:44)
+test 1225...OK (1053 out of 1577, remaining: 01:51, took 0.107s, duration: 03:44)
+test 1226...OK (1054 out of 1577, remaining: 01:51, took 0.061s, duration: 03:44)
+test 1227...OK (1055 out of 1577, remaining: 01:51, took 0.061s, duration: 03:44)
+test 1228...OK (1056 out of 1577, remaining: 01:50, took 0.018s, duration: 03:44)
+test 1229...OK (1057 out of 1577, remaining: 01:50, took 0.121s, duration: 03:44)
+test 1230...OK (1058 out of 1577, remaining: 01:50, took 0.020s, duration: 03:44)
+test 1231...OK (1059 out of 1577, remaining: 01:49, took 0.017s, duration: 03:44)
+test 1232...OK (1060 out of 1577, remaining: 01:49, took 0.019s, duration: 03:44)
+test 1233...OK (1061 out of 1577, remaining: 01:49, took 0.060s, duration: 03:44)
+test 1234...OK (1062 out of 1577, remaining: 01:49, took 0.013s, duration: 03:44)
+test 1235...OK (1063 out of 1577, remaining: 01:48, took 0.022s, duration: 03:44)
+test 1236...OK (1064 out of 1577, remaining: 01:48, took 0.013s, duration: 03:44)
+test 1237...OK (1065 out of 1577, remaining: 01:48, took 0.016s, duration: 03:44)
+test 1238...Warning: server logs lock timeout (2 seconds) expired
+OK (1066 out of 1577, remaining: 01:52, took 9.238s, duration: 03:54)
+test 1239...OK (1067 out of 1577, remaining: 01:51, took 0.018s, duration: 03:54)
+test 1240...OK (1068 out of 1577, remaining: 01:51, took 0.016s, duration: 03:54)
+test 1241...OK (1069 out of 1577, remaining: 01:51, took 0.018s, duration: 03:54)
+test 1242...OK (1070 out of 1577, remaining: 01:51, took 1.025s, duration: 03:55)
+test 1243...Warning: server logs lock timeout (2 seconds) expired
+OK (1071 out of 1577, remaining: 01:52, took 2.021s, duration: 03:57)
+test 1245...OK (1073 out of 1577, remaining: 01:51, took 0.067s, duration: 03:57)
+test 1246...OK (1074 out of 1577, remaining: 01:51, took 0.019s, duration: 03:57)
+test 1247...OK (1075 out of 1577, remaining: 01:50, took 0.014s, duration: 03:57)
+test 1248...OK (1076 out of 1577, remaining: 01:50, took 0.016s, duration: 03:57)
+test 1249...OK (1077 out of 1577, remaining: 01:50, took 0.016s, duration: 03:57)
+test 1250...OK (1078 out of 1577, remaining: 01:49, took 0.016s, duration: 03:57)
+test 1251...OK (1079 out of 1577, remaining: 01:49, took 0.016s, duration: 03:57)
+test 1252...OK (1080 out of 1577, remaining: 01:49, took 0.016s, duration: 03:57)
+test 1253...OK (1081 out of 1577, remaining: 01:48, took 0.017s, duration: 03:57)
+test 1254...OK (1082 out of 1577, remaining: 01:48, took 0.016s, duration: 03:57)
+test 1255...OK (1083 out of 1577, remaining: 01:48, took 0.016s, duration: 03:57)
+test 1256...OK (1084 out of 1577, remaining: 01:48, took 0.016s, duration: 03:57)
+test 1257...OK (1085 out of 1577, remaining: 01:47, took 0.017s, duration: 03:57)
+test 1258...OK (1086 out of 1577, remaining: 01:47, took 0.118s, duration: 03:57)
+test 1259...OK (1087 out of 1577, remaining: 01:47, took 0.066s, duration: 03:57)
+test 1260...OK (1088 out of 1577, remaining: 01:46, took 0.014s, duration: 03:57)
+test 1261...OK (1089 out of 1577, remaining: 01:46, took 0.068s, duration: 03:57)
+test 1262...OK (1090 out of 1577, remaining: 01:46, took 0.016s, duration: 03:57)
+test 1263...OK (1091 out of 1577, remaining: 01:45, took 0.014s, duration: 03:57)
+test 1264...OK (1092 out of 1577, remaining: 01:45, took 0.014s, duration: 03:57)
+test 1265...OK (1093 out of 1577, remaining: 01:45, took 0.016s, duration: 03:57)
+test 1266...OK (1094 out of 1577, remaining: 01:45, took 0.066s, duration: 03:57)
+test 1267...OK (1095 out of 1577, remaining: 01:44, took 0.067s, duration: 03:57)
+test 1268...OK (1096 out of 1577, remaining: 01:44, took 0.015s, duration: 03:57)
+test 1269...OK (1097 out of 1577, remaining: 01:44, took 0.013s, duration: 03:58)
+test 1270...OK (1098 out of 1577, remaining: 01:43, took 0.018s, duration: 03:58)
+test 1271...OK (1099 out of 1577, remaining: 01:43, took 0.066s, duration: 03:58)
+test 1273...OK (1101 out of 1577, remaining: 01:45, took 5.032s, duration: 04:03)
+test 1274...OK (1102 out of 1577, remaining: 01:45, took 1.029s, duration: 04:04)
+test 1275...OK (1103 out of 1577, remaining: 01:44, took 0.007s, duration: 04:04)
+test 1276...OK (1104 out of 1577, remaining: 01:44, took 0.008s, duration: 04:04)
+test 1277...OK (1105 out of 1577, remaining: 01:44, took 0.036s, duration: 04:04)
+test 1278...OK (1106 out of 1577, remaining: 01:44, took 0.016s, duration: 04:04)
+test 1280...OK (1107 out of 1577, remaining: 01:43, took 0.019s, duration: 04:04)
+test 1281...OK (1108 out of 1577, remaining: 01:43, took 0.014s, duration: 04:04)
+test 1283...OK (1110 out of 1577, remaining: 01:42, took 0.017s, duration: 04:04)
+test 1284...OK (1111 out of 1577, remaining: 01:42, took 0.021s, duration: 04:04)
+test 1285...OK (1112 out of 1577, remaining: 01:42, took 0.022s, duration: 04:04)
+test 1286...OK (1113 out of 1577, remaining: 01:41, took 0.026s, duration: 04:04)
+test 1287...OK (1114 out of 1577, remaining: 01:41, took 0.574s, duration: 04:04)
+test 1288...OK (1115 out of 1577, remaining: 01:41, took 0.952s, duration: 04:05)
+test 1289...OK (1116 out of 1577, remaining: 01:41, took 0.014s, duration: 04:05)
+test 1290...OK (1117 out of 1577, remaining: 01:41, took 0.016s, duration: 04:05)
+test 1291...OK (1118 out of 1577, remaining: 01:40, took 0.019s, duration: 04:05)
+test 1292...OK (1119 out of 1577, remaining: 01:40, took 0.066s, duration: 04:05)
+test 1293...OK (1120 out of 1577, remaining: 01:40, took 0.019s, duration: 04:06)
+test 1296...OK (1123 out of 1577, remaining: 01:39, took 0.016s, duration: 04:06)
+test 1297...OK (1124 out of 1577, remaining: 01:39, took 0.885s, duration: 04:06)
+test 1298...OK (1125 out of 1577, remaining: 01:39, took 0.017s, duration: 04:06)
+test 1299...OK (1126 out of 1577, remaining: 01:38, took 0.016s, duration: 04:06)
+test 1301...OK (1128 out of 1577, remaining: 01:38, took 0.037s, duration: 04:07)
+test 1314...OK (1140 out of 1577, remaining: 01:34, took 0.020s, duration: 04:07)
+test 1315...OK (1141 out of 1577, remaining: 01:34, took 0.020s, duration: 04:07)
+test 1317...OK (1142 out of 1577, remaining: 01:34, took 0.016s, duration: 04:07)
+test 1318...OK (1143 out of 1577, remaining: 01:33, took 0.017s, duration: 04:07)
+test 1319...OK (1144 out of 1577, remaining: 01:33, took 0.700s, duration: 04:07)
+test 1320...OK (1145 out of 1577, remaining: 01:33, took 1.004s, duration: 04:08)
+test 1321...OK (1146 out of 1577, remaining: 01:34, took 1.125s, duration: 04:10)
+test 1322...OK (1147 out of 1577, remaining: 01:33, took 0.017s, duration: 04:10)
+test 1324...OK (1149 out of 1577, remaining: 01:33, took 0.017s, duration: 04:10)
+test 1325...OK (1150 out of 1577, remaining: 01:32, took 0.121s, duration: 04:10)
+test 1326...OK (1151 out of 1577, remaining: 01:32, took 0.168s, duration: 04:10)
+test 1327...OK (1152 out of 1577, remaining: 01:32, took 0.167s, duration: 04:10)
+test 1328...OK (1153 out of 1577, remaining: 01:32, took 0.019s, duration: 04:10)
+test 1329...OK (1154 out of 1577, remaining: 01:31, took 0.013s, duration: 04:10)
+test 1331...OK (1156 out of 1577, remaining: 01:31, took 0.021s, duration: 04:10)
+test 1332...OK (1157 out of 1577, remaining: 01:31, took 0.121s, duration: 04:10)
+test 1333...OK (1158 out of 1577, remaining: 01:30, took 0.017s, duration: 04:10)
+test 1364...OK (1189 out of 1577, remaining: 01:21, took 0.020s, duration: 04:11)
+test 1365...OK (1190 out of 1577, remaining: 01:21, took 0.020s, duration: 04:11)
+test 1366...OK (1191 out of 1577, remaining: 01:21, took 0.020s, duration: 04:11)
+test 1367...OK (1192 out of 1577, remaining: 01:21, took 0.020s, duration: 04:11)
+test 1368...OK (1193 out of 1577, remaining: 01:20, took 0.020s, duration: 04:11)
+test 1369...OK (1194 out of 1577, remaining: 01:20, took 0.020s, duration: 04:11)
+test 1370...OK (1195 out of 1577, remaining: 01:20, took 0.020s, duration: 04:11)
+test 1371...OK (1196 out of 1577, remaining: 01:20, took 0.020s, duration: 04:11)
+test 1372...OK (1197 out of 1577, remaining: 01:19, took 0.021s, duration: 04:11)
+test 1373...OK (1198 out of 1577, remaining: 01:19, took 0.020s, duration: 04:11)
+test 1374...OK (1199 out of 1577, remaining: 01:19, took 0.021s, duration: 04:11)
+test 1375...OK (1200 out of 1577, remaining: 01:18, took 0.021s, duration: 04:11)
+test 1376...OK (1201 out of 1577, remaining: 01:18, took 0.020s, duration: 04:11)
+test 1377...OK (1202 out of 1577, remaining: 01:18, took 0.020s, duration: 04:11)
+test 1378...OK (1203 out of 1577, remaining: 01:18, took 0.064s, duration: 04:11)
+test 1379...OK (1204 out of 1577, remaining: 01:17, took 0.065s, duration: 04:11)
+test 1380...OK (1205 out of 1577, remaining: 01:17, took 0.066s, duration: 04:11)
+test 1381...OK (1206 out of 1577, remaining: 01:17, took 0.066s, duration: 04:11)
+test 1382...OK (1207 out of 1577, remaining: 01:17, took 0.066s, duration: 04:11)
+test 1383...OK (1208 out of 1577, remaining: 01:16, took 0.066s, duration: 04:11)
+test 1384...OK (1209 out of 1577, remaining: 01:16, took 0.066s, duration: 04:11)
+test 1385...OK (1210 out of 1577, remaining: 01:16, took 0.063s, duration: 04:11)
+test 1386...OK (1211 out of 1577, remaining: 01:16, took 0.065s, duration: 04:11)
+test 1387...OK (1212 out of 1577, remaining: 01:15, took 0.068s, duration: 04:11)
+test 1388...OK (1213 out of 1577, remaining: 01:15, took 0.068s, duration: 04:12)
+test 1389...OK (1214 out of 1577, remaining: 01:15, took 0.068s, duration: 04:12)
+test 1390...OK (1215 out of 1577, remaining: 01:15, took 0.068s, duration: 04:12)
+test 1391...OK (1216 out of 1577, remaining: 01:14, took 0.068s, duration: 04:12)
+test 1392...OK (1217 out of 1577, remaining: 01:14, took 0.068s, duration: 04:12)
+test 1393...OK (1218 out of 1577, remaining: 01:14, took 0.065s, duration: 04:12)
+test 1400...OK (1225 out of 1577, remaining: 01:12, took 0.026s, duration: 04:12)
+test 1401...OK (1226 out of 1577, remaining: 01:12, took 0.029s, duration: 04:12)
+test 1402...OK (1227 out of 1577, remaining: 01:12, took 0.027s, duration: 04:12)
+test 1403...OK (1228 out of 1577, remaining: 01:11, took 0.026s, duration: 04:12)
+test 1404...OK (1229 out of 1577, remaining: 01:11, took 0.040s, duration: 04:12)
+test 1405...OK (1230 out of 1577, remaining: 01:11, took 0.079s, duration: 04:12)
+test 1406...OK (1231 out of 1577, remaining: 01:11, took 0.073s, duration: 04:12)
+test 1407...OK (1232 out of 1577, remaining: 01:10, took 0.028s, duration: 04:12)
+test 1408...OK (1233 out of 1577, remaining: 01:10, took 0.019s, duration: 04:12)
+test 1409...OK (1234 out of 1577, remaining: 01:10, took 0.013s, duration: 04:12)
+test 1410...OK (1235 out of 1577, remaining: 01:09, took 0.013s, duration: 04:12)
+test 1411...OK (1236 out of 1577, remaining: 01:09, took 0.017s, duration: 04:12)
+test 1412...OK (1237 out of 1577, remaining: 01:09, took 0.227s, duration: 04:13)
+test 1413...OK (1238 out of 1577, remaining: 01:09, took 0.120s, duration: 04:13)
+test 1414...OK (1239 out of 1577, remaining: 01:09, took 0.062s, duration: 04:13)
+test 1415...OK (1240 out of 1577, remaining: 01:08, took 0.020s, duration: 04:13)
+test 1416...OK (1241 out of 1577, remaining: 01:08, took 0.017s, duration: 04:13)
+test 1417...OK (1242 out of 1577, remaining: 01:08, took 0.019s, duration: 04:13)
+test 1418...OK (1243 out of 1577, remaining: 01:08, took 0.026s, duration: 04:13)
+test 1419...OK (1244 out of 1577, remaining: 01:07, took 0.019s, duration: 04:13)
+test 1420...OK (1245 out of 1577, remaining: 01:07, took 0.150s, duration: 04:13)
+test 1421...OK (1246 out of 1577, remaining: 01:07, took 0.020s, duration: 04:13)
+test 1423...OK (1248 out of 1577, remaining: 01:06, took 0.019s, duration: 04:13)
+test 1424...OK (1249 out of 1577, remaining: 01:06, took 0.019s, duration: 04:13)
+test 1427...OK (1252 out of 1577, remaining: 01:05, took 0.013s, duration: 04:13)
+test 1428...OK (1253 out of 1577, remaining: 01:05, took 0.572s, duration: 04:14)
+test 1429...OK (1254 out of 1577, remaining: 01:05, took 0.018s, duration: 04:14)
+test 1430...OK (1255 out of 1577, remaining: 01:05, took 0.017s, duration: 04:14)
+test 1431...OK (1256 out of 1577, remaining: 01:04, took 0.017s, duration: 04:14)
+test 1432...OK (1257 out of 1577, remaining: 01:04, took 0.017s, duration: 04:14)
+test 1433...OK (1258 out of 1577, remaining: 01:04, took 0.016s, duration: 04:14)
+test 1434...OK (1259 out of 1577, remaining: 01:04, took 0.021s, duration: 04:14)
+test 1435...OK (1260 out of 1577, remaining: 01:04, took 1.025s, duration: 04:15)
+test 1436...OK (1261 out of 1577, remaining: 01:03, took 0.021s, duration: 04:15)
+test 1437...OK (1262 out of 1577, remaining: 01:03, took 0.120s, duration: 04:15)
+test 1438...OK (1263 out of 1577, remaining: 01:03, took 0.017s, duration: 04:15)
+test 1439...OK (1264 out of 1577, remaining: 01:03, took 0.017s, duration: 04:15)
+test 1440...OK (1265 out of 1577, remaining: 01:02, took 0.014s, duration: 04:15)
+test 1441...OK (1266 out of 1577, remaining: 01:02, took 0.014s, duration: 04:15)
+test 1442...OK (1267 out of 1577, remaining: 01:02, took 0.014s, duration: 04:15)
+test 1444...OK (1269 out of 1577, remaining: 01:02, took 0.064s, duration: 04:15)
+test 1445...OK (1270 out of 1577, remaining: 01:01, took 0.034s, duration: 04:15)
+test 1447...OK (1272 out of 1577, remaining: 01:01, took 0.014s, duration: 04:15)
+test 1449...OK (1274 out of 1577, remaining: 01:00, took 0.017s, duration: 04:15)
+test 1450...OK (1275 out of 1577, remaining: 01:00, took 1.015s, duration: 04:16)
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+Python package impacket needs to be installed!
+Use pip or your package manager to install it.
+== Contents of files in the log/ dir after test 1451
+RUN: failed to start the SMB server
+test 1452...OK (1277 out of 1577, remaining: 01:12, took 1.120s, duration: 05:07)
+test 1453...OK (1278 out of 1577, remaining: 01:12, took 0.015s, duration: 05:07)
+test 1455...OK (1280 out of 1577, remaining: 01:11, took 0.018s, duration: 05:07)
+test 1456...OK (1281 out of 1577, remaining: 01:11, took 0.018s, duration: 05:07)
+test 1457...OK (1282 out of 1577, remaining: 01:10, took 0.017s, duration: 05:07)
+test 1458...OK (1283 out of 1577, remaining: 01:10, took 0.017s, duration: 05:07)
+test 1461...OK (1286 out of 1577, remaining: 01:09, took 0.015s, duration: 05:07)
+test 1462...OK (1287 out of 1577, remaining: 01:09, took 0.016s, duration: 05:07)
+test 1463...OK (1288 out of 1577, remaining: 01:09, took 0.014s, duration: 05:07)
+test 1464...OK (1289 out of 1577, remaining: 01:08, took 0.014s, duration: 05:07)
+test 1465...OK (1290 out of 1577, remaining: 01:08, took 0.027s, duration: 05:07)
+test 1466...OK (1291 out of 1577, remaining: 01:08, took 0.015s, duration: 05:07)
+test 1467...OK (1292 out of 1577, remaining: 01:08, took 1.019s, duration: 05:08)
+test 1468...OK (1293 out of 1577, remaining: 01:07, took 0.018s, duration: 05:09)
+test 1469...OK (1294 out of 1577, remaining: 01:07, took 0.013s, duration: 05:09)
+test 1500...OK (1296 out of 1577, remaining: 01:07, took 0.040s, duration: 05:09)
+test 1501...OK (1297 out of 1577, remaining: 01:08, took 9.113s, duration: 05:18)
+test 1502...OK (1298 out of 1577, remaining: 01:08, took 0.043s, duration: 05:18)
+test 1503...OK (1299 out of 1577, remaining: 01:08, took 0.043s, duration: 05:18)
+test 1504...OK (1300 out of 1577, remaining: 01:07, took 0.043s, duration: 05:18)
+test 1505...OK (1301 out of 1577, remaining: 01:07, took 0.043s, duration: 05:18)
+test 1506...OK (1302 out of 1577, remaining: 01:07, took 0.055s, duration: 05:18)
+test 1507...OK (1303 out of 1577, remaining: 01:06, took 0.043s, duration: 05:18)
+test 1508...OK (1304 out of 1577, remaining: 01:06, took 0.039s, duration: 05:18)
+test 1509...OK (1305 out of 1577, remaining: 01:06, took 0.599s, duration: 05:19)
+test 1511...OK (1306 out of 1577, remaining: 01:06, took 0.045s, duration: 05:19)
+test 1513...OK (1307 out of 1577, remaining: 01:05, took 0.042s, duration: 05:19)
+test 1514...OK (1308 out of 1577, remaining: 01:05, took 1.096s, duration: 05:20)
+test 1515...OK (1309 out of 1577, remaining: 01:05, took 2.095s, duration: 05:22)
+test 1516...OK (1310 out of 1577, remaining: 01:06, took 2.068s, duration: 05:24)
+test 1517...OK (1311 out of 1577, remaining: 01:06, took 1.055s, duration: 05:25)
+test 1518...OK (1312 out of 1577, remaining: 01:05, took 0.093s, duration: 05:25)
+test 1519...OK (1313 out of 1577, remaining: 01:05, took 0.067s, duration: 05:25)
+test 1520...OK (1314 out of 1577, remaining: 01:05, took 0.044s, duration: 05:25)
+test 1521...OK (1315 out of 1577, remaining: 01:04, took 0.041s, duration: 05:25)
+test 1522...OK (1316 out of 1577, remaining: 01:04, took 0.084s, duration: 05:25)
+test 1523...OK (1317 out of 1577, remaining: 01:06, took 10.165s, duration: 05:35)
+test 1524...OK (1318 out of 1577, remaining: 01:06, took 1.130s, duration: 05:37)
+test 1525...OK (1319 out of 1577, remaining: 01:06, took 0.597s, duration: 05:37)
+test 1526...OK (1320 out of 1577, remaining: 01:05, took 1.052s, duration: 05:38)
+test 1527...OK (1321 out of 1577, remaining: 01:05, took 1.552s, duration: 05:40)
+test 1528...OK (1322 out of 1577, remaining: 01:05, took 0.551s, duration: 05:40)
+test 1529...OK (1323 out of 1577, remaining: 01:05, took 0.042s, duration: 05:40)
+test 1530...OK (1324 out of 1577, remaining: 01:05, took 0.039s, duration: 05:40)
+test 1531...OK (1325 out of 1577, remaining: 01:04, took 0.091s, duration: 05:41)
+test 1532...OK (1326 out of 1577, remaining: 01:04, took 0.092s, duration: 05:41)
+test 1533...OK (1327 out of 1577, remaining: 01:04, took 0.046s, duration: 05:41)
+test 1534...OK (1328 out of 1577, remaining: 01:03, took 0.092s, duration: 05:41)
+test 1535...OK (1329 out of 1577, remaining: 01:03, took 0.093s, duration: 05:41)
+test 1536...OK (1330 out of 1577, remaining: 01:03, took 0.093s, duration: 05:41)
+test 1537...OK (1331 out of 1577, remaining: 01:03, took 0.041s, duration: 05:41)
+test 1538...OK (1332 out of 1577, remaining: 01:02, took 0.058s, duration: 05:41)
+test 1539...OK (1333 out of 1577, remaining: 01:02, took 0.041s, duration: 05:41)
+test 1540...OK (1334 out of 1577, remaining: 01:02, took 0.216s, duration: 05:41)
+test 1542...OK (1335 out of 1577, remaining: 01:02, took 2.049s, duration: 05:43)
+test 1543...OK (1336 out of 1577, remaining: 01:02, took 0.095s, duration: 05:43)
+test 1550...OK (1337 out of 1577, remaining: 01:01, took 0.039s, duration: 05:43)
+test 1551...OK (1338 out of 1577, remaining: 01:01, took 0.044s, duration: 05:44)
+test 1552...OK (1339 out of 1577, remaining: 01:01, took 0.042s, duration: 05:44)
+test 1553...OK (1340 out of 1577, remaining: 01:00, took 0.060s, duration: 05:44)
+test 1554...OK (1341 out of 1577, remaining: 01:00, took 0.049s, duration: 05:44)
+test 1555...OK (1342 out of 1577, remaining: 01:00, took 0.042s, duration: 05:44)
+test 1556...OK (1343 out of 1577, remaining: 00:59, took 0.054s, duration: 05:44)
+test 1557...OK (1344 out of 1577, remaining: 00:59, took 0.057s, duration: 05:44)
+test 1558...OK (1345 out of 1577, remaining: 00:59, took 0.042s, duration: 05:44)
+test 1559...OK (1346 out of 1577, remaining: 00:59, took 0.047s, duration: 05:44)
+test 1563...OK (1350 out of 1577, remaining: 00:57, took 0.016s, duration: 05:44)
+test 1564...OK (1351 out of 1577, remaining: 00:58, took 3.043s, duration: 05:47)
+test 1565...OK (1352 out of 1577, remaining: 00:58, took 6.048s, duration: 05:53)
+test 1566...OK (1353 out of 1577, remaining: 00:58, took 0.018s, duration: 05:53)
+test 1567...OK (1354 out of 1577, remaining: 00:58, took 0.044s, duration: 05:53)
+test 1568...OK (1355 out of 1577, remaining: 00:57, took 0.147s, duration: 05:53)
+test 1569...OK (1356 out of 1577, remaining: 00:57, took 1.188s, duration: 05:54)
+test 1570...OK (1357 out of 1577, remaining: 00:57, took 0.107s, duration: 05:55)
+test 1590...OK (1358 out of 1577, remaining: 00:57, took 0.066s, duration: 05:55)
+test 1591...OK (1359 out of 1577, remaining: 00:57, took 1.095s, duration: 05:56)
+test 1592...OK (1360 out of 1577, remaining: 00:56, took 0.059s, duration: 05:56)
+test 1593...OK (1361 out of 1577, remaining: 00:56, took 0.092s, duration: 05:56)
+test 1594...OK (1362 out of 1577, remaining: 00:56, took 0.092s, duration: 05:56)
+test 1595...OK (1363 out of 1577, remaining: 00:55, took 0.066s, duration: 05:56)
+test 1596...OK (1364 out of 1577, remaining: 00:55, took 0.093s, duration: 05:56)
+test 1597...OK (1365 out of 1577, remaining: 00:55, took 0.040s, duration: 05:56)
+test 1613...OK (1379 out of 1577, remaining: 00:51, took 0.016s, duration: 05:56)
+test 1633...OK (1386 out of 1577, remaining: 00:49, took 1.024s, duration: 05:57)
+test 1634...OK (1387 out of 1577, remaining: 00:49, took 1.021s, duration: 05:58)
+test 1635...OK (1388 out of 1577, remaining: 00:48, took 1.020s, duration: 05:59)
+test 1670...OK (1398 out of 1577, remaining: 00:46, took 0.018s, duration: 05:59)
+test 1671...OK (1399 out of 1577, remaining: 00:45, took 0.019s, duration: 05:59)
+test 1680...OK (1400 out of 1577, remaining: 00:45, took 0.016s, duration: 05:59)
+test 1681...OK (1401 out of 1577, remaining: 00:45, took 0.018s, duration: 05:59)
+test 1682...OK (1402 out of 1577, remaining: 00:44, took 0.017s, duration: 05:59)
+test 1683...OK (1403 out of 1577, remaining: 00:44, took 0.024s, duration: 05:59)
+RUN: failed to start the HTTP/2 server
+test 1800...OK (1408 out of 1577, remaining: 00:49, took 0.017s, duration: 06:50)
+test 1903...OK (1409 out of 1577, remaining: 00:48, took 0.143s, duration: 06:50)
+test 1904...OK (1410 out of 1577, remaining: 00:48, took 0.571s, duration: 06:50)
+test 1905...OK (1411 out of 1577, remaining: 00:48, took 0.095s, duration: 06:50)
+test 1906...OK (1412 out of 1577, remaining: 00:48, took 0.093s, duration: 06:50)
+test 1907...OK (1413 out of 1577, remaining: 00:47, took 0.092s, duration: 06:51)
+test 1909...OK (1415 out of 1577, remaining: 00:47, took 1.070s, duration: 06:52)
+test 1910...OK (1416 out of 1577, remaining: 00:46, took 0.044s, duration: 06:52)
+test 1911...OK (1417 out of 1577, remaining: 00:46, took 0.062s, duration: 06:52)
+test 1912...OK (1418 out of 1577, remaining: 00:46, took 0.041s, duration: 06:52)
+test 1913...OK (1419 out of 1577, remaining: 00:45, took 0.043s, duration: 06:52)
+test 1914...OK (1420 out of 1577, remaining: 00:45, took 0.016s, duration: 06:52)
+test 1915...OK (1421 out of 1577, remaining: 00:45, took 0.042s, duration: 06:52)
+test 1916...OK (1422 out of 1577, remaining: 00:44, took 0.044s, duration: 06:52)
+test 1917...OK (1423 out of 1577, remaining: 00:44, took 0.043s, duration: 06:52)
+test 1918...OK (1424 out of 1577, remaining: 00:44, took 0.040s, duration: 06:52)
+test 1919...OK (1425 out of 1577, remaining: 00:44, took 0.042s, duration: 06:52)
+test 1940...OK (1433 out of 1577, remaining: 00:41, took 0.043s, duration: 06:52)
+test 1941...OK (1434 out of 1577, remaining: 00:41, took 0.520s, duration: 06:53)
+test 1942...OK (1435 out of 1577, remaining: 00:40, took 0.017s, duration: 06:53)
+test 1943...OK (1436 out of 1577, remaining: 00:40, took 0.017s, duration: 06:53)
+test 1944...OK (1437 out of 1577, remaining: 00:40, took 0.017s, duration: 06:53)
+test 1945...OK (1438 out of 1577, remaining: 00:40, took 0.950s, duration: 06:54)
+test 1946...OK (1439 out of 1577, remaining: 00:39, took 0.044s, duration: 06:54)
+test 1947...OK (1440 out of 1577, remaining: 00:39, took 0.044s, duration: 06:54)
+test 1948...OK (1441 out of 1577, remaining: 00:39, took 0.044s, duration: 06:54)
+test 1960...OK (1447 out of 1577, remaining: 00:37, took 0.045s, duration: 06:54)
+test 2000...OK (1454 out of 1577, remaining: 00:35, took 0.064s, duration: 06:54)
+test 2001...OK (1455 out of 1577, remaining: 00:34, took 0.067s, duration: 06:54)
+test 2002...OK (1456 out of 1577, remaining: 00:34, took 0.069s, duration: 06:54)
+test 2003...OK (1457 out of 1577, remaining: 00:34, took 0.119s, duration: 06:54)
+test 2023...OK (1459 out of 1577, remaining: 00:33, took 0.058s, duration: 06:54)
+test 2024...OK (1460 out of 1577, remaining: 00:33, took 0.033s, duration: 06:54)
+test 2025...OK (1461 out of 1577, remaining: 00:32, took 0.042s, duration: 06:54)
+test 2026...OK (1462 out of 1577, remaining: 00:32, took 0.039s, duration: 06:54)
+test 2027...OK (1463 out of 1577, remaining: 00:32, took 0.042s, duration: 06:54)
+test 2028...OK (1464 out of 1577, remaining: 00:32, took 0.048s, duration: 06:54)
+test 2029...OK (1465 out of 1577, remaining: 00:31, took 0.038s, duration: 06:55)
+test 2030...OK (1466 out of 1577, remaining: 00:31, took 0.046s, duration: 06:55)
+test 2031...OK (1467 out of 1577, remaining: 00:31, took 0.048s, duration: 06:55)
+test 2032...OK (1468 out of 1577, remaining: 00:30, took 0.075s, duration: 06:55)
+test 2036...OK (1472 out of 1577, remaining: 00:29, took 0.014s, duration: 06:55)
+test 2039...OK (1475 out of 1577, remaining: 00:28, took 0.062s, duration: 06:55)
+test 2040...OK (1476 out of 1577, remaining: 00:28, took 0.019s, duration: 06:55)
+test 2044...OK (1479 out of 1577, remaining: 00:27, took 0.013s, duration: 06:55)
+test 2045...OK (1480 out of 1577, remaining: 00:27, took 0.017s, duration: 06:55)
+test 2049...OK (1484 out of 1577, remaining: 00:26, took 0.019s, duration: 06:55)
+test 2050...OK (1485 out of 1577, remaining: 00:25, took 0.521s, duration: 06:55)
+test 2051...OK (1486 out of 1577, remaining: 00:25, took 0.020s, duration: 06:55)
+test 2052...OK (1487 out of 1577, remaining: 00:25, took 0.019s, duration: 06:55)
+test 2053...OK (1488 out of 1577, remaining: 00:24, took 0.017s, duration: 06:55)
+test 2054...OK (1489 out of 1577, remaining: 00:24, took 0.019s, duration: 06:56)
+test 2055...OK (1490 out of 1577, remaining: 00:24, took 0.925s, duration: 06:56)
+test 2058...OK (1493 out of 1577, remaining: 00:23, took 0.023s, duration: 06:56)
+test 2059...OK (1494 out of 1577, remaining: 00:23, took 0.023s, duration: 06:56)
+test 2060...OK (1495 out of 1577, remaining: 00:22, took 0.023s, duration: 06:57)
+test 2061...OK (1496 out of 1577, remaining: 00:22, took 0.121s, duration: 06:57)
+test 2062...OK (1497 out of 1577, remaining: 00:22, took 0.122s, duration: 06:57)
+test 2063...OK (1498 out of 1577, remaining: 00:22, took 0.121s, duration: 06:57)
+test 2064...OK (1499 out of 1577, remaining: 00:21, took 0.020s, duration: 06:57)
+test 2065...OK (1500 out of 1577, remaining: 00:21, took 0.020s, duration: 06:57)
+test 2066...OK (1501 out of 1577, remaining: 00:21, took 0.020s, duration: 06:57)
+test 2067...OK (1502 out of 1577, remaining: 00:20, took 0.021s, duration: 06:57)
+test 2068...OK (1503 out of 1577, remaining: 00:20, took 0.021s, duration: 06:57)
+test 2069...OK (1504 out of 1577, remaining: 00:20, took 0.021s, duration: 06:57)
+test 2071...OK (1506 out of 1577, remaining: 00:19, took 0.015s, duration: 06:57)
+test 2072...OK (1507 out of 1577, remaining: 00:19, took 0.018s, duration: 06:57)
+test 2073...OK (1508 out of 1577, remaining: 00:19, took 0.019s, duration: 06:57)
+test 2074...OK (1509 out of 1577, remaining: 00:18, took 0.017s, duration: 06:57)
+test 2075...OK (1510 out of 1577, remaining: 00:18, took 0.014s, duration: 06:57)
+test 2076...OK (1511 out of 1577, remaining: 00:18, took 0.120s, duration: 06:57)
+test 2080...OK (1515 out of 1577, remaining: 00:17, took 0.015s, duration: 06:57)
+test 2081...OK (1516 out of 1577, remaining: 00:16, took 0.119s, duration: 06:57)
+test 2082...OK (1517 out of 1577, remaining: 00:16, took 0.042s, duration: 06:57)
+test 2083...OK (1518 out of 1577, remaining: 00:16, took 0.060s, duration: 06:57)
+test 2084...OK (1519 out of 1577, remaining: 00:15, took 0.016s, duration: 06:57)
+test 2085...OK (1520 out of 1577, remaining: 00:15, took 0.118s, duration: 06:58)
+test 2200...OK (1523 out of 1577, remaining: 00:14, took 0.018s, duration: 06:58)
+test 2201...OK (1524 out of 1577, remaining: 00:14, took 0.016s, duration: 06:58)
+test 2202...OK (1525 out of 1577, remaining: 00:14, took 0.017s, duration: 06:58)
+test 2203...OK (1526 out of 1577, remaining: 00:13, took 0.018s, duration: 06:58)
+test 2204...OK (1527 out of 1577, remaining: 00:13, took 0.058s, duration: 06:58)
+test 2205...OK (1528 out of 1577, remaining: 00:13, took 0.017s, duration: 06:58)
+test 3002...OK (1546 out of 1577, remaining: 00:08, took 0.018s, duration: 06:58)
+test 3003...OK (1547 out of 1577, remaining: 00:08, took 0.019s, duration: 06:58)
+test 3004...OK (1548 out of 1577, remaining: 00:07, took 0.018s, duration: 06:58)
+test 3005...OK (1549 out of 1577, remaining: 00:07, took 0.019s, duration: 06:58)
+test 3006...OK (1550 out of 1577, remaining: 00:07, took 0.018s, duration: 06:58)
+test 3007...OK (1551 out of 1577, remaining: 00:07, took 0.017s, duration: 06:58)
+test 3008...OK (1552 out of 1577, remaining: 00:06, took 0.017s, duration: 06:58)
+test 3009...OK (1553 out of 1577, remaining: 00:06, took 0.017s, duration: 06:58)
+test 3010...OK (1554 out of 1577, remaining: 00:06, took 0.042s, duration: 06:58)
+test 3011...OK (1555 out of 1577, remaining: 00:05, took 0.017s, duration: 06:58)
+test 3012...OK (1556 out of 1577, remaining: 00:05, took 0.017s, duration: 06:58)
+test 3013...OK (1557 out of 1577, remaining: 00:05, took 0.019s, duration: 06:58)
+test 3014...OK (1558 out of 1577, remaining: 00:05, took 0.017s, duration: 06:58)
+test 3015...OK (1559 out of 1577, remaining: 00:04, took 0.020s, duration: 06:58)
+test 3016...OK (1560 out of 1577, remaining: 00:04, took 0.014s, duration: 06:58)
+test 3017...OK (1561 out of 1577, remaining: 00:04, took 0.060s, duration: 06:58)
+test 3018...OK (1562 out of 1577, remaining: 00:04, took 0.059s, duration: 06:58)
+test 3019...OK (1563 out of 1577, remaining: 00:03, took 0.014s, duration: 06:58)
+test 3020...OK (1564 out of 1577, remaining: 00:03, took 0.013s, duration: 06:58)
+test 3025...OK (1569 out of 1577, remaining: 00:02, took 0.041s, duration: 06:58)
+test 3026...OK (1570 out of 1577, remaining: 00:01, took 0.043s, duration: 06:58)
+test 3027...OK (1571 out of 1577, remaining: 00:01, took 0.087s, duration: 06:59)
+test 3028...OK (1572 out of 1577, remaining: 00:01, took 0.521s, duration: 06:59)
+test 3029...OK (1573 out of 1577, remaining: 00:01, took 0.016s, duration: 06:59)
+test 3030...OK (1574 out of 1577, remaining: 00:00, took 0.015s, duration: 06:59)
+test 3100...OK (1575 out of 1577, remaining: 00:00, took 0.046s, duration: 06:59)
+test 3101...OK (1576 out of 1577, remaining: 00:00, took 0.047s, duration: 06:59)
+TESTDONE: 1593 tests were considered during 420 seconds.
+TESTDONE: 1287 tests out of 1291 reported OK: 99%
+
+TESTFAIL: These test cases failed: 1139 1140 1173 1177 
+
+make[1]: *** [Makefile:820: quiet-test] Error 1
+make[1]: Leaving directory '/home/rpmbuilder/rpmbuild/BUILD/curl-8.0.1/tests'
+make: *** [Makefile:1712: test] Error 2
