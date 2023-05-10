@@ -1,0 +1,19 @@
+##### Begin Python3 Macros
+#       This file should be owned by the python3-devel package
+#       and should not be modified.
+#
+# Version definitions
+%python3_version 3.11
+%python3_nodots 311
+# General macros
+%__python3 /usr/bin/python3
+%python3 %__python3
+%python3_sitelib /usr/lib/python%{python3_version}/site-packages
+%python3_sitearch /usr/lib/python%{python3_version}/site-packages
+%python3_platform linux-%{_arch}
+# YJL specific macros
+%python3_os_platform %{_arch}-linux-gnu
+%python3_API Python-%{python3_version}
+%python3_ABI %{python3_API}-%{python3_os_platform}
+#
+#### End Python3 Macros
