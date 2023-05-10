@@ -4,7 +4,7 @@
 
 Name:     openssl
 Version:  3.1.0
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  cryptography and secure communication toolkit
 
 Group:    System Environment/Libraries
@@ -64,6 +64,10 @@ cp %{SOURCE17} ./man7.filelist
          --openssldir=/etc/ssl \
          --libdir=%{_lib}      \
          shared                \
+         no-ssl2               \
+         no-ssl3               \
+         no-dtls               \
+         no-weak-ssl-ciphers   \
          zlib-dynamic
 make %{?_smp_mflags}
 
@@ -138,5 +142,9 @@ rm -rf %{buildroot}%{_datadir}/doc/openssl
 %doc doc/html/man7
 
 %changelog
+* Tue May 09 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.1.0-0.rc2
+- Disable SSLv2,SSLv3,DTLS,weak ciphers (I believe disabled by
+- default but...)
+
 * Mon May 08 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.1.0-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
