@@ -1,0 +1,26 @@
+diff -ur WWW-Curl-4.17.orig/Curl.xs WWW-Curl-4.17/Curl.xs
+--- WWW-Curl-4.17.orig/Curl.xs	2014-02-21 08:08:30.000000000 -0800
++++ WWW-Curl-4.17/Curl.xs	2023-05-09 13:47:16.532736770 -0700
+@@ -18,6 +18,10 @@
+ #include <curl/easy.h>
+ #include <curl/multi.h>
+ 
++#ifdef CURLINC_MULTI_H
++#define __CURL_MULTI_H
++#endif
++
+ #define header_callback_func writeheader_callback_func
+ 
+ /* Do a favor for older perl versions */
+diff -ur WWW-Curl-4.17.orig/Makefile.PL WWW-Curl-4.17/Makefile.PL
+--- WWW-Curl-4.17.orig/Makefile.PL	2014-02-21 08:08:09.000000000 -0800
++++ WWW-Curl-4.17/Makefile.PL	2023-05-09 13:48:59.409533111 -0700
+@@ -127,7 +127,7 @@
+     close H;
+ 
+     for my $e (sort @syms) {
+-       if($e =~ /(OBSOLETE|^CURL_EXTERN|_LAST\z|_LASTENTRY\z)/) {
++       if($e =~ /(OBSOLETE|^CURL_EXTERN|_LAST\z|_LASTENTRY\z|^CURLINC_)/) {
+           next;
+        }
+        my ($group) = $e =~ m/^([^_]+_)/;
