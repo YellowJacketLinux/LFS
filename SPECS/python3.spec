@@ -1,4 +1,4 @@
-%define specrel 0.rc2
+%global specrel 0.rc2
 
 %if 0%{?!__sed:1} == 1
 %global __sed %{_bindir}/sed
@@ -8,18 +8,18 @@
 %endif
 
 # Version definitions
-%define python3_version 3.11
-%define python3_nodots 311
+%global python3_version 3.11
+%global python3_nodots 311
 # General macros
-%define __python3 /usr/bin/python3
-%define python3 %__python3
-%define python3_sitelib /usr/lib/python%{python3_version}/site-packages
-%define python3_sitearch /usr/lib/python%{python3_version}/site-packages
-%define python3_platform linux-%{_arch}
+%global __python3 /usr/bin/python3
+%global python3 %__python3
+%global python3_sitelib /usr/lib/python%{python3_version}/site-packages
+%global python3_sitearch /usr/lib/python%{python3_version}/site-packages
+%global python3_platform linux-%{_arch}
 # YJL specific macros
-%define python3_os_platform %{_arch}-linux-gnu
-%define python3_API Python-%{python3_version}
-%define python3_ABI %{python3_API}-%{python3_os_platform}
+%global python3_os_platform %{_arch}-linux-gnu
+%global python3_API Python-%{python3_version}
+%global python3_ABI %{python3_API}-%{python3_os_platform}
 #
 
 Name:     python3

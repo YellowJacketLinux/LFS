@@ -1,6 +1,6 @@
 Name:     cracklib
 Version:  2.9.8
-Release:  %{?repo}0.rc5%{?dist}
+Release:  %{?repo}0.rc6%{?dist}
 Summary:  A library to somewhat prevent easily crackable passwords
 
 Group:    System Environment/Libraries
@@ -53,11 +53,9 @@ links against the libcrack library.
 Summary:  Python bindings for cracklib
 Group:    Python/Libraries
 Requires: %{name} = %{version}-%{release}
-%if %{?python3_ABI:1}%{!?python3_ABI:0}
+%if 0%{?python3_ABI:1} == 1
 # Non-Standard Macro
 Requires: %{python3_ABI}
-%else
-Requires: %{python3_sitearch}
 %endif
 
 %description -n python3-cracklib
@@ -151,12 +149,15 @@ fi
 
 %files -n python3-cracklib
 %defattr(-,root,root,-)
-%{python3_sitelib}/*.py
-%{python3_sitearch}/_cracklib.so
-%{python3_sitearch}/__pycache__/*.pyc
+%attr(0644,root,root) %{python3_sitelib}/*.py
+%attr(0755,root,root) %{python3_sitearch}/_cracklib.so
+%attr(0644,root,root) %{python3_sitearch}/__pycache__/*.pyc
 
 
 %changelog
+* Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc6
+- fix python perms
+
 * Sun Apr 16 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.9.8-0.rc5
 - Tabs to spaces, rebuild in newly packaged gcc, utilities -> utils
 
