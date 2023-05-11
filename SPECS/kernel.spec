@@ -3,7 +3,7 @@
 %global __strip /bin/true
 # kernel tags
 %global kseries 6.1
-%global krel 27
+%global krel 28
 %global localktag genesis.1
 
 Name:     kernel
@@ -87,33 +87,15 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 
 
 %changelog
+* Thu May 11 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.28-genesis.1
+- Update to 6.1.28
+- Prune changelog
+
 * Mon May 01 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.27-genesis.1
 - Update to 6.1.27
 
 * Thu Apr 27 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.26-genesis.1
 - Update to 6.1.26
-
-* Thu Apr 20 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.25-genesis.1
-- Update to 6.1.25
-
-* Fri Apr 14 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.24-genesis.1
-- Update to 6.1.24
-
-* Thu Apr 06 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.23-genesis.1
-- Update to 6.1.23
-
-* Mon Apr 03 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.22-genesis.1
-- Update to 6.1.22
-
-* Wed Mar 22 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.21-genesis.1
-- Update to 6.1.21
-
-* Fri Mar 17 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.20-genesis.1
-- Update to 6.1.20 kernel, split off modules into a subpackage, make the
-- documentation package a noarch package.
-
-* Tue Mar 14 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.19-genesis.1
-- Update to 6.1.19 kernel
 
 * Sat Mar 11 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.18-genesis.1
 - Initial kernel packaging
