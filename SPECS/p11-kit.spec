@@ -2,7 +2,7 @@
 
 Name:     p11-kit
 Version:  0.24.1
-Release:	%{?repo}0.rc2%{?dist}
+Release:	%{?repo}0.rc3%{?dist}
 Summary:  load and enumerate PKCS#11 modules
 
 Group:    System Environment/Utilities
@@ -11,9 +11,9 @@ URL:      https://p11-glue.github.io/p11-glue/p11-kit.html
 Source0:  https://github.com/p11-glue/p11-kit/releases/download/%{version}/p11-kit-%{version}.tar.xz
 Patch0:   p11-kit-0.24.1-trust.patch
 
-BuildRequires:  libffi-devel
-BuildRequires:  libtasn1-devel
-BuildRequires:  libxslt-devel
+BuildRequires:  pkgconfig(libffi)
+BuildRequires:  pkgconfig(libtasn1)
+BuildRequires:  pkfconfig(libxslt)
 BuildRequires:  meson
 BuildRequires:  ninja
 BuildRequires:  bash-completion-devel
@@ -118,6 +118,9 @@ ln -sf ./pkcs11/p11-kit-trust.so %{buildroot}%{_libdir}/libnssckbi.so
 %doc AUTHORS ChangeLog COPYING NEWS README
 
 %changelog
+* Thu May 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.24.1-0.rc3
+- Build with newer ninja/meson
+
 * Fri May 05 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.24.1-0.rc2
 - Add bash completion
 
