@@ -1,0 +1,13 @@
+diff -ur a/src/openssl.h b/src/openssl.h
+--- a/src/openssl.h	2023-05-13 03:52:34.322982701 -0700
++++ b/src/openssl.h	2023-05-13 03:55:46.175978837 -0700
+@@ -58,7 +58,8 @@
+ #include <openssl/rand.h>
+ 
+ #if OPENSSL_VERSION_NUMBER >= 0x10100000L && \
+-    !defined(LIBRESSL_VERSION_NUMBER)
++    !defined(LIBRESSL_VERSION_NUMBER) || \
++    LIBRESSL_VERSION_NUMBER >= 0x3050000fL
+ # define HAVE_OPAQUE_STRUCTS 1
+ #endif
+ 

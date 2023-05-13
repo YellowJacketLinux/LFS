@@ -1,6 +1,6 @@
 Name:     libssh2
 Version:  1.10.0
-Release:	%{?repo}0.rc1%{?dist}
+Release:	%{?repo}0.rc2%{?dist}
 Summary:  C library SSH2 implementation
 
 Group:    System Environment/Libraries
@@ -8,6 +8,7 @@ License:  BSD-3-Clause
 URL:      https://www.libssh2.org/
 Source0:  https://www.libssh2.org/download/libssh2-%{version}.tar.gz
 Patch0:   https://www.linuxfromscratch.org/patches/blfs/11.3/libssh2-1.10.0-upstream_fix-1.patch
+Patch1:   libssh2-1.10.0-libressl.patch
 
 BuildRequires:  gnupg-devel
 BuildRequires:  pkgconfig(libgcrypt)
@@ -40,6 +41,7 @@ that links against the libssh2 library.
 %prep
 %setup -q
 %patch 0 -p1
+%patch 1 -p1
 
 
 %build
@@ -79,5 +81,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.10.0-0.rc2
+- Fix build against LibreSSL
+
 * Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.10.0-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
