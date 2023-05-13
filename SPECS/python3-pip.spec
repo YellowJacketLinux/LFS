@@ -2,7 +2,7 @@
 
 Name:     python3-pip
 Version:  %{gittag}
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Package Installer for Python
 BuildArch:  noarch
 
@@ -54,7 +54,7 @@ EOF
 
 cat > %{buildroot}%{_sysconfdir}/pip.conf << EOF
 [global]
-root-user-action = ignore
+require-virtualenv = true
 disable-pip-version-check = true
 EOF
 
@@ -79,5 +79,8 @@ EOF
 
 
 %changelog
+* Thu May 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 23.1.2-0.rc2
+- changes to pip.conf file
+
 * Wed May 10 2023 Michael A. Peters <anymouseprophet@gmail.com> - 23.1.2-0.rc1
 - Initial spec file for YJL.
