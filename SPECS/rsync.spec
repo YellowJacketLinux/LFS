@@ -16,7 +16,7 @@
 
 Name:     rsync
 Version:  3.2.7
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  fast incremental file transfer
 
 Group:    System Environment/Utilities
@@ -71,8 +71,16 @@ make %{?_smp_mflags}
 %{__doxygen}
 %endif
 
+%check
+%if 0%{?runtests:1} == 1
+make check > %{name}-make.check.log 2>&1
+%else
+echo "make check not run at package build" > %{name}-make.check.log
+%endif
+
 %install
 make install DESTDIR=%{buildroot}
+mkdir -p %{buildroot}/srv/rsync
 %if 0%{?!nodoxygen:1} == 1
 mv dox/html api-html
 %endif
@@ -105,6 +113,7 @@ EOF
 %doc COPYING NEWS.md SECURITY.md TODO 
 %doc rsync.1.html rsync-ssl.1.html
 %doc rsync.1.md rsync-ssl.1.md
+%doc %{name}-make.check.log
 %if 0%{?!nodoxygen:1} == 1
 %doc api-html
 %endif
@@ -118,5 +127,8 @@ EOF
 %doc COPYING rsyncd.conf.5.html rsyncd.conf.5.md
 
 %changelog
+* Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.2.7-0.rc2
+- run make check
+
 * Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.2.7-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
