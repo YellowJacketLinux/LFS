@@ -1,6 +1,6 @@
 # TODO: docs/Packaging.rst
 
-%global specrel 0.dev1
+%global specrel 0.dev2
 
 %if 0%{?!__tar:1} == 1
 %global __tar %{_bindir}/tar
@@ -105,6 +105,7 @@ echo "ninja check-all not run at package build" > %{name}-ninja.check-all.log
 %install
 cd build
 DESTDIR=%{buildroot} %__ninja install
+install -m755 bin/FileCheck %{buildroot}%{_bindir}/
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -175,5 +176,8 @@ DESTDIR=%{buildroot} %__ninja install
 
 
 %changelog
+* Mon May 15 2023 Michael A. Peters <anymouseprophet@gmail.com> - 15.0.7-0.dev2
+- Install FileCheck needed by rustc build
+
 * Sun May 14 2023 Michael A. Peters <anymouseprophet@gmail.com> - 15.0.7-0.dev1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
