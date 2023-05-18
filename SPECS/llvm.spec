@@ -1,6 +1,6 @@
 # TODO: docs/Packaging.rst
 
-%global specrel 0.dev2
+%global specrel 0.dev3
 
 %if 0%{?!__tar:1} == 1
 %global __tar %{_bindir}/tar
@@ -13,7 +13,7 @@
 %endif
 
 %if 0%{?repo:1} == 1
-%if "%{repo}" == "1.core."
+%if "%{repo}" == "0.bldsys."
 %global nodoxygen nodoxygen
 %global novalgrind novalgrind
 %endif
@@ -38,7 +38,7 @@ Patch0:   llvm-clang-15.0.7-enable.patch
 BuildRequires:  %{__tar}
 BuildRequires:  %{__sed}
 BuildRequires:  %{__ninja}
-BuildRequires:  CMake
+BuildRequires:  cmake
 BuildRequires:  git
 BuildRequires:  binutils-devel
 BuildRequires:  pkgconfig(libxml-2.0)
@@ -176,6 +176,10 @@ install -m755 bin/FileCheck %{buildroot}%{_bindir}/
 
 
 %changelog
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 15.0.7-0.dev3
+- CMake -> cmake in BuildRequires
+- Use 0.bldsys. for %%{repo}
+
 * Mon May 15 2023 Michael A. Peters <anymouseprophet@gmail.com> - 15.0.7-0.dev2
 - Install FileCheck needed by rustc build
 

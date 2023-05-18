@@ -1,8 +1,8 @@
 %global cmakev 3.26
 
-Name:     CMake
+Name:     cmake
 Version:  %{cmakev}.3
-Release:	%{?repo}0.rc1%{?dist}
+Release:	%{?repo}0.rc2%{?dist}
 Summary:  Tools to build and test software
 
 Group:    Development/Utilities
@@ -10,29 +10,30 @@ License:  BSD-3-Clause
 URL:      https://cmake.org/
 Source0:  https://github.com/Kitware/CMake/releases/download/v%{version}/cmake-%{version}.tar.gz
 
-BuildRequires:  expat-devel
-BuildRequires:  gmp-devel
-BuildRequires:  libacl-devel
-BuildRequires:  libarchive-devel
-BuildRequires:  libattr-devel
+BuildRequires:  pkgconfig(expat)
+BuildRequires:  pkgconfig(gmp)
+BuildRequires:  pkgconfig(gmpxx)
+BuildRequires:  pkgconfig(libacl)
+BuildRequires:  pkgconfig(libarchive)
+BuildRequires:  pkgconfig(libattr)
 BuildRequires:  libbz2-devel
-BuildRequires:  libcurl-devel
-BuildRequires:  libffi-devel
-BuildRequires:  libgnutls-devel
-BuildRequires:  libhogweed-devel
-BuildRequires:  liblzma-devel
-BuildRequires:  libnettle-devel
-BuildRequires:  libp11-kit-devel
+BuildRequires:  pkgconfig(libcurl)
+BuildRequires:  pkgconfig(libffi)
+BuildRequires:  pkgconfig(gnutls)
+BuildRequires:  pkgconfig(hogweed)
+BuildRequires:  pkgconfig(liblzma)
+BuildRequires:  pkgconfig(nettle)
+BuildRequires:  pkgconfig(p11-kit-1)
 BuildRequires:  libressl-devel
 BuildRequires:  libstdc++-devel
-BuildRequires:  libtasn1-devel
+BuildRequires:  pkgconfig(libtasn1)
 BuildRequires:  libunistring-devel
-BuildRequires:  libuv-devel
-BuildRequires:  libxml2-devel
-BuildRequires:  libzstd-devel
+BuildRequires:  pkgconfig(libuv)
+BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(libzstd)
 BuildRequires:  ncurses-devel
-BuildRequires:  nghttp2-devel
-BuildRequires:  zlib-devel
+BuildRequires:  pkgconfig(libnghttp2)
+BuildRequires:  pkgconfig(zlib)
 
 #Requires:
 
@@ -85,5 +86,9 @@ cp -p Source/kwsys/Copyright.txt rpmdoc/cmsys/
 %doc Copyright.txt rpmdoc/cmlibrhash rpmdoc/cmsys
  
 %changelog
-Wed Apr 26 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.26.3-0.rc1
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.26.3-0.rc2
+- Fix package name (CMake -> cmake)
+- Fix (some) BuildRequires
+
+* Wed Apr 26 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.26.3-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
