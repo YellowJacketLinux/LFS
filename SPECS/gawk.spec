@@ -1,19 +1,20 @@
-# Some distributions put install-info in /{,usr/}sbin
-%global insinfo %{_bindir}/install-info
+%if 0%{?!insinfo:1} == 1
+%global insinfo /sbin/install-info
+%endif
 
-Name:		gawk
-Version:	5.2.1
-Release:	%{?repo}0.rc1%{?dist}
-Summary:	GNU Awk
+Name:     gawk
+Version:  5.2.1
+Release:  %{?repo}0.rc2%{?dist}
+Summary:  GNU Awk
 
-Group:		Development/Utilities
-License:	GPLv3
-URL:		https://www.gnu.org/software/gawk/
-Source0:	https://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
+Group:    Development/Utilities
+License:  GPLv3
+URL:      https://www.gnu.org/software/gawk/
+Source0:  https://ftp.gnu.org/gnu/gawk/gawk-%{version}.tar.xz
 
 #BuildRequires:	
-Requires(post): %{insinfo}
-Requires(preun):        %{insinfo}
+Requires(post):   %{insinfo}
+Requires(preun):  %{insinfo}
 
 %description
 If you are like many computer users, you would frequently like to make
@@ -34,7 +35,11 @@ sed -i 's/extras//' Makefile.in
 make %{?_smp_mflags}
 
 %check
-make check > gawk-make.check.log 2>&1
+%if 0%{?runtests:1} == 1
+make check > %{name}-make.check.log 2>&1
+%else
+echo "make check not run during package build" > %{name}-make.check.log
+%endif
 
 %install
 make install DESTDIR=%{buildroot}
@@ -82,5 +87,8 @@ fi
 
 
 %changelog
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 5.2.1-0.rc2
+- Minor spec file cleanup
+
 * Mon Apr 10 2023 Michael A. Peters <anymouseprophet@gmail.com> - 5.2.1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
