@@ -1,6 +1,6 @@
 # FIXME - man pages needs put into subpackages
 
-%global specrel 0.dev1
+%global specrel 0.dev2
 
 # no stripping
 %global debug_package %{nil}
@@ -131,6 +131,8 @@ echo "make test not run at package build" > %{name}-make.test.log
 
 %install
 make perllibdir=%{perl5_vendorlib} install DESTDIR=%{buildroot}
+install -m644 -D contrib/completion/git-completion.bash \
+  %{buildroot}%{_datadir}/bash-completion/completions/git
 %find_lang git
 
 [ ! -d %{buildroot}%{_mandir} ] && mkdir -p %{buildroot}%{_mandir}
@@ -167,6 +169,7 @@ mv %{buildroot}%{gitdocs}/howto/{*.,}html
 %attr(0755,root,root) %{_bindir}/scalar
 %{_libexecdir}/git-core
 %{_datadir}/git-core
+%attr(0644,root,root) %{_datadir}/bash-completion/completions/git
 #
 %{_datadir}/gitweb
 %attr(0644,root,root) %{_mandir}/man1/*.1*
@@ -260,5 +263,8 @@ mv %{buildroot}%{gitdocs}/howto/{*.,}html
 
 
 %changelog
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.40.1-0.dev2
+- Add bash completion file
+
 * Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.40.1-0.dev1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
