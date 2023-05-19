@@ -7,7 +7,7 @@
 
 Name:     plocate
 Version:  1.1.18
-Release:  %{?repo}0.dev4%{?dist}
+Release:  %{?repo}0.rc1%{?dist}
 Summary:  A much faster locate
 
 Group:    System Environment/Utilities
@@ -18,7 +18,9 @@ Source0:  https://plocate.sesse.net/download/plocate-%{version}.tar.gz
 BuildRequires:  %{__meson}
 BuildRequires:  %{__ninja}
 BuildRequires:  pkgconfig(liburing)
-#Requires:	
+BuildRequires:  pkgconfig(libzstd)
+BuildRequires:  libstdc++-devel
+
 
 %description
 plocate is a locate based on posting lists. Compared to mlocate,
@@ -51,13 +53,19 @@ cat > %{buildroot}%{_mandir}/man1/locate.1 << "EOF"
 EOF
 
 [ ! -d %{buildroot}%{_sysconfdir}/cron.daily ] && \
-  mkdir -p %{buildroot}%{_sysconfdir}/cron.daily
+  mkdir -p %{buildroot}%{_sysconfdir}/cron.hourly
 
-cat > %{buildroot}%{_sysconfdir}/cron.daily/updatedb.sh << "EOF"
+cat > %{buildroot}%{_sysconfdir}/cron.hourly/updatedb.sh << "EOF"
 #!/bin/bash
 # Update the plocate database
 #
-%{_bindir}/nice -n 19 %{_sbindir}/updatedb
+
+H=`%{_bindir}/date +%H`
+
+case $H in 03|06|09|12|15|18|21)
+  %{_bindir}/nice -n 19 %{_sbindir}/updatedb
+  ;;
+esac
 
 EOF
 
@@ -77,7 +85,7 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 # when systemd
 #%%_unitdir/plocate-updatedb.service
 #%%_unitdir/plocate-updatedb.timer
-%attr(0755,root,root) %{_sysconfdir}/cron.daily/updatedb.sh
+%attr(0755,root,root) %{_sysconfdir}/cron.hourly/updatedb.sh
 # delete above with systemd
 %attr(2755,root,plocate) %{_bindir}/plocate
 %{_bindir}/locate
@@ -97,6 +105,9 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc1
+- update database every three hours
+
 * Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.dev4
 - correct permissions (I hope), cron job until systemd is in use
 
