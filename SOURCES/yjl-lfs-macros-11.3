@@ -5,6 +5,9 @@
 %_lib lib
 %_libdir /usr/lib
 
+# not sure why this has to manually be set but...
+%_sharedstatedir %_localstatedir/lib
+
 # Many (most?) distros use /{,usr/}sbin for install-info
 %insinfo %{_bindir}/install-info
 

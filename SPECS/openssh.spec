@@ -1,4 +1,4 @@
-%global specrel 0.rc1
+%global specrel 0.rc2
 
 # ssh-keygen -A
 # no init script yet - blfs-bootscripts make install-sshd
@@ -178,5 +178,8 @@ echo "tests not run during package build" > %{name}-make.tests.log
 %doc CREDITS LICENCE OVERVIEW PROTOCOL* README* SECURITY.md
 
 %changelog
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 9.3p1-0.rc2
+- Rebuild with correct %%{_sharedstatedir} macro
+
 * Fri May 12 2023 Michael A. Peters <anymouseprophet@gmail.com> - 9.3p1-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
