@@ -19,7 +19,7 @@
 
 Name:     libressl
 Version:  3.7.2
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  OpenBSD fork of the OpenSSL Cryptography Suite
 
 Group:    System Environment/Libraries
@@ -289,6 +289,9 @@ EOF
 %doc README.DHE.md
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.7.2-0.rc2
+- Rebuild in gcc 12.3.0
+
 * Sun May 07 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.7.2-0.rc1
 - Update to 3.7.2
 

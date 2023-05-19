@@ -1,6 +1,6 @@
 Name:     libssh2
 Version:  1.10.0
-Release:	%{?repo}0.rc2%{?dist}
+Release:	%{?repo}0.rc3%{?dist}
 Summary:  C library SSH2 implementation
 
 Group:    System Environment/Libraries
@@ -81,6 +81,9 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.10.0-0.rc3
+- Rebuild with gcc 12.3.0
+
 * Sat May 13 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.10.0-0.rc2
 - Fix build against LibreSSL
 
