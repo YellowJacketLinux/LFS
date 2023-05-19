@@ -7,13 +7,13 @@
 
 Name:     plocate
 Version:  1.1.18
-Release:  %{?repo}0.dev1%{?dist}
+Release:  %{?repo}0.dev4%{?dist}
 Summary:  A much faster locate
 
 Group:    System Environment/Utilities
 License:  GPL-2.0-or-later and GPL-2.0-only
 URL:      https://plocate.sesse.net/
-Source0:  https://plocate.sesse.net/download/plocate-1.1.18.tar.gz
+Source0:  https://plocate.sesse.net/download/plocate-%{version}.tar.gz
 
 BuildRequires:  %{__meson}
 BuildRequires:  %{__ninja}
@@ -39,32 +39,67 @@ see --help or the man page (man -l plocate.1) for more information.
 cd obj
 %{__ninja}
 
-# -Dinstall_cron=true \
+# -Dsystemunitdir=%%_unitdir -Dinstall_systemd=true \
 
 %install
 cd obj
 DESTDIR=%{buildroot} %{__ninja} install
 ln -s plocate %{buildroot}%{_bindir}/locate
-ln -s plocate.1 %{buildroot}%{_mandir}/man1/locate.1
+#ln -s plocate.1 %{buildroot}%{_mandir}/man1/locate.1
+cat > %{buildroot}%{_mandir}/man1/locate.1 << "EOF"
+.so man1/plocate.1
+EOF
+
+[ ! -d %{buildroot}%{_sysconfdir}/cron.daily ] && \
+  mkdir -p %{buildroot}%{_sysconfdir}/cron.daily
+
+cat > %{buildroot}%{_sysconfdir}/cron.daily/updatedb.sh << "EOF"
+#!/bin/bash
+# Update the plocate database
+#
+%{_bindir}/nice -n 19 %{_sbindir}/updatedb
+
+EOF
+
+cat > %{buildroot}%{_sysconfdir}/updatedb.conf << "EOF"
+# %{_sysconfdir}/updatedb.conf
+#   see man 5 updatedb.conf
+#
+PRUNEPATHS = "/backup"
+
+EOF
+
+touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 %files
 %defattr(-,root,root,-)
-%attr(0755,root,root) %{_bindir}/plocate
+%attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/updatedb.conf
+# when systemd
+#%%_unitdir/plocate-updatedb.service
+#%%_unitdir/plocate-updatedb.timer
+%attr(0755,root,root) %{_sysconfdir}/cron.daily/updatedb.sh
+# delete above with systemd
+%attr(2755,root,plocate) %{_bindir}/plocate
 %{_bindir}/locate
 %attr(0755,root,root) %{_sbindir}/plocate-build
 %attr(0755,root,root) %{_sbindir}/updatedb
 %attr(0644,root,root) %{_mandir}/man1/plocate.1*
-%{_mandir}/man1/locate.1*
+%attr(0644,root,root) %{_mandir}/man1/locate.1*
 %attr(0644,root,root) %{_mandir}/man5/updatedb.conf.5*
 %attr(0644,root,root) %{_mandir}/man8/plocate-build.8*
 %attr(0644,root,root) %{_mandir}/man8/updatedb.8*
 %dir %{_sharedstatedir}/plocate
 %attr(0644,root,root) %{_sharedstatedir}/plocate/CACHEDIR.TAG
-%doc
+%ghost %attr(0640,root,plocate) %verify(not md5 mtime) %{_sharedstatedir}/plocate/plocate.db
+%license COPYING
+%doc COPYING NEWS README
 
 
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.dev4
+- correct permissions (I hope), cron job until systemd is in use
+
 * Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.dev1
 - Initial spec file for YJL
 - Need to setup perms/cronjob (cronjob until systemd)
