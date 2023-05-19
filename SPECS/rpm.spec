@@ -3,7 +3,7 @@
 
 Name:		rpm
 Version:	4.18.1
-Release:	%{?repo}0.rc4%{?dist}
+Release:	%{?repo}0.rc5%{?dist}
 Summary:	RPM Package Manager
 
 Group:		Utilities/Administration
@@ -12,14 +12,15 @@ URL:		https://www.rpm.org/
 Source0:	https://ftp.osuosl.org/pub/rpm/releases/rpm-4.18.x/%{name}-%{version}.tar.bz2
 Source1:	yjl-lfs-macros-11.3
 
-BuildRequires:	elfutils-devel
-BuildRequires:	python3-devel
-BuildRequires:	libgcrypt-devel
-BuildRequires:	libcap-devel
-BuildRequires:	libacl-devel
-BuildRequires:	libarchive-devel
-BuildRequires:	libmagic-devel
-BuildRequires:	sqlite3-devel
+BuildRequires:  pkgconfig(libacl)
+BuildRequires:  pkgconfig(libarchive)
+BuildRequires:  pkgconfig(libcap)
+BuildRequires:	pkgconfig(libelf)
+BuildRequires:	pkgconfig(libgcrypt)
+BuildRequires:	pkgconfig(libmagic)
+BuildRequires:  pkgconfig(lua)
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:  python3-devel
 Requires:	librpm = %{version}-%{release}
 
 %description
@@ -87,6 +88,9 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot}
+cd docs/man
+make install DESTDIR=%{buildroot}
+cd ../..
 %find_lang rpm
 install -m755 -d %{buildroot}%{_dbpath}
 install -m755 -d %{buildroot}%{_sysconfdir}/rpm
@@ -168,15 +172,15 @@ cp -ar docs/librpm/html %{buildroot}%{_datadir}/doc/librpm-%{version}/
 %attr(0755,root,root) %{_sysconfdir}/cron.daily/rpm.daily
 %{_sysconfdir}/logrotate.d/rpm.log
 ##### man pages
-#%%attr(0644,root,root) %%{_mandir}/man1/*.1*
-#%%lang(pl) %%attr(0644,root,root) %%{_mandir}/pl/man1/*.1*
-#%%attr(0644,root,root) %%{_mandir}/man8/*.8*
-#%%lang(fr) %%attr(0644,root,root) %%{_mandir}/fr/man8/*.8*
-#%%lang(ja) %%attr(0644,root,root) %%{_mandir}/ja/man8/*.8*
-#%%lang(ko) %%attr(0644,root,root) %%{_mandir}/ko/man8/*.8*
-#%%lang(pl) %%attr(0644,root,root) %%{_mandir}/pl/man8/*.8*
-#%%lang(ru) %%attr(0644,root,root) %%{_mandir}/ru/man8/*.8*
-#%%lang(sk) %%attr(0644,root,root) %%{_mandir}/sk/man8/*.8*
+%attr(0644,root,root) %{_mandir}/man1/*.1*
+%lang(pl) %attr(0644,root,root) %{_mandir}/pl/man1/*.1*
+%attr(0644,root,root) %{_mandir}/man8/*.8*
+%lang(fr) %attr(0644,root,root) %{_mandir}/fr/man8/*.8*
+%lang(ja) %attr(0644,root,root) %{_mandir}/ja/man8/*.8*
+%lang(ko) %attr(0644,root,root) %{_mandir}/ko/man8/*.8*
+%lang(pl) %attr(0644,root,root) %{_mandir}/pl/man8/*.8*
+%lang(ru) %attr(0644,root,root) %{_mandir}/ru/man8/*.8*
+%lang(sk) %attr(0644,root,root) %{_mandir}/sk/man8/*.8*
 %license COPYING
 %doc COPYING CREDITS ChangeLog README docs/manual
 
@@ -212,6 +216,11 @@ cp -ar docs/librpm/html %{buildroot}%{_datadir}/doc/librpm-%{version}/
 %attr(0755,root,root) %{python3_sitearch}/rpm/_rpm.so
 
 %changelog
+* Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc5
+- Rebuild for new rpm macros
+- Fix some BuildRequires
+- Fix install of man pages
+
 * Tue Apr 11 2023 Michael A. Peters <anymouseprophet@gmail.com> - 4.18.1-0.rc4
 - Addition of %%insinfo to the yjl-lfs-macros-11.3 macros file.
 
