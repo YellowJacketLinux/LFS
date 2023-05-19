@@ -1,10 +1,13 @@
-%if 0%{!?__pip3:1} == 1
+%if 0%{?!__pip3:1} == 1
 %global __pip3 %{_bindir}/pip3
+%endif
+%if 0%{?!__cmake:1} == 1
+%global __cmake %{_bindir}/cmake
 %endif
 
 Name:     brotli
 Version:  1.0.9
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  lossless compression algorithm
 
 Group:    System Environment/Utilities
@@ -12,9 +15,9 @@ License:  MIT
 URL:      https://github.com/google/brotli
 Source0:  https://github.com/google/brotli/archive/v%{version}/brotli-%{version}.tar.gz
 
-BuildRequires:  %{_bindir}/cmake
 BuildRequires:  python3-devel
 BuildRequires:  %{__pip3}
+BuildRequires:  %{__cmake}
 Requires:       %{name}-libs = %{version}-%{release}
 
 %description
@@ -78,12 +81,14 @@ cd out
       ..
 make %{?_smp_mflags}
 cd ..
-%{__pip3} wheel -w dist --no-build-isolation --no-deps $PWD
+export PIP_CONFIG_FILE=/dev/null
+%{__pip3} wheel -w dist --no-build-isolation --no-deps $PWD 
 
 %install
 cd out
 make install DESTDIR=%{buildroot}
 cd ..
+export PIP_CONFIG_FILE=/dev/null
 pip3 install --no-index \
              --find-links dist \
              --no-cache-dir \
@@ -161,5 +166,8 @@ install -m644 docs/types.h.3 %{buildroot}%{_mandir}/man3/brotli-types.h.3
 
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.0.9-0.rc2
+- Fixed build against the YJL pip.conf file
+
 * Thu Apr 27 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.0.9-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
