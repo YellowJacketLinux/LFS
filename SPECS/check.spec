@@ -8,13 +8,13 @@
 
 Name:     check
 Version:  0.15.2
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Unit testing framework for C
 
 Group:    Development/Utilities
 License:  LGPL-2.1-or-later
 URL:      https://libcheck.github.io/check/
-Source0:  https://github.com/libcheck/check/releases/download/%{name}/check-%{version}.tar.gz
+Source0:  https://github.com/libcheck/check/releases/download/%{version}/check-%{version}.tar.gz
 
 BuildRequires:  %{__gawk}
 Requires: %{__gawk}
@@ -93,5 +93,8 @@ fi
 
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15.2-0.rc2
+- Fix source URL
+
 * Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.15.2-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
