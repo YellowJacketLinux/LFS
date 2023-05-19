@@ -1,4 +1,4 @@
-%global specrel 0.rc3
+%global specrel 0.dev1
 
 ### WARNING
 ###  Some files in the gcc package likely belong
@@ -49,7 +49,7 @@
 %endif
 
 Name:     gcc
-Version:  12.2.0
+Version:  12.3.0
 Release:  %{?repo}%{specrel}%{?dist}
 Summary:  The GCC C Compiler
 
@@ -64,7 +64,7 @@ BuildRequires:  gawk       >= 3.1.5
 BuildRequires:  make       >= 3.80
 BuildRequires:  gmp-devel  >= 4.3.2
 BuildRequires:  mpfr-devel >= 3.1.0
-BuildRequires:  mpc-devel  >= 1.0.1
+BuildRequires:  libmpc-devel  >= 1.0.1
 BuildRequires:  glibc-devel
 BuildRequires:  zlib-devel
 BuildRequires:  libzstd-devel
@@ -1615,6 +1615,9 @@ fi
 %attr(0755,root,root) %{_libexecdir}/gcc/%{triplet}/%{version}/install-tools/mkinstalldirs
 
 %changelog
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.3.0-0.dev1
+- Update to gcc 12.3.0
+
 * Fri Apr 14 2023 Michael A. Peters <anymouseprophet@gmail.com> - 12.2.0-0.rc3
 - Rebuild after bootstrap build.
 
