@@ -13,7 +13,7 @@ URL:      https://www.gnu.org/software/libtool/
 Source0:  https://ftp.gnu.org/gnu/libtool/libtool-%{version}.tar.xz
 %if 0%{?runtests:1} == 1
 BuildRequires:  autoconf >= 2.59
-BuildRequires:  automake >= 1.96
+BuildRequires:  automake >= 1.13
 %endif	
 Requires: libltdl = %{version}-%{release}
 Requires(post):   %{insinfo}
