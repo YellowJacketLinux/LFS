@@ -1,17 +1,17 @@
-Name:		iana-etc
-Version:	20230330
-Release:	1%{?dist}
-Summary:	IANA Assigned Internet Protocol Numbers
+Name:     iana-etc
+Version:  20230418
+Release:  1%{?dist}
+Summary:  IANA Assigned Internet Protocol Numbers
 
-Group:		System Environment/Base
-License:	Distributable
-URL:		https://github.com/Mic92/iana-etc
-Source0:	https://github.com/Mic92/iana-etc/releases/download/%{version}/iana-etc-%{version}.tar.gz
-BuildArch:	noarch
+Group:    System Environment/Base
+License:  Distributable
+URL:      https://github.com/Mic92/iana-etc
+Source0:  https://github.com/Mic92/iana-etc/releases/download/%{version}/iana-etc-%{version}.tar.gz
+BuildArch:  noarch
 
 %description
-A collection of IANA's Assigned Internet Protocol Numbers that is kept up to
-date and conveniently packaged for Un*x package distribution.
+A collection of IANA's Assigned Internet Protocol Numbers that is kept
+up to date and conveniently packaged for Un*x package distribution.
 
 
 %prep
@@ -34,6 +34,9 @@ install -m644 services  %{buildroot}%{_sysconfdir}/
 
 
 %changelog
+* Sat Nay 20 2023 Michael A. Peters <anymousepropget@gmail.com> - 20230418-1
+- Update to 20230418 release
+
 * Thu Apr 06 2023 Michael A. Peters <anymousepropget@gmail.com> - 20230330-1
 - Update to 20230330 release
 
