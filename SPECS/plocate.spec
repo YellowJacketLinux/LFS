@@ -74,7 +74,7 @@ cat > %{buildroot}%{_sysconfdir}/updatedb.conf << "EOF"
 # %{_sysconfdir}/updatedb.conf
 #   see man 5 updatedb.conf
 #
-PRUNEPATHS = "/backup"
+PRUNEPATHS = "/backup /opt/texlive"
 
 EOF
 

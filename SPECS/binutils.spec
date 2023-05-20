@@ -1,13 +1,11 @@
-# Many (most?) distributions put install-info in /{,usr/}sbin
-#  YJL defines this macro to /usr/bin/install-info
-#  so define it to be in /sbin/ if not defined.
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 %global triplet %(%{_bindir}/gcc -dumpmachine)
 
 # no stripping
 %define __strip /bin/true
+
 Name:     binutils
 Version:  2.40
 Release:  %{?repo}0.rc5%{?dist}
@@ -18,14 +16,14 @@ License:  GPLv2, GPLv3, LGPLv2, LGPLv3
 URL:      https://www.gnu.org/software/binutils/
 Source0:  https://sourceware.org/pub/binutils/releases/%{name}-%{version}.tar.xz
 
-Requires: %{name}-libs = %{version}-%{release}
+Requires:         %{name}-libs = %{version}-%{release}
 Requires(post):   %{insinfo}
 Requires(preun):  %{insinfo}
-BuildRequires:  elfutils-devel
-BuildRequires:  libfl-devel
-BuildRequires:  libstdc++-devel
-BuildRequires:  libzstd-devel
-BuildRequires:  zlib-devel
+BuildRequires:    elfutils-devel
+BuildRequires:    libfl-devel
+BuildRequires:    libstdc++-devel
+BuildRequires:    libzstd-devel
+BuildRequires:    zlib-devel
 
 %description
 These are the GNU binutils.  These are utilities of use when dealing

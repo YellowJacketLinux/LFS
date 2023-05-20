@@ -3,9 +3,6 @@
 %if 0%{?!__sed:1} == 1
 %global __sed %{_bindir}/sed
 %endif
-%if 0%{?!__tar:1} == 1
-%global __tar %{_bindir}/tar
-%endif
 
 # Version definitions
 %global python3_version 3.11
@@ -38,7 +35,6 @@ Provides: %{python3_API}
 Provides: %{python3_ABI}
 
 BuildRequires:  %{__sed}
-BuildRequires:  %{__tar}
 # This is very incomplete
 BuildRequires:  pkgconfig(expat)
 BuildRequires:  pkgconfig(libffi)
@@ -103,9 +99,9 @@ install -m644 %{SOURCE2} %{buildroot}/usr/lib/rpm/macros.d/macros.python3
 
 ln -sf python%{python3_version} %{buildroot}%{_bindir}/python
 install -v -m755 -d %{buildroot}%{_datadir}/doc/python-%{version}/html
-%{__tar} --strip-components=1 \
-    --no-same-owner           \
-    --no-same-permissions     \
+tar --strip-components=1  \
+    --no-same-owner       \
+    --no-same-permissions \
     -C %{buildroot}%{_datadir}/doc/python-%{version}/html \
     -xvf %{SOURCE1}
 

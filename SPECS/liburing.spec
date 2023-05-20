@@ -2,7 +2,7 @@
 
 Name:     liburing
 Version:  %{gittag}
-Release:	%{?repo}0.dev1%{?dist}
+Release:  %{?repo}0.dev1%{?dist}
 Summary:  Linux-native io_uring I/O access library
 
 Group:    System Environment/Libraries

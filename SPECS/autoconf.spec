@@ -1,7 +1,7 @@
 %if 0%{!?__sed:1} == 1
 %global __sed %{_bindir}/sed
 %endif
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 
@@ -16,9 +16,9 @@ License:  GPL-3.0-or-later with Exception
 URL:      https://www.gnu.org/software/autoconf/
 Source0:  https://ftp.gnu.org/gnu/autoconf/autoconf-%{version}.tar.xz
 
-BuildRequires:  m4 >= 1.4.13
-BuildRequires:  %{__sed}
-Requires: m4 >= 1.4.13
+BuildRequires:    m4 >= 1.4.13
+BuildRequires:    %{__sed}
+Requires:         m4 >= 1.4.13
 Requires(post):   %{insinfo}
 Requires(preun):  %{insinfo}
 

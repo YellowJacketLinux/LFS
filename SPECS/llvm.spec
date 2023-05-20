@@ -2,9 +2,6 @@
 
 %global specrel 0.dev3
 
-%if 0%{?!__tar:1} == 1
-%global __tar %{_bindir}/tar
-%endif
 %if 0%{?!__sed:1} == 1
 %global __sed %{_bindir}/sed
 %endif
@@ -35,7 +32,6 @@ Source3:  https://github.com/llvm/llvm-project/releases/download/llvmorg-%{versi
 #Patch0:   https://www.linuxfromscratch.org/patches/blfs/11.3/clang-15.0.7-enable_default_ssp-1.patch
 Patch0:   llvm-clang-15.0.7-enable.patch
 
-BuildRequires:  %{__tar}
 BuildRequires:  %{__sed}
 BuildRequires:  %{__ninja}
 BuildRequires:  cmake
@@ -63,14 +59,14 @@ it is the full name of the project.
 
 %prep
 %setup -q -n %{name}-%{version}.src
-%__tar -xf %{SOURCE1}
+tar -xf %{SOURCE1}
 %__sed -i '/LLVM_COMMON_CMAKE_UTILS/s@../cmake@cmake-%{version}.src@' \
   -i CMakeLists.txt
 
-%__tar -xf %{SOURCE2} -C tools
+tar -xf %{SOURCE2} -C tools
 mv tools/clang-%{version}.src tools/clang
 
-%__tar -xf %{SOURCE3} -C projects
+tar -xf %{SOURCE3} -C projects
 mv projects/compiler-rt-%{version}.src projects/compiler-rt
 
 grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'

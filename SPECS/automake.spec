@@ -1,4 +1,4 @@
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 

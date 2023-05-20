@@ -2,10 +2,7 @@
 %global bcompv 2.11
 %global bcompdir %{_datadir}/bash-completion
 
-# Many (most?) distributions put install-info in /{,usr/}sbin
-#  YJL defines this macro to /usr/bin/install-info
-#  so define it to be in /sbin/ if not defined.
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 
@@ -23,11 +20,11 @@ Source1:  https://github.com/scop/bash-completion/releases/download/%{bcompv}/ba
 Source11: bash-profile
 Source12: bash-bashrc
 
-BuildRequires:  readline-devel
-BuildRequires:  ncurses-devel
+BuildRequires:    readline-devel
+BuildRequires:    ncurses-devel
 Requires(post):   %{insinfo}
 Requires(preun):  %{insinfo}
-Provides: bash-completion
+Provides:         bash-completion
 
 %description
 Bash is a Unix shell and scripting language developed for the GNU project as a

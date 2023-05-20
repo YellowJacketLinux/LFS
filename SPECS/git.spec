@@ -8,9 +8,6 @@
 
 %global gitdocs %{_datadir}/git-documentation
 
-%if 0%{?!__tar:1} == 1
-%global __tar %{_bindir}/tar}
-%endif
 %if 0%{?!__sed:1} == 1
 %global __sed %{_bindir}/sed}
 %endif
@@ -37,7 +34,6 @@ Source0:  https://www.kernel.org/pub/software/scm/git/git-%{version}.tar.xz
 Source1:  https://www.kernel.org/pub/software/scm/git/git-manpages-%{version}.tar.xz
 Source2:  https://www.kernel.org/pub/software/scm/git/git-htmldocs-%{version}.tar.xz
 
-BuildRequires:  %{__tar}
 BuildRequires:  %{__sed}
 BuildRequires:  perl-devel
 BuildRequires:  python3-devel
@@ -136,10 +132,10 @@ install -m644 -D contrib/completion/git-completion.bash \
 %find_lang git
 
 [ ! -d %{buildroot}%{_mandir} ] && mkdir -p %{buildroot}%{_mandir}
-%{__tar} -xf %{SOURCE1} \
+tar -xf %{SOURCE1} \
   -C %{buildroot}%{_mandir} --no-same-owner --no-overwrite-dir
 mkdir -p %{buildroot}%{gitdocs}
-%{__tar} -xf %{SOURCE2} \
+tar -xf %{SOURCE2} \
   -C %{buildroot}%{gitdocs} --no-same-owner --no-overwrite-dir
 find %{buildroot}%{gitdocs} -type d -exec chmod 755 {} \;
 find %{buildroot}%{gitdocs} -type f -exec chmod 644 {} \;
