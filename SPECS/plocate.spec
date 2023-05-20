@@ -7,7 +7,7 @@
 
 Name:     plocate
 Version:  1.1.18
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  A much faster locate
 
 Group:    System Environment/Utilities
@@ -58,14 +58,15 @@ EOF
 cat > %{buildroot}%{_sysconfdir}/cron.hourly/updatedb.sh << "EOF"
 #!/bin/bash
 # Update the plocate database
-#
+#   9900 = two hours, 45 minutes
 
-H=`%{_bindir}/date +%H`
-
-case $H in 03|06|09|12|15|18|21)
+CURT=`%{_bindir}/date +%s`
+MODT=`%{_bindir}/stat -c '%Y' %{_sharedstatedir}/plocate/plocate.db` ||\
+  MODT=0
+DIFF=$(($CURT-$MODT))
+if [ $DIFF -gt 9900 ]; then
   %{_bindir}/nice -n 19 %{_sbindir}/updatedb
-  ;;
-esac
+fi
 
 EOF
 
@@ -105,8 +106,8 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 
 %changelog
-* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc1
-- update database every three hours
+* Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc2
+- update database via cron.hourly when at least 165 minutes old.
 
 * Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.dev4
 - correct permissions (I hope), cron job until systemd is in use
