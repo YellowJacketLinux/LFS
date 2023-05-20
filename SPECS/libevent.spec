@@ -109,5 +109,5 @@ cp -v -R doxygen/html/* rpmdoc/api/
 %endif
 
 %changelog
-* Thu Apr 27 Michael A. Peters <anymouseprophet@gmail.com> - 2.1.12-0.rc1
+* Thu Apr 27 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2.1.12-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)
