@@ -8,7 +8,7 @@ Summary:  Linux-native io_uring I/O access library
 Group:    System Environment/Libraries
 License:  (GPL-2.0-only with exceptions and LGPL-2.0-or-later) or MIT
 URL:      https://git.kernel.dk/cgit/liburing/
-Source0:  https://git.kernel.dk/cgit/liburing/snapshot/liburing-2.3.tar.bz2
+Source0:  https://git.kernel.dk/cgit/liburing/snapshot/liburing-%{gittag}.tar.bz2
 
 #BuildRequires:	
 #Requires:	
