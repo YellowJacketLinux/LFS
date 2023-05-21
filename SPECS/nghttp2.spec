@@ -1,3 +1,5 @@
+# needs work for 1.cli. repo
+
 Name:     nghttp2
 Version:  1.52.0
 Release:	%{?repo}0.rc1%{?dist}
@@ -6,9 +8,10 @@ Summary:  HTTP/2 C Library
 Group:    System Environment/Libraries
 License:  MIT
 URL:      https://nghttp2.org/
-Source0:  https://github.com/nghttp2/nghttp2/releases/download/v1.52.0/nghttp2-%{version}.tar.xz
+Source0:  https://github.com/nghttp2/nghttp2/releases/download/v%{version}/nghttp2-%{version}.tar.xz
 
 #BuildRequires:  libxml2-devel
+BuildRequires:  python3-devel
 #Requires:	
 
 %description
@@ -33,9 +36,12 @@ against the %{name} library.
 
 
 %build
+PYTHON=%{python3} \
 %configure \
-  --disable-static \
-  --enable-lib-only
+  --with-libxml2 \
+  --disable-static
+# \
+#  --enable-lib-only
 make %{?_smp_mflags}
 
 

@@ -12,7 +12,7 @@ Summary:  security-enabled client and server libraries
 Group:    System Environment/Libraries
 License:  MPL-2.0
 URL:      https://firefox-source-docs.mozilla.org/security/nss/index.html
-Source0:  https://archive.mozilla.org/pub/security/nss/releases/NSS_%{sdirv}_RTM/src/nss-3.88.1.tar.gz
+Source0:  https://archive.mozilla.org/pub/security/nss/releases/NSS_%{sdirv}_RTM/src/nss-%{version}.tar.gz
 #Patch0:   https://www.linuxfromscratch.org/patches/blfs/11.3/nss-3.88.1-standalone-1.patch
 Patch0:   nss-3.88.1-standalone-rpm.patch
 

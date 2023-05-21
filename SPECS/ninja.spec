@@ -1,7 +1,3 @@
-%if 0%{?!__install:1}
-%global __install %{_bindir}/install
-%endif
-
 Name:     ninja
 Version:  1.11.1
 Release:	%{?repo}0.rc1%{?dist}
@@ -44,9 +40,9 @@ sed -i '/int Guess/a \
 
 
 %install
-%{__install} -Dm755 ninja %{buildroot}%{_bindir}/ninja
-%{__install} -Dm644 misc/bash-completion %{buildroot}%{_datadir}/bash-completion/completions/ninja
-%{__install} -Dm644 misc/zsh-completion %{buildroot}%{_datadir}/zsh/site-functions/_ninja
+install -Dm755 ninja %{buildroot}%{_bindir}/ninja
+install -Dm644 misc/bash-completion %{buildroot}%{_datadir}/bash-completion/completions/ninja
+install -Dm644 misc/zsh-completion %{buildroot}%{_datadir}/zsh/site-functions/_ninja
 
 
 %files

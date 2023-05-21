@@ -28,7 +28,7 @@ Summary:  Secure Shell
 Group:    System Environment/Utilities
 License:  BSD-2-Clause, BSD-3-Clause, ISC-style, and MIT-style
 URL:      https://www.openssh.com/
-Source0:  https://ftp.usa.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.3p1.tar.gz
+Source0:  https://ftp.usa.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-%{version}.tar.gz
 
 %if 0%{?libresslAPI:1} == 1
 BuildRequires:  libressl-devel
