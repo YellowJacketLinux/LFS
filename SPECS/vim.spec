@@ -1,5 +1,5 @@
 %global specrel 0.dev2
-%global vimtag 9.0.1459
+%global vimtag 9.0.1572
 
 # Needs work, especially for not 1.core
 
