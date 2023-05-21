@@ -1,0 +1,22 @@
+diff -ur plocate-1.1.18.orig/meson.build plocate-1.1.18/meson.build
+--- plocate-1.1.18.orig/meson.build	2023-01-28 12:45:19.000000000 -0800
++++ plocate-1.1.18/meson.build	2023-05-20 22:18:52.383469400 -0700
+@@ -34,10 +34,6 @@
+ 	dependencies: [uringdep, zstddep, threaddep, atomicdep],
+ 	install: true,
+ 	install_mode: ['rwxr-sr-x', 'root', get_option('locategroup')])
+-executable('plocate-build', ['plocate-build.cpp', 'database-builder.cpp'],
+-	dependencies: [zstddep],
+-	install: true,
+-	install_dir: get_option('sbindir'))
+ updatedb_progname = get_option('updatedb_progname')
+ executable(updatedb_progname, ['updatedb.cpp', 'database-builder.cpp', 'conf.cpp', 'lib.cpp', 'bind-mount.cpp', 'complete_pread.cpp'],
+ 	dependencies: [zstddep, threaddep],
+@@ -64,7 +60,6 @@
+ 		rename: 'plocate')
+ endif
+ install_man('plocate.1')
+-install_man('plocate-build.8')
+ 
+ updatedb_man = configure_file(input: 'updatedb.8.in',
+                output: updatedb_progname + '.8',

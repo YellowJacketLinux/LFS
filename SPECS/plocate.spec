@@ -7,13 +7,14 @@
 
 Name:     plocate
 Version:  1.1.18
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  A much faster locate
 
 Group:    System Environment/Utilities
 License:  GPL-2.0-or-later and GPL-2.0-only
 URL:      https://plocate.sesse.net/
 Source0:  https://plocate.sesse.net/download/plocate-%{version}.tar.gz
+Patch0:   plocate-1.1.18-remove-plocate-build.patch
 
 BuildRequires:  %{__meson}
 BuildRequires:  %{__ninja}
@@ -32,15 +33,18 @@ see --help or the man page (man -l plocate.1) for more information.
 
 %prep
 %setup -q
+%patch 0 -p1
 
 
 %build
-%{__meson} setup \
-  --prefix=%{_prefix} \
+%{__meson} setup          \
+  --prefix=%{_prefix}     \
+  -Dinstall_systemd=false \
   obj
 cd obj
 %{__ninja}
 
+# If systemD files are wanted...
 # -Dsystemunitdir=%%_unitdir -Dinstall_systemd=true \
 
 %install
@@ -83,19 +87,15 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 %files
 %defattr(-,root,root,-)
 %attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/updatedb.conf
-# when systemd
-#%%_unitdir/plocate-updatedb.service
-#%%_unitdir/plocate-updatedb.timer
 %attr(0755,root,root) %{_sysconfdir}/cron.hourly/updatedb.sh
-# delete above with systemd
 %attr(2755,root,plocate) %{_bindir}/plocate
 %{_bindir}/locate
-%attr(0755,root,root) %{_sbindir}/plocate-build
+#%%attr(0755,root,root) %%{_sbindir}/plocate-build
 %attr(0755,root,root) %{_sbindir}/updatedb
 %attr(0644,root,root) %{_mandir}/man1/plocate.1*
 %attr(0644,root,root) %{_mandir}/man1/locate.1*
 %attr(0644,root,root) %{_mandir}/man5/updatedb.conf.5*
-%attr(0644,root,root) %{_mandir}/man8/plocate-build.8*
+#%%attr(0644,root,root) %%{_mandir}/man8/plocate-build.8*
 %attr(0644,root,root) %{_mandir}/man8/updatedb.8*
 %dir %{_sharedstatedir}/plocate
 %attr(0644,root,root) %{_sharedstatedir}/plocate/CACHEDIR.TAG
@@ -106,6 +106,9 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 
 %changelog
+* Sat May 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc3
+- Don't install plocate-build
+
 * Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc2
 - update database via cron.hourly when at least 165 minutes old.
 
