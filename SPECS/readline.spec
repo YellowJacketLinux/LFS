@@ -1,7 +1,4 @@
-# Many (most?) distributions put install-info in /{,usr/}sbin
-#  YJL defines this macro to /usr/bin/install-info
-#  so define it to be in /sbin/ if not defined.
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 

@@ -1,19 +1,20 @@
-Name:		texlive-installer
-Version:	2023
-Release:	%{?repo}0.rc2%{?dist}
-Summary:	Helper script for installing TeXLive
+Name:     texlive-installer
+Version:  2023
+Release:  %{?repo}0.rc3%{?dist}
+Summary:  Helper script for installing TeXLive
 
-Group:		Publishing
-License:	CC0 Public Domain
-URL:		https://github.com/YellowJacketLinux/LFS
-Source0:	yjl-install-tl.sh
-Source1:	profile.d-texlive.sh
-Source2:	update-tl.sh
-Source3:	CC0-Public_Domain.md
-BuildArch:	noarch
+Group:    Publishing
+License:  CC0 Public Domain
+URL:      https://github.com/YellowJacketLinux/LFS
+Source0:  yjl-install-tl.sh
+Source1:  profile.d-texlive.sh
+Source2:  update-tl.sh
+Source3:  CC0-Public_Domain.md
+BuildArch:  noarch
 
 #BuildRequires:	
-Requires:	%{_sysconfdir}/profile
+Requires: %{_sysconfdir}/profile
+Requires: perl(Digest::MD5)
 
 %description
 This package installs the script `yjl-install-tl.sh' and `update-tl.sh'
@@ -56,6 +57,9 @@ install -m755 -d %{buildroot}/opt/texlive/texmf-local
 %doc yjl-install-tl.sh update-tl.sh
 
 %changelog
+* Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2023-0.rc3
+- Added perl(Digest::MD5) to runtime Requires
+
 * Tue Apr 04 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2023-0.rc2
 - Update the /etc/profile.d/texlive.sh script so that /usr/local/bin
 - and /usr/bin come before the texlive path.

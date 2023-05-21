@@ -22,7 +22,7 @@ Summary:  fast incremental file transfer
 Group:    System Environment/Utilities
 License:  GPL-3.0-or-later with exception
 URL:      https://rsync.samba.org/
-Source0:  https://download.samba.org/pub/rsync/src/rsync-3.2.7.tar.gz
+Source0:  https://download.samba.org/pub/rsync/src/rsync-%{version}.tar.gz
 
 BuildRequires:  pkgconfig(libacl)
 BuildRequires:  pkgconfig(libattr)
