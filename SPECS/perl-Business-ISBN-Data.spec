@@ -71,5 +71,5 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
-* Fri Apr 28 Michael A. Peters <anymouseprophet@gmail.com> - 20230426.001-0.rc1
+* Fri Apr 28 2023 Michael A. Peters <anymouseprophet@gmail.com> - 20230426.001-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

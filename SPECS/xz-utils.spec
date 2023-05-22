@@ -1,16 +1,16 @@
 %global tarname xz
-Name:		%{tarname}-utils
-Version:	5.4.1
-Release:	%{?repo}0.rc2%{?dist}
-Summary:	Command line tools for XZ and LZMA compressed files
+Name:     %{tarname}-utils
+Version:  5.4.1
+Release:  %{?repo}0.rc2%{?dist}
+Summary:  Command line tools for XZ and LZMA compressed files
 
-Group:		System Environment/Utilities
-License:	GPLv2 plus others
-URL:		https://tukaani.org/xz
-Source0:	https://tukaani.org/xz/%{tarname}-%{version}.tar.xz
-Provides:	%{tarname} = %{version}-%{release}
-Provides:	%{tarname}-lzma = %{version}-%{release}	
-Requires:	liblzma = %{version}-%{release}
+Group:    System Environment/Utilities
+License:  GPLv2 plus others
+URL:      https://tukaani.org/xz
+Source0:  https://tukaani.org/xz/%{tarname}-%{version}.tar.xz
+Provides: %{tarname} = %{version}-%{release}
+Provides: %{tarname}-lzma = %{version}-%{release}	
+Requires: liblzma = %{version}-%{release}
 
 %description
 XZ Utils provide a general purpose data compression library
@@ -21,8 +21,8 @@ is currently the primary algorithm. With typical files, XZ Utils
 create about 30 % smaller files than gzip.
 
 %package -n liblzma
-Group:		System Environment/Libraries
-Summary:	Library for XZ and LZMA compressed files
+Group:    System Environment/Libraries
+Summary:  Library for XZ and LZMA compressed files
 
 %description -n liblzma
 liblzma is a general purpose data compression library with
@@ -34,9 +34,9 @@ format and raw streams (no headers at all) are supported.
 This package includes the shared library.
 
 %package -n liblzma-devel
-Group:		Development/Libraries
-Summary:	Library for XZ and LZMA compressed files
-Requires:	liblzma = %{version}-%{release}
+Group:    Development/Libraries
+Summary:  Library for XZ and LZMA compressed files
+Requires: liblzma = %{version}-%{release}
 
 %description -n liblzma-devel
 This package includes the API headers, static library, and
