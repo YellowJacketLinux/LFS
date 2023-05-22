@@ -4,7 +4,7 @@
 
 Name:     perl-%{cpanname}
 Version:  1.93
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  Perl bindings for OpenSSL and LibreSSL
 
 Group:    Development/Libraries
@@ -16,8 +16,10 @@ Source0:  https://cpan.metacpan.org/authors/id/C/CH/CHRISN/Net-SSLeay-1.93_01.ta
 BuildRequires:  zlib-devel
 %if 0%{?libresslAPI:1} == 1
 BuildRequires:  libressl-devel
+BuildRequires:  libressl-openssl-compat
 %else
 BuildRequires:  openssl-devel
+BuildRequires:  openssl
 %endif
 BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
@@ -97,5 +99,8 @@ make install DESTDIR=%{buildroot}
 
 
 %changelog
+* Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.93-0.rc2
+- Fix BuildRequires for openssl-compat
+
 * Sat Apr 29 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.93-0.rc1
 - Initial spec file for YJL (RPM bootstrapping LFS/BLFS 11.3)

@@ -19,7 +19,7 @@
 
 Name:     libressl
 Version:  3.7.2
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc3%{?dist}
 Summary:  OpenBSD fork of the OpenSSL Cryptography Suite
 
 Group:    System Environment/Libraries
@@ -84,6 +84,19 @@ Conflicts:  openssl-devel
 
 %description devel
 This package provides the development header files for LibreSSL.
+
+%package openssl-compat
+Group:    Compatability
+Summary:  OpenSSL command compatibility
+Requires: libressl = %{version}-%{release}
+BuildArch:  noarch
+Conflicts:  openssl
+Conflicts:  openssl-devel
+
+%description openssl-compat
+This package is intended for the build system, to allow packages
+that want an executable named "openssl" to still build against
+LibreSSL
 
 %package dhe-cron
 Summary:  Cron scripts to generate DHE groups
@@ -176,6 +189,15 @@ mv %{buildroot}/%{_lib}/libtls.a %{buildroot}%{_libdir}/
              %{buildroot}/%{_lib}/pkgconfig/openssl.pc
 mv %{buildroot}/%{_lib}/pkgconfig %{buildroot}%{_libdir}/
 
+# compatibility
+ln -s libressl %{buildroot}%{_bindir}/openssl
+ln -s libressl.cnf %{buildroot}%{_ssldir}/openssl.cnf
+cat > %{buildroot}%{_mandir}/man1/openssl.1 << "EOF"
+.so man1/libressl.1
+EOF
+cat > %{buildroot}%{_mandir}/man5/openssl.cnf.5 << "EOF"
+.so man5/libressl.cnf.5
+EOF
 
 
 #MODP IKE
@@ -281,6 +303,13 @@ EOF
 %{_mandir}/man3/*.3*
 %attr(0644,root,root) %{_libdir}/pkgconfig/*.pc
 
+%files openssl-compat
+%defattr(-,root,root,-)
+%{_bindir}/openssl
+%{_ssldir}/openssl.cnf
+%attr(0644,root,root) %{_mandir}/man1/openssl.1*
+%attr(0644,root,root) %{_mandir}/man5/openssl.cnf.5*
+
 %files dhe-cron
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{_sysconfdir}/cron.daily/generate_dh_params.sh
@@ -289,6 +318,9 @@ EOF
 %doc README.DHE.md
 
 %changelog
+* Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.7.2-0.rc3
+- openssl-compat package
+
 * Fri May 19 2023 Michael A. Peters <anymouseprophet@gmail.com> - 3.7.2-0.rc2
 - Rebuild in gcc 12.3.0
 
