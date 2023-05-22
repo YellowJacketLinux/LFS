@@ -2,13 +2,13 @@
 %global __sed %{_bindir}/sed
 %endif
 
-%if %{!?insinfo:1}%{?insinfo:0}
+%if 0%{?!insinfo:1} == 1
 %global insinfo /sbin/install-info
 %endif
 
 Name:     coreutils
 Version:  9.1
-Release:  %{?repo}0.rc2%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  GNU core utilities
 
 Group:    System Environment/Base
@@ -21,6 +21,11 @@ BuildRequires:  pkgconfig(libcap)
 BuildRequires:  pkgconfig(libattr)
 BuildRequires:  pkgconfig(libacl)
 BuildRequires:  pkgconfig(gmp)
+%if 0%{?libresslAPI:1} == 1
+BuildRequires:  libressl-devel
+%else
+BuildRequires:  openssl-devel
+%endif
 Requires(post):   %{insinfo}
 Requires(preun):  %{insinfo}
 
@@ -34,7 +39,9 @@ expected to exist on every operating system.
 
 
 %build
-%configure --enable-no-install-program=kill,uptime
+%configure \
+  --with-openssl=yes \
+  --enable-no-install-program=kill,uptime
 make %{?_smp_mflags}
 
 %check
@@ -84,6 +91,9 @@ fi
 
 
 %changelog
+* Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> 9.1-0.rc4
+- LibreSSL build needs "--with-openssl=yes" specified
+
 * Thu May 11 2023 Michael A. Peters <anymouseprophet@gmail.com> 9.1-0.rc2
 - minor spec file tweaks.
 
