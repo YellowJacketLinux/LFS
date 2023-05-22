@@ -5,14 +5,14 @@
 
 Name:     perl-%{cpanname}
 Version:  0.104002
-Release:  %{?repo}0.rc1%{?dist}
+Release:  %{?repo}0.rc2%{?dist}
 Summary:  packages that provide templated software licenses
 BuildArch:  noarch
 
 Group:    Development/Libraries
 License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/dist/Software-License
-Source0:  https://cpan.metacpan.org/authors/id/L/LE/LEONT/Software-License-0.104002.tar.gz
+Source0:  https://cpan.metacpan.org/authors/id/L/LE/LEONT/Software-License-%{version}.tar.gz
 ### AGPL
 Source21: AGPL-3.0.txt
 ### Apache
@@ -584,6 +584,9 @@ install -m644 %{SOURCE49} %{buildroot}%{perl5_cpanlic}/Zlib/
 %attr(0644,root,root) %{perl5_cpanlic}/Zlib/Zlib.txt
 
 %changelog
+* Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.rc2
+- Rebuild
+
 * Sun Apr 23 2023 Michael A. Peters <anymouseprophet@gmail.com> - 0.104002-0.rc1
 - Use %%{perl5_cpanlic} macro
 - Conditionally run tests

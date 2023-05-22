@@ -15,7 +15,7 @@ Summary:  Simple, compact and correct param-checking functions
 Group:    Development/Libraries
 License:  GPL-1.0-or-later or Artistic-1.0-Perl
 URL:      https://metacpan.org/pod/Params::Util
-Source0:  https://cpan.metacpan.org/authors/id/R/RE/REHSACK/Params-Util-1.102.tar.gz
+Source0:  https://cpan.metacpan.org/authors/id/R/RE/REHSACK/Params-Util-%{version}.tar.gz
 
 BuildRequires:  perl-devel
 BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
