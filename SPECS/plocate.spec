@@ -7,7 +7,7 @@
 
 Name:     plocate
 Version:  1.1.18
-Release:  %{?repo}0.rc3%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  A much faster locate
 
 Group:    System Environment/Utilities
@@ -21,6 +21,9 @@ BuildRequires:  %{__ninja}
 BuildRequires:  pkgconfig(liburing)
 BuildRequires:  pkgconfig(libzstd)
 BuildRequires:  libstdc++-devel
+%if 0%{?_yjl_sysusers:1} == 1
+Requires(pre): %{_yjl_sysusers}
+%endif
 
 
 %description
@@ -84,18 +87,23 @@ EOF
 
 touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
+%pre
+%if 0%{?_yjl_sysusers:1} == 1
+%{_yjl_sysusers} --useradd False plocate
+%else
+getent group plocate >/dev/null 2>&1 ||groupadd -r plocate
+%endif
+
 %files
 %defattr(-,root,root,-)
 %attr(0644,root,root) %config(noreplace,missingok) %{_sysconfdir}/updatedb.conf
 %attr(0755,root,root) %{_sysconfdir}/cron.hourly/updatedb.sh
 %attr(2755,root,plocate) %{_bindir}/plocate
 %{_bindir}/locate
-#%%attr(0755,root,root) %%{_sbindir}/plocate-build
 %attr(0755,root,root) %{_sbindir}/updatedb
 %attr(0644,root,root) %{_mandir}/man1/plocate.1*
 %attr(0644,root,root) %{_mandir}/man1/locate.1*
 %attr(0644,root,root) %{_mandir}/man5/updatedb.conf.5*
-#%%attr(0644,root,root) %%{_mandir}/man8/plocate-build.8*
 %attr(0644,root,root) %{_mandir}/man8/updatedb.8*
 %dir %{_sharedstatedir}/plocate
 %attr(0644,root,root) %{_sharedstatedir}/plocate/CACHEDIR.TAG
@@ -106,6 +114,9 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 
 %changelog
+* Sun May 28 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc4
+- create the necessary group in %%pre scriptlet
+
 * Sat May 20 2023 Michael A. Peters <anymouseprophet@gmail.com> - 1.1.18-0.rc3
 - Don't install plocate-build
 
