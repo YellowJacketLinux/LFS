@@ -3,7 +3,7 @@
 %global __strip /bin/true
 # kernel tags
 %global kseries 6.1
-%global krel 30
+%global krel 31
 %global localktag genesis.1
 
 Name:     kernel
@@ -87,6 +87,9 @@ cp -r Documentation %{buildroot}%{_datadir}/doc/linux-%{version}
 
 
 %changelog
+* Tue May 30 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.31-genesis.1
+- Update to 6.1.31
+
 * Wed May 24 2023 Michael A. Peters <anymouseprohet@gmail.com> - 6.1.30-genesis.1
 - Update to 6.1.30
 
