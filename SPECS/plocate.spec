@@ -89,7 +89,7 @@ touch %{buildroot}%{_sharedstatedir}/plocate/plocate.db
 
 %pre
 %if 0%{?_yjl_sysusers:1} == 1
-%{_yjl_sysusers} --useradd False plocate
+%{_yjl_sysusers} --onlygroup plocate
 %else
 getent group plocate >/dev/null 2>&1 ||groupadd -r plocate
 %endif
