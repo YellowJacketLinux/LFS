@@ -1,6 +1,6 @@
 Name:     texlive-installer
 Version:  2023
-Release:  %{?repo}0.rc3%{?dist}
+Release:  %{?repo}0.rc4%{?dist}
 Summary:  Helper script for installing TeXLive
 
 Group:    Publishing
@@ -12,9 +12,10 @@ Source2:  update-tl.sh
 Source3:  CC0-Public_Domain.md
 BuildArch:  noarch
 
-#BuildRequires:	
+BuildRequires:  yjl-sysusers
 Requires: %{_sysconfdir}/profile
 Requires: perl(Digest::MD5)
+Requires(pre):  %{_yjl_sysusers}
 
 %description
 This package installs the script `yjl-install-tl.sh' and `update-tl.sh'
@@ -47,6 +48,10 @@ install -m644 %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d/texlive.sh
 install -m755 -d %{buildroot}/opt/texlive/%{version}
 install -m755 -d %{buildroot}/opt/texlive/texmf-local
 
+%pre
+%{_yjl_sysusers} --userandgroup \
+  -d /opt/texlive/tladmin \
+  -s /bin/bash --mkdir texlive
 
 %files
 %defattr(-,root,root,-)
@@ -57,6 +62,9 @@ install -m755 -d %{buildroot}/opt/texlive/texmf-local
 %doc yjl-install-tl.sh update-tl.sh
 
 %changelog
+* Sat Jun 03 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2023-0.rc4
+- Use yjl-sysusers to ensure user/group exist
+
 * Sun May 21 2023 Michael A. Peters <anymouseprophet@gmail.com> - 2023-0.rc3
 - Added perl(Digest::MD5) to runtime Requires
 
