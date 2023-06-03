@@ -1,4 +1,4 @@
-%global specrel 0.rc2
+%global specrel 0.rc4
 
 # ssh-keygen -A
 # no init script yet - blfs-bootscripts make install-sshd
@@ -6,9 +6,9 @@
 %if 0%{?repo:1} == 1
 %if "%{repo}" == "1.core."
 # disable these features for 1.core. build
-%global nopam      foo
-%global nokerberos bar
-%global nolibedit  foobar
+%global nopam      nopam
+%global nokerberos nokerberos
+%global nolibedit  nolibedit
 %endif
 %endif
 
@@ -30,6 +30,7 @@ License:  BSD-2-Clause, BSD-3-Clause, ISC-style, and MIT-style
 URL:      https://www.openssh.com/
 Source0:  https://ftp.usa.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-%{version}.tar.gz
 
+BuildRequires:  yjl-sysusers
 %if 0%{?libresslAPI:1} == 1
 BuildRequires:  libressl-devel
 %else
@@ -74,6 +75,7 @@ This package contains the OpenSSH clients: list
 Group:    System Environment/Daemons
 Summary:  OpenSSH server
 Requires: %{name} = %{version}-%{release}
+Requires(pre):  %{_yjl_sysusers}
 
 %description server
 This package contains the OpenSSH server daemon.
@@ -123,6 +125,9 @@ make -j1 tests > %{name}-make.tests.log 2>&1
 echo "tests not run during package build" > %{name}-make.tests.log
 %endif
 
+%pre server
+%{_yjl_sysusers} --userandgroup \
+  -d /var/lib/sshd -s noshell sshd
 
 %files
 %defattr(-,root,root,-)
@@ -178,6 +183,9 @@ echo "tests not run during package build" > %{name}-make.tests.log
 %doc CREDITS LICENCE OVERVIEW PROTOCOL* README* SECURITY.md
 
 %changelog
+* Sat Jun 03 2023 Michael A. Peters <anymouseprophet@gmail.com> - 9.3p1-0.rc4
+- Rebuild with yjl-sysusers
+
 * Thu May 18 2023 Michael A. Peters <anymouseprophet@gmail.com> - 9.3p1-0.rc2
 - Rebuild with correct %%{_sharedstatedir} macro
 
